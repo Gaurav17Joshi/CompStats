@@ -2,8 +2,14 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+root: intro.md
+parts:
+  #- caption: Random Variable Generation
+  # chapters:
+- caption: Computational Statistics
+  chapters:
+  - file: notebooks/Random_Variable_Generation/Preface.ipynb
+    sections:
+    - file: notebooks/Random_Variable_Generation/RVGI.ipynb
+    - file: notebooks/Random_Variable_Generation/RVGII.ipynb
+
