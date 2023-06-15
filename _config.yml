@@ -3,12 +3,22 @@
 
 title: Computational Statistics
 author: Gaurav Joshi
-logo: logo.png
+logo: img/logo.png
+copyright: "2023"
+execute:
+  execute_notebooks: off
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
-execute:
-  execute_notebooks: force
+# execute:
+#   execute_notebooks: force
+
+html:
+  favicon: img/logo.png
+  comments:
+    hypothesis: true
+  use_repository_button: true
+  # google_analytics_id: G-Z9NNSYF13N
 
 # Define the name of the latex output file for PDF builds
 latex:
