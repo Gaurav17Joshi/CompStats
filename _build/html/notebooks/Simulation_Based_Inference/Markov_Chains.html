@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Markov_Chains';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -157,8 +159,10 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Random Variable Generation I</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.2. Random Variable Generation II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -339,7 +343,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -355,6 +361,19 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-walker">3.1.1. Monte Carlo Walker</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-markov-chains">3.1.2. Basics of markov chains</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-important-features">3.1.2.1. Some Important Features</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-algorithm">3.1.3. Metropolis Algorithm</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -366,6 +385,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basic-mcmc">
 <h1><span class="section-number">3.1. </span>Basic MCMC<a class="headerlink" href="#basic-mcmc" title="Permalink to this heading">#</a></h1>
+<section id="monte-carlo-walker">
+<h2><span class="section-number">3.1.1. </span>Monte Carlo Walker<a class="headerlink" href="#monte-carlo-walker" title="Permalink to this heading">#</a></h2>
 <p>Making the plot of markov chain walker, explaination</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -463,7 +484,7 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0.92, &#39;Monte Carlo Walk&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/0753cf2374aa621489134ba36fedc91f9835000502e1b6554a84c3405a23382d.png" src="../../_images/0753cf2374aa621489134ba36fedc91f9835000502e1b6554a84c3405a23382d.png" />
+<img alt="../../_images/ba71745dfec2f4cc949579c16ad8b171455fe2da9aea075869330466c7e0e42a.png" src="../../_images/ba71745dfec2f4cc949579c16ad8b171455fe2da9aea075869330466c7e0e42a.png" />
 </div>
 </div>
 <p>Note on why gradient descent fails here,
@@ -493,7 +514,7 @@ Then take 10000 points and show that almost same histogram has been made</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ff030df283f4489d23f430b3cb6c7adca82ba8fc311f53036da0dcc2ca151ebe.png" src="../../_images/ff030df283f4489d23f430b3cb6c7adca82ba8fc311f53036da0dcc2ca151ebe.png" />
+<img alt="../../_images/29c3cf584706a88529366f46b5dc4ab45feab0c6fa470ce4600a93f93646f704.png" src="../../_images/29c3cf584706a88529366f46b5dc4ab45feab0c6fa470ce4600a93f93646f704.png" />
 </div>
 </div>
 <p>This took almost 20 s to run on my computer, for such a simple implementation (although it uses a lot of for loop). This makes us appreciate how much powerful our methods have to be if we have to work on complex distributions with thousands of parameters and many complicated priors.</p>
@@ -516,7 +537,138 @@ Then take 10000 points and show that almost same histogram has been made</p>
 </div>
 </div>
 </div>
-<p>Basic markov chains</p>
+</section>
+<section id="basics-of-markov-chains">
+<h2><span class="section-number">3.1.2. </span>Basics of markov chains<a class="headerlink" href="#basics-of-markov-chains" title="Permalink to this heading">#</a></h2>
+<p>The above monte carlo walker seems to be efficiently travelling along the target function in proportion to the function values. If we have a probability distribution that we have to sample then, this seems like a good method as it only requires that we can get the value at any point on the function. But why does it work?</p>
+<p>The reason being that the methods forms a set of stochastic variables known as a Markov chain, whose stationary distribution is equal to the target distribution.</p>
+<p>A Markov chain or Markov process is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.</p>
+<p><span class="math notranslate nohighlight">\( P(X_{t+1} = X^{t+1} | X_{t} = X^{t}, X_{t-1} = X^{t-1}, X_{t-2} = X^{t-2}, ... ) = P(X_{t+1} = X^{t+1} | X_{t} = X^{t})  \)</span>,</p>
+<p>here <span class="math notranslate nohighlight">\(X_{t}\)</span>, is the t’th element of the chain of random variables</p>
+<img src="/Users/gaurav/Desktop/Open_Source/Jupyter_Books/CompStats/img/Simulation/Graphical_Rep.png"  width="300" height="300">
+<p>To simplify, let us take an example of a chain with discrete, finite range.
+Suppose a person takes a random walk on a number line on the values 1, 2, 3, 4, 5. If the person is currently at an interior value (2, 3, 4), in the next second she is equally likely to remain at that number or move to an adjacent number. If she does move, she is equally likely to move left or right. If the person is currently at one of the end values (1 or 5), in the next second she is equally likely to stay still or move to the adjacent location.</p>
+<p>This is a simple discrete Markov chain, as the probability of the girl going to any place in next step depends on only her current position. (Discrete as the chain is discrete random variables, not because of the range space). We can describe her movements in terms of transition probabilities in a matrix P where</p>
+<p><span class="math notranslate nohighlight">\( P_{i,j} = prob\)</span>(transitioning from state <span class="math notranslate nohighlight">\(X_{i}\)</span> to <span class="math notranslate nohighlight">\(X_{j}\)</span>)</p>
+<img src="/Users/gaurav/Desktop/Open_Source/Jupyter_Books/CompStats/img/Simulation/Transition_Matrix.png"  width="300" height="200">
+<p>Credits: <a class="reference external" href="http://markov.yoriz.co.uk/">http://markov.yoriz.co.uk/</a></p>
+<section id="some-important-features">
+<h3><span class="section-number">3.1.2.1. </span>Some Important Features<a class="headerlink" href="#some-important-features" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Irreducible Markov Chain: A markov chain in which each point is reachable from any other point in finite number of steps</p></li>
+<li><p>Periodic Markov Chain: A chain which can return to the same state only in regular intervals of time. (Chain length)</p></li>
+<li><p>Reccurent Markov Chain: A chain is said to be recurrent if, any time that we leave any state, we will return to that state in the future with probability one. On the other hand, if the probability of returning is less than one, the state is called transient.</p></li>
+</ol>
+<p>We represent one’s current location as a probability row vector of the form: <span class="math notranslate nohighlight">\(p = (p_{1}, p_{2}, p_{3}, p_{4}, p_{5})\)</span>
+where <span class="math notranslate nohighlight">\(p_{i}\)</span> represents the probability that the person is currently in state i .</p>
+<p>If <span class="math notranslate nohighlight">\(p^{j}\)</span> represents the location of the traveler at step j, then the location of the traveler at the  j+1 step is given by the matrix product: <span class="math notranslate nohighlight">\(p^{j+1} = p^{j} P\)</span>, and hense the probability vector after travelling m steps will be:</p>
+<p><span class="math notranslate nohighlight">\(p^{j+1} = p^{j} P^{m}\)</span></p>
+<p><strong>STATIONARITY</strong></p>
+<p>For an irreducible, aperiodic Markov chain, there is a limiting behavior of the matrix power <span class="math notranslate nohighlight">\(P^{m}\)</span> as m approaches infinity. Specifically, this limit is equal to</p>
+<p><span class="math notranslate nohighlight">\(W = \lim_{m \to \infty} P^{m}\)</span></p>
+<p>The implication of this result is that, as one takes an infinite number of moves, the probability of landing at a particular state does not depend on the initial starting state.</p>
+<p>From this result about the limiting behavior of the matrix power <span class="math notranslate nohighlight">\(P^{m}\)</span>, one can derive a rule for determining this constant vector. Suppose we can find a probability vector w such that <span class="math notranslate nohighlight">\(w = wP\)</span>. This vector w is said to be the <strong>stationary distribution</strong>. If a Markov chain is irreducible and aperiodic, then it has a unique stationary distribution. Moreover, as illustrated above, the limiting distribution of this Markov chain, as the number of steps approaches infinity, will be equal to this stationary distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulating relative frequencies of a markov chain random walker</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span> <span class="k">as</span> <span class="n">npr</span>
+<span class="n">npr</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="n">steps</span><span class="p">))</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
+
+<span class="n">pstart</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="n">state</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">probs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pstart</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">npr</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.75</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.75</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.75</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">state</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">probs</span><span class="p">[</span><span class="n">state</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">probs</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">probs</span><span class="p">[:,</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">probs</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">steps</span><span class="p">,</span><span class="n">steps</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">probs</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;State &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.125</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Relative Frequency&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/85a8d123f39f17157f24f2d410fe0a34e63afdece949ec90dee95ef7d4a89023.png" src="../../_images/85a8d123f39f17157f24f2d410fe0a34e63afdece949ec90dee95ef7d4a89023.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lets run a code and see what the stationary distribution looks after many turns:</span>
+<span class="c1"># We will start at position 4, and then let the chain run for 5000 steps</span>
+
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="n">steps</span><span class="p">))</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.25</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
+
+<span class="n">pstart</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="n">probs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pstart</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">probs</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">probs</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span><span class="nd">@P</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">steps</span><span class="p">,</span><span class="n">steps</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">probs</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;State &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.125</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Relative Frequency&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">probs</span><span class="p">[:,</span><span class="n">steps</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.12320892 0.24746703 0.25       0.25253297 0.12679108]
+</pre></div>
+</div>
+<img alt="../../_images/78662965cffa400d6cda9592550d021c0fcdb255a792fc30fc3355162cc6197f.png" src="../../_images/78662965cffa400d6cda9592550d021c0fcdb255a792fc30fc3355162cc6197f.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="metropolis-algorithm">
+<h2><span class="section-number">3.1.3. </span>Metropolis Algorithm<a class="headerlink" href="#metropolis-algorithm" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -568,6 +720,25 @@ Then take 10000 points and show that almost same histogram has been made</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-walker">3.1.1. Monte Carlo Walker</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-markov-chains">3.1.2. Basics of markov chains</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-important-features">3.1.2.1. Some Important Features</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-algorithm">3.1.3. Metropolis Algorithm</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

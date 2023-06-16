@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>1.1. Random Variable Generation I &#8212; Computational Statistics</title>
+    <title>1.1. Basic RV Generation &#8212; Computational Statistics</title>
   
   
   
@@ -61,10 +61,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Random_Variable_Generation/RVGI';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="1.2. Random Variable Generation II" href="RVGII.html" />
+    <link rel="next" title="1.2. Important RVs" href="ImpRV.html" />
     <link rel="prev" title="1. Random Variable Generation" href="Preface.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -158,8 +160,10 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">1. Random Variable Generation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.1. Random Variable Generation I</a></li>
-<li class="toctree-l2"><a class="reference internal" href="RVGII.html">1.2. Random Variable Generation II</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.1. Basic RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ImpRV.html">1.2. Important RVs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RVGII.html">1.3. Advanced RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -340,7 +344,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -351,11 +357,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Random Variable Generation I</h1>
+    <h1>Basic RV Generation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">1.1.1. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rejection-method">1.1.2. Acceptance Rejection Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-exercise">1.1.3. Fun exercise</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -365,8 +381,126 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="random-variable-generation-i">
-<h1><span class="section-number">1.1. </span>Random Variable Generation I<a class="headerlink" href="#random-variable-generation-i" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="basic-rv-generation">
+<h1><span class="section-number">1.1. </span>Basic RV Generation<a class="headerlink" href="#basic-rv-generation" title="Permalink to this heading">#</a></h1>
+<p>Assuming that we have a suitable uniform psuedo random number generator with us (PRNG), how can we use it to (exactly) sample from any given probability distribution?</p>
+<section id="importance-sampling">
+<h2><span class="section-number">1.1.1. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Permalink to this heading">#</a></h2>
+<p>Well, we can form a map from the Uniform distribution to the desired distribution, such that the points with more probability in the target distribution are mapped to the unit space in proportion of their probability densities.</p>
+<p>Suppose we have a uniform unit random variable <span class="math notranslate nohighlight">\(z \sim U(0,1)\)</span> and we apply a function <span class="math notranslate nohighlight">\(f(.)\)</span>, and obtain a transformed RV y.</p>
+<p><span class="math notranslate nohighlight">\(y = f(z)\)</span> also, we have <span class="math notranslate nohighlight">\(p(y) = p(z)|\frac{dz}{dy}| \)</span>, The probability density of y is related to z, by the jacobian.</p>
+<p>Now, if p(y), is our target density function then, we would require a suitable transformation function f such given the secound relation.</p>
+<p>The prob density of z is 1, hense on integrating equation 2, we get <span class="math notranslate nohighlight">\(z = \int_{\infty}^{y} p(y)dy = h(y) \)</span>, where h is the cdf function. This gives us <span class="math notranslate nohighlight">\(y = h^{-1}(z)\)</span>, ie if we sample z from <span class="math notranslate nohighlight">\(U(0,1)\)</span>, and take its invverse cdf of the target distribution, we get the required sample.</p>
+<p>This method gives us an exact method to generate the sample, but its biggest flaw is that even the simplest probabilty distributions do not have a analytic cdf (much less the inverse cdf).</p>
+<p>There are serious challenges in deriving the inverse cdfs of even commonly used pdf’s, but many have derivations, as inverse cdf’s are also required to produce quantiles (useful in other methods)</p>
+<p>(Look up Box muller approach for normal distribution)</p>
+</section>
+<section id="acceptance-rejection-method">
+<h2><span class="section-number">1.1.2. </span>Acceptance Rejection Method<a class="headerlink" href="#acceptance-rejection-method" title="Permalink to this heading">#</a></h2>
+<p>The first of our methods for approximate RV sampling is the Rejection Sampling Method.</p>
+<p>The method is directly based on the geometric idea that if we have an evelope pdf over the target, then if can pick a sample from the envelope and select the corresponding point on the target based on the ratio of differences of the probabilites and prob of target, then the samples will mimick the target.</p>
+<p>Example, in the image (credits: <a class="reference external" href="https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book">https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book</a>), we sample from the evelope g(x) or its mutiple with a scalar M (so that g(x) is an envelope). Then we take a unit uniform value u, and if
+<span class="math notranslate nohighlight">\(u &lt; \frac{g(x)}{M.f(x)} \)</span>, then we pick we take the sample as valid. (Here M*g(x) is the envelope and f(x) is the target)</p>
+<img src="/Users/gaurav/Desktop/Open_Source/Jupyter_Books/CompStats/img/Random_Variables/Rejection_Sampling.png"  width="400" height="300"><p>This method makes intutive sense, as we know how to take sample from g(x), so a sample <span class="math notranslate nohighlight">\(x_{i}\)</span> is in tune with its prob density, and the closer the target prob at <span class="math notranslate nohighlight">\(x_{i}\)</span>, greater its chance of getting picked. (Complete Proof will follow)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Random sampling a target probability distribution using the Rejection Sampling method</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+ 
+<span class="k">def</span> <span class="nf">RejectionSampler</span><span class="p">(</span><span class="n">target_pdf</span><span class="p">,</span> <span class="n">envelope_pdf</span><span class="p">,</span> <span class="n">envelope_sample</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
+        <span class="n">x_prop</span> <span class="o">=</span> <span class="n">envelope_sample</span><span class="p">()</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">M</span> <span class="o">*</span> <span class="n">envelope_pdf</span><span class="p">(</span><span class="n">x_prop</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">target_pdf</span><span class="p">(</span><span class="n">x_prop</span><span class="p">):</span>
+            <span class="c1"># Accept the sample and record it</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_prop</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
+ 
+<span class="c1"># Normal Distribution</span>
+<span class="k">def</span> <span class="nf">normpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+ 
+<span class="c1"># Target Distribution as a mixture of two normals</span>
+<span class="k">def</span> <span class="nf">target_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">normpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">normpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+ 
+<span class="c1"># Define the proposal pdf and a function to sample from it</span>
+<span class="k">def</span> <span class="nf">envelope_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">normpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+ 
+<span class="k">def</span> <span class="nf">envelope_sample</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">()</span>
+ 
+<span class="c1"># Using Suitable M, such that the M*g(x) &gt; f(x) for all x</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">mysample</span> <span class="o">=</span> <span class="n">RejectionSampler</span><span class="p">(</span><span class="n">target_pdf</span><span class="p">,</span> <span class="n">envelope_pdf</span><span class="p">,</span> <span class="n">envelope_sample</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+ 
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">M</span><span class="o">*</span><span class="n">envelope_pdf</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">target_pdf</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$f(x) / (M \cdot g(x))$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mysample</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">target_pdf</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2135d89896a9e9d014760b890433fc51ef533503205b4c2a65876b83388ec4c0.png" src="../../_images/2135d89896a9e9d014760b890433fc51ef533503205b4c2a65876b83388ec4c0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using a Uniform distribution as the proposal distribution</span>
+<span class="k">def</span> <span class="nf">unif_envelope_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">10</span>
+
+<span class="k">def</span> <span class="nf">unif_envelope_sample</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">10</span><span class="o">*</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span><span class="o">-</span><span class="mi">5</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">mysample</span> <span class="o">=</span> <span class="n">RejectionSampler</span><span class="p">(</span><span class="n">target_pdf</span><span class="p">,</span> <span class="n">unif_envelope_pdf</span><span class="p">,</span> <span class="n">unif_envelope_sample</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+ 
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t2</span><span class="p">)))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">target_pdf</span><span class="p">(</span><span class="n">t2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$f(x) / (M \cdot g(x))$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mysample</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">target_pdf</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/11959b631cb32f38c5d246b78a853879d3edb3b14d54aba6439cf723e4441f5a.png" src="../../_images/11959b631cb32f38c5d246b78a853879d3edb3b14d54aba6439cf723e4441f5a.png" />
+</div>
+</div>
+<p>The fact that the target is simple and due to the law of large numbers, we do not see appreciable difference in the two methods, but the closer the envelope is to the target (closer ie KL diveregence btw target and env), the better the sampling process.</p>
+<p>Some trivia, and challenges:</p>
+<p>Proof:-</p>
+</section>
+<section id="fun-exercise">
+<h2><span class="section-number">1.1.3. </span>Fun exercise<a class="headerlink" href="#fun-exercise" title="Permalink to this heading">#</a></h2>
+<p>Trying to sample the decaying radial cosine function from the mcmc chapter Rejection Sampling</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -410,11 +544,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="RVGII.html"
+       href="ImpRV.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1.2. </span>Random Variable Generation II</p>
+        <p class="prev-next-title"><span class="section-number">1.2. </span>Important RVs</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -427,6 +561,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">1.1.1. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rejection-method">1.1.2. Acceptance Rejection Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-exercise">1.1.3. Fun exercise</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
