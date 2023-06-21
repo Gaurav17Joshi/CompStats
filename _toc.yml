@@ -19,3 +19,7 @@ chapters:
 - file: notebooks/Simulation_Based_Inference/Preface.ipynb
   sections:
   - file: notebooks/Simulation_Based_Inference/Markov_Chains.ipynb
+- file: notebooks/Maths_Appendix/Preface.ipynb
+  sections:
+  - file : notebooks/Maths_Appendix/Basic_Probability.ipynb
+  - file : notebooks/Maths_Appendix/Basic_Statistics.ipynb
