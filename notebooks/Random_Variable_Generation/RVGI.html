@@ -172,6 +172,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
 </ul>
 </li>
 </ul>
@@ -367,7 +372,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">1.1.1. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inversion-sampling">1.1.1. Inversion Sampling</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rejection-method">1.1.2. Acceptance Rejection Method</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-exercise">1.1.3. Fun exercise</a></li>
 </ul>
@@ -384,8 +389,8 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="basic-rv-generation">
 <h1><span class="section-number">1.1. </span>Basic RV Generation<a class="headerlink" href="#basic-rv-generation" title="Permalink to this heading">#</a></h1>
 <p>Assuming that we have a suitable uniform psuedo random number generator with us (PRNG), how can we use it to (exactly) sample from any given probability distribution?</p>
-<section id="importance-sampling">
-<h2><span class="section-number">1.1.1. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Permalink to this heading">#</a></h2>
+<section id="inversion-sampling">
+<h2><span class="section-number">1.1.1. </span>Inversion Sampling<a class="headerlink" href="#inversion-sampling" title="Permalink to this heading">#</a></h2>
 <p>Well, we can form a map from the Uniform distribution to the desired distribution, such that the points with more probability in the target distribution are mapped to the unit space in proportion of their probability densities.</p>
 <p>Suppose we have a uniform unit random variable <span class="math notranslate nohighlight">\(z \sim U(0,1)\)</span> and we apply a function <span class="math notranslate nohighlight">\(f(.)\)</span>, and obtain a transformed RV y.</p>
 <p><span class="math notranslate nohighlight">\(y = f(z)\)</span> also, we have <span class="math notranslate nohighlight">\(p(y) = p(z)|\frac{dz}{dy}| \)</span>, The probability density of y is related to z, by the jacobian.</p>
@@ -401,7 +406,7 @@ document.write(`
 <p>The method is directly based on the geometric idea that if we have an evelope pdf over the target, then if can pick a sample from the envelope and select the corresponding point on the target based on the ratio of differences of the probabilites and prob of target, then the samples will mimick the target.</p>
 <p>Example, in the image (credits: <a class="reference external" href="https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book">https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book</a>), we sample from the evelope g(x) or its mutiple with a scalar M (so that g(x) is an envelope). Then we take a unit uniform value u, and if
 <span class="math notranslate nohighlight">\(u &lt; \frac{g(x)}{M.f(x)} \)</span>, then we pick we take the sample as valid. (Here M*g(x) is the envelope and f(x) is the target)</p>
-<img src="/Users/gaurav/Desktop/Open_Source/Jupyter_Books/CompStats/img/Random_Variables/Rejection_Sampling.png"  width="400" height="300"><p>This method makes intutive sense, as we know how to take sample from g(x), so a sample <span class="math notranslate nohighlight">\(x_{i}\)</span> is in tune with its prob density, and the closer the target prob at <span class="math notranslate nohighlight">\(x_{i}\)</span>, greater its chance of getting picked. (Complete Proof will follow)</p>
+<img src="../images/Random_Variables/Rejection_Sampling.png"  width="400" height="300"><p>This method makes intutive sense, as we know how to take sample from g(x), so a sample <span class="math notranslate nohighlight">\(x_{i}\)</span> is in tune with its prob density, and the closer the target prob at <span class="math notranslate nohighlight">\(x_{i}\)</span>, greater its chance of getting picked. (Complete Proof will follow)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Random sampling a target probability distribution using the Rejection Sampling method</span>
@@ -570,7 +575,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">1.1.1. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inversion-sampling">1.1.1. Inversion Sampling</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rejection-method">1.1.2. Acceptance Rejection Method</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fun-exercise">1.1.3. Fun exercise</a></li>
 </ul>

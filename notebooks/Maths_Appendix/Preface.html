@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>2.1. Monte Carlo Integration &#8212; Computational Statistics</title>
+    <title>4. Maths Appendix &#8212; Computational Statistics</title>
   
   
   
@@ -61,13 +61,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Monte_Carlo_Methods/Monte_Carlo_Integration';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Maths_Appendix/Preface';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3. Simulation Based Inference" href="../Simulation_Based_Inference/Preface.html" />
-    <link rel="prev" title="2. Monte Carlo Methods" href="Preface.html" />
+    <link rel="next" title="4.1. Basic Probability" href="Basic_Probability.html" />
+    <link rel="prev" title="3.1. Basic MCMC" href="../Simulation_Based_Inference/Markov_Chains.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -166,8 +164,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">2. Monte Carlo Methods</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.1. Monte Carlo Integration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Monte_Carlo_Methods/Monte_Carlo_Integration.html">2.1. Monte Carlo Integration</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -175,8 +173,9 @@ const thebe_selector_output = ".output, .cell_output"
 
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">4. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Basic_Probability.html">4.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Basic_Statistics.html">4.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -250,7 +249,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Monte_Carlo_Methods/Monte_Carlo_Integration.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Maths_Appendix/Preface.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -280,7 +279,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/notebooks/Monte_Carlo_Methods/Monte_Carlo_Integration.ipynb" target="_blank"
+      <li><a href="../../_sources/notebooks/Maths_Appendix/Preface.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -349,9 +348,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -362,22 +359,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Monte Carlo Integration</h1>
+    <h1>Maths Appendix</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-theory">2.1.1. Basic Theory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-examples">2.1.2. Basic Examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.4. Importance Sampling</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -387,72 +373,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="monte-carlo-integration">
-<h1><span class="section-number">2.1. </span>Monte Carlo Integration<a class="headerlink" href="#monte-carlo-integration" title="Permalink to this heading">#</a></h1>
-<section id="basic-theory">
-<h2><span class="section-number">2.1.1. </span>Basic Theory<a class="headerlink" href="#basic-theory" title="Permalink to this heading">#</a></h2>
-<p>As we have seen that many integrals do not have analytic solutions and thier values are difficult to calculate with even deterministic methods. In monte carlo integration, we treat the <strong>integral as an expectation</strong>, and this leads to surprisingly efficient and potent ways of integral calculation.</p>
-<p>We from statistics theory that expectation of any function <span class="math notranslate nohighlight">\(h(x)\)</span> of a random variable with pdf <span class="math notranslate nohighlight">\(f(x)\)</span> is:</p>
-<p><span class="math notranslate nohighlight">\( \mathbb{E}_{f} [h(X)] = \int_{X} h(x) f(x) dx   \)</span>  , <span class="math notranslate nohighlight">\(X\)</span> is the domian of the random variable</p>
-<p>And from law of large numbers, we can express the expectation in terms of samples as:-</p>
-<p><span class="math notranslate nohighlight">\( \bar h_{m} = \frac{1}{m} \sum_{j=1}^m h(x_{j})  \)</span>, thus we can approximate any integral as an expectation, if we choose the correct h(x), and f(x) to get the target function, and the range of the random variable as the limits of the integral.</p>
-<p><strong>Variance</strong>:</p>
-<p>We can measure the speed of convergence to the integral by evaluating the variance,</p>
-<p><span class="math notranslate nohighlight">\( v_m = \frac{1}{m^2} \sum_{j=1}^m [ h(x_{j}) - \bar h_{m} ]^{2} \)</span></p>
-</section>
-<section id="basic-examples">
-<h2><span class="section-number">2.1.2. </span>Basic Examples<a class="headerlink" href="#basic-examples" title="Permalink to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Estimating <span class="math notranslate nohighlight">\( \int_{0}^{1} e^{-x} dx \)</span></p></li>
-<li><p>Estimating <span class="math notranslate nohighlight">\( \int_{2}^{4} e^{-x} dx \)</span></p></li>
-</ol>
-<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(0,1) \)</span>, and <span class="math notranslate nohighlight">\( h(x) = e^{-x} \)</span></p>
-<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(2,4) \)</span>, and <span class="math notranslate nohighlight">\( h(x) = 2*e^{-x} \)</span></p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">10000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The exact value of the integral is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)))</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The MC estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-</pre></div>
+  <section class="tex2jax_ignore mathjax_ignore" id="maths-appendix">
+<h1><span class="section-number">4. </span>Maths Appendix<a class="headerlink" href="#maths-appendix" title="Permalink to this heading">#</a></h1>
+<p>This section is an appendix for the foundational mathematics for topics in other chapters, as well as an advanced and code based look into some of these topics.</p>
+<div class="toctree-wrapper compound">
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The exact value of the integral is: 0.1170
-The MC estimate for m = 5 is: 0.1022 with variance: 0.0031
-The MC estimate for m = 10 is: 0.1349 with variance: 0.0067
-The MC estimate for m = 100 is: 0.1250 with variance: 0.0045
-The MC estimate for m = 1000 is: 0.1181 with variance: 0.0044
-The MC estimate for m = 10000 is: 0.1178 with variance: 0.0043
-The MC estimate for m = 100000 is: 0.1170 with variance: 0.0043
-</pre></div>
-</div>
-</div>
-</div>
-<p>Can do the sin example form tough book and compare with numerical methods</p>
-</section>
-<section id="understanding-variance">
-<h2><span class="section-number">2.1.3. </span>Understanding Variance<a class="headerlink" href="#understanding-variance" title="Permalink to this heading">#</a></h2>
-<p>Explain, the variance, how it slowly it goes down etc.</p>
-<p>Do the simple example 120, with comparison with numerical method
-Do example 121
-Normal example</p>
-</section>
-<section id="importance-sampling">
-<h2><span class="section-number">2.1.4. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Permalink to this heading">#</a></h2>
-<p><span class="math notranslate nohighlight">\( m(x) =  \sum_{i=1}^n A_{i} * \mathcal{N}(t_{i}, \sigma_{i})(x)  \)</span></p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -468,7 +393,7 @@ Normal example</p>
         },
         kernelOptions: {
             name: "python3",
-            path: "./notebooks/Monte_Carlo_Methods"
+            path: "./notebooks/Maths_Appendix"
         },
         predefinedOutput: true
     }
@@ -487,20 +412,20 @@ Normal example</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="Preface.html"
+       href="../Simulation_Based_Inference/Markov_Chains.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">2. </span>Monte Carlo Methods</p>
+        <p class="prev-next-title"><span class="section-number">3.1. </span>Basic MCMC</p>
       </div>
     </a>
     <a class="right-next"
-       href="../Simulation_Based_Inference/Preface.html"
+       href="Basic_Probability.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3. </span>Simulation Based Inference</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Basic Probability</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -513,23 +438,6 @@ Normal example</p>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-theory">2.1.1. Basic Theory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-examples">2.1.2. Basic Examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.4. Importance Sampling</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
