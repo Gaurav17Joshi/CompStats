@@ -177,6 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">4.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -374,8 +375,16 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-theory">2.1.1. Basic Theory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-examples">2.1.2. Basic Examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.4. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rate-of-descent">2.1.3.1. Rate of descent:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-variates">2.1.4. Control Variates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example1">2.1.4.1. Example1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.1.4.2. Example1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.5. Importance Sampling</a></li>
 </ul>
             </nav>
         </div>
@@ -392,13 +401,20 @@ document.write(`
 <section id="basic-theory">
 <h2><span class="section-number">2.1.1. </span>Basic Theory<a class="headerlink" href="#basic-theory" title="Permalink to this heading">#</a></h2>
 <p>As we have seen that many integrals do not have analytic solutions and thier values are difficult to calculate with even deterministic methods. In monte carlo integration, we treat the <strong>integral as an expectation</strong>, and this leads to surprisingly efficient and potent ways of integral calculation.</p>
-<p>We from statistics theory that expectation of any function <span class="math notranslate nohighlight">\(h(x)\)</span> of a random variable with pdf <span class="math notranslate nohighlight">\(f(x)\)</span> is:</p>
-<p><span class="math notranslate nohighlight">\( \mathbb{E}_{f} [h(X)] = \int_{X} h(x) f(x) dx   \)</span>  , <span class="math notranslate nohighlight">\(X\)</span> is the domian of the random variable</p>
-<p>And from law of large numbers, we can express the expectation in terms of samples as:-</p>
-<p><span class="math notranslate nohighlight">\( \bar h_{m} = \frac{1}{m} \sum_{j=1}^m h(x_{j})  \)</span>, thus we can approximate any integral as an expectation, if we choose the correct h(x), and f(x) to get the target function, and the range of the random variable as the limits of the integral.</p>
-<p><strong>Variance</strong>:</p>
-<p>We can measure the speed of convergence to the integral by evaluating the variance,</p>
-<p><span class="math notranslate nohighlight">\( v_m = \frac{1}{m^2} \sum_{j=1}^m [ h(x_{j}) - \bar h_{m} ]^{2} \)</span></p>
+<p>Target = Calculating <span class="math notranslate nohighlight">\( \int_{a}^{b} g(x) dx \)</span></p>
+<p>From statistics theory we know that if X is a RV with pdf <span class="math notranslate nohighlight">\(f(x)\)</span>, then the expectation of Random Variable <span class="math notranslate nohighlight">\(Y = g(X)\)</span> will be:
+$<span class="math notranslate nohighlight">\(
+ \mathbb{E}_{f} [g(X)] = \int_{A} g(x) f(x) dx 
+\)</span>$
+where A is the domain of the random variable</p>
+<p>An unbiased estimate of <span class="math notranslate nohighlight">\( \mathbb{E}[g(X)] \)</span> can be caluculated by the statistic Sample Mean</p>
+<div class="math notranslate nohighlight">
+\[
+\theta = \mathbb{E}[g{X}] = \int_{A} g(x) f(x) dx , \; \; \; \bar{\theta} = \bar{g_m(x)} = \frac{1}{m} \sum_{i=1}^{m} g(x)
+\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\theta\)</span> is the target value, and <span class="math notranslate nohighlight">\(\bar{\theta}\)</span> is a statistic for it.</p>
+<p>And from law of large numbers we know that the <span class="math notranslate nohighlight">\(\bar{\theta}\)</span> converges to <span class="math notranslate nohighlight">\(\theta\)</span>, with a probability of one as <span class="math notranslate nohighlight">\(m \to \infty \)</span></p>
+<p>In our case, as the target is g(x), we will use a unifrom mean, and scale it suitably</p>
 </section>
 <section id="basic-examples">
 <h2><span class="section-number">2.1.2. </span>Basic Examples<a class="headerlink" href="#basic-examples" title="Permalink to this heading">#</a></h2>
@@ -406,8 +422,8 @@ document.write(`
 <li><p>Estimating <span class="math notranslate nohighlight">\( \int_{0}^{1} e^{-x} dx \)</span></p></li>
 <li><p>Estimating <span class="math notranslate nohighlight">\( \int_{2}^{4} e^{-x} dx \)</span></p></li>
 </ol>
-<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(0,1) \)</span>, and <span class="math notranslate nohighlight">\( h(x) = e^{-x} \)</span></p>
-<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(2,4) \)</span>, and <span class="math notranslate nohighlight">\( h(x) = 2*e^{-x} \)</span></p>
+<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(0,1) \)</span>, and <span class="math notranslate nohighlight">\( g(x) = e^{-x} \)</span></p>
+<p>We will use <span class="math notranslate nohighlight">\( f(x) = U(2,4) \)</span>, and integral <span class="math notranslate nohighlight">\( = 2*g(x) \)</span>, 2 for scaling up for <span class="math notranslate nohighlight">\(f(x) = 1/2 \)</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -424,33 +440,200 @@ document.write(`
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The MC estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The MCI estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The exact value of the integral is: 0.1170
-The MC estimate for m = 5 is: 0.1022 with variance: 0.0031
-The MC estimate for m = 10 is: 0.1349 with variance: 0.0067
-The MC estimate for m = 100 is: 0.1250 with variance: 0.0045
-The MC estimate for m = 1000 is: 0.1181 with variance: 0.0044
-The MC estimate for m = 10000 is: 0.1178 with variance: 0.0043
-The MC estimate for m = 100000 is: 0.1170 with variance: 0.0043
+The MCI estimate for m = 5 is: 0.1022 with variance: 0.0031
+The MCI estimate for m = 10 is: 0.1349 with variance: 0.0067
+The MCI estimate for m = 100 is: 0.1250 with variance: 0.0045
+The MCI estimate for m = 1000 is: 0.1181 with variance: 0.0044
+The MCI estimate for m = 10000 is: 0.1178 with variance: 0.0043
+The MCI estimate for m = 100000 is: 0.1170 with variance: 0.0043
 </pre></div>
 </div>
 </div>
 </div>
-<p>Can do the sin example form tough book and compare with numerical methods</p>
+<p>Can do the sin example form tough book mcmc page(84) and compare with numerical methods.</p>
+<p>Do the simple example 120, with comparison with numerical method Do example 121 Normal example</p>
 </section>
 <section id="understanding-variance">
 <h2><span class="section-number">2.1.3. </span>Understanding Variance<a class="headerlink" href="#understanding-variance" title="Permalink to this heading">#</a></h2>
-<p>Explain, the variance, how it slowly it goes down etc.</p>
-<p>Do the simple example 120, with comparison with numerical method
-Do example 121
-Normal example</p>
+<p>While we know that the estimator (sample mean) that we are using is unbiased, but we also have to know its variance to understand how well constrained our answer would be.</p>
+<p><span class="math notranslate nohighlight">\(Var( \bar{\theta} ) = \frac{\sigma^2}{m} \)</span>, where <span class="math notranslate nohighlight">\(\sigma^2 = Var(g(X))\)</span>, but we cannot calculate the variance directly so, we will approximate it.</p>
+<p>We know that <span class="math notranslate nohighlight">\( S^2 = \frac{1}{m-1} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2 \)</span>, is an unbiased estimator of <span class="math notranslate nohighlight">\(\sigma^2\)</span>, so <span class="math notranslate nohighlight">\(Var(\bar{\theta})\)</span> can be estimated by:
+$<span class="math notranslate nohighlight">\(
+Var(\bar{\theta}) = \frac{1}{m(m-1)} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2
+\)</span>$</p>
+<p>Also, we know from central limit theorem that the sample mean tends to a normal distribution on increasing the number of samples, and this can help us get confidence limits on the value of the integral.</p>
+<p>For our case:-
+$<span class="math notranslate nohighlight">\(
+\theta = \int_{a}^{b} g(x) dx = (b-a) \int_{a}^{b} g(x) \frac{1}{b-a} dx, \; \; f = U(a,b)
+\)</span><span class="math notranslate nohighlight">\(
+which leads to the statistic being equal to: \)</span>\bar{\theta} = (b-a) \bar{g(x)}$</p>
+<p>The <span class="math notranslate nohighlight">\( Var(\bar{g(x)}) = \frac{1}{m} Var(g(x)) \Rightarrow  Var(\bar{\theta}) = \frac{(b-a)^2}{m} Var(g(x)) \)</span></p>
+<section id="rate-of-descent">
+<h3><span class="section-number">2.1.3.1. </span>Rate of descent:<a class="headerlink" href="#rate-of-descent" title="Permalink to this heading">#</a></h3>
+<p>Using a uniform sampling method, the variance falls inversly to m, hense <strong>error <span class="math notranslate nohighlight">\(\sim \frac{1}{\sqrt{m}} \)</span></strong>. So if we want to decrease variance from 0.01 to 0.0001, then we will require 10000 more points :scream:.</p>
+<p>We will look at some simple techniques for variance reduction.</p>
+</section>
+</section>
+<section id="control-variates">
+<h2><span class="section-number">2.1.4. </span>Control Variates<a class="headerlink" href="#control-variates" title="Permalink to this heading">#</a></h2>
+<p>An approach to reduce the varaince of Monte carlo estimator of <span class="math notranslate nohighlight">\(\theta = \mathbb{E}[g(X)]\)</span>, is the use of Control Variates.</p>
+<p>Let us assume, we have a function <span class="math notranslate nohighlight">\(f\)</span>, such that <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[f(X)] \)</span>, is known and <span class="math notranslate nohighlight">\(f(X)\)</span> is correlated to <span class="math notranslate nohighlight">\(g{X}\)</span>, then <span class="math notranslate nohighlight">\(\hat{\theta_{c}}\)</span> is an unbiased estimator of the <span class="math notranslate nohighlight">\(\theta\)</span>
+$<span class="math notranslate nohighlight">\(
+\hat{\theta_{c}} = g(X) + c(f(X) - \mu)
+\)</span>$</p>
+<p>The variance is <span class="math notranslate nohighlight">\( Var(\hat{\theta_{c}}) = Var(g(X)) + c^2 Var(f(X)) +2cCov(g(X), f(X))\)</span>, a quadratic function in c.
+It is minimised at <span class="math notranslate nohighlight">\(c = c^{*}\)</span>
+$<span class="math notranslate nohighlight">\(
+c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))}
+\)</span><span class="math notranslate nohighlight">\(
+and the minimum variance is : \)</span> Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} $</p>
+<p>The challenge to this approach is that, we have to find the value of c, which depends on the Cov. We can estimate these parameters from a preliminary Monte-Carlo.</p>
+<section id="example1">
+<h3><span class="section-number">2.1.4.1. </span>Example1<a class="headerlink" href="#example1" title="Permalink to this heading">#</a></h3>
+<p>Calculating <span class="math notranslate nohighlight">\( \theta = \mathbb{E}[e^{x}] = \int_{0}^{1} e^x dx\)</span>, using <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span> as the control variate.</p>
+<p>As we know, the value before hand, we can calculate the reduction in variance
+$<span class="math notranslate nohighlight">\(
+Var(g(U)) = Var_{f}(e^x) = \mathbb{E}_{f}[e^{2x}] - (\mathbb{E}_{f}[e^x])^2 = \frac{e^2-1}{2}- (e-1)^2 = 0.2420351
+\)</span>$</p>
+<p>For the control variate <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span></p>
+<p><span class="math notranslate nohighlight">\(\mathbb{E}[U] = 1/2 \)</span>, <span class="math notranslate nohighlight">\(Var(U) = 1/12\)</span>, <span class="math notranslate nohighlight">\(Cov(e^U, U) = \int_{0}^{1} (x-1/2)(e^x - (e-1))dx =  1 - (1/2)(e-1) \)</span>, as the joint distribution of the two variables is 1, both are sampled from U with transformations.</p>
+<p>Hense, <span class="math notranslate nohighlight">\(c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))} = -12 +6(e-1) = -1.6903\)</span></p>
+<p>This gives us <span class="math notranslate nohighlight">\(Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} = \frac{e^2-1}{2} - (e-1)^2 - 12(1 - \frac{e-1}{2}) = 0.00394\)</span></p>
+<p><strong>Percent reduction in varaince = 100(1 - 0.00394/0.2429) = 98.3781%</strong>, a significant drop</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Coding up a Control variate example:-</span>
+<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c = &quot;</span><span class="p">,(</span><span class="o">-</span><span class="mi">12</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">thetac</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The exact value of the integral is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">thetac</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The MCI estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y1</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Control V estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y2</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% r</span><span class="s2">eduction in variance = &quot;</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c =  -1.6903090292457286
+The exact value of the integral is: 1.7183
+The MCI estimate for m = 10 is: 1.7570 with variance: 0.2532
+The Control V estimate for m = 10 is: 1.7230 with variance: 0.0037
+% reduction in variance =  98.55392011431434
+The MCI estimate for m = 1000 is: 1.7047 with variance: 0.2450
+The Control V estimate for m = 1000 is: 1.7197 with variance: 0.0039
+% reduction in variance =  98.39130604977318
+The MCI estimate for m = 100000 is: 1.7174 with variance: 0.2411
+The Control V estimate for m = 100000 is: 1.7181 with variance: 0.0039
+% reduction in variance =  98.37481532973817
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see in the example that even 10 values are giving integral = 1.7230 compared to 1.7570 by the normal MC integration.</p>
+</section>
+<section id="id1">
+<h3><span class="section-number">2.1.4.2. </span>Example1<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>Calculating <span class="math notranslate nohighlight">\( \theta = \int_{0}^{1} \frac{e^{-x}}{1+x^2} dx\)</span>, using <span class="math notranslate nohighlight">\(f(x) = \frac{e^{-0.5}}{1+x^2}\)</span> as the control variate.</p>
+<p>The choise for the central variate was made by keeping in mind the fact that we want the two functions to be as corelated as possible.</p>
+<p>As the range is still (0,1), we will use U(0,1) again, in which the expectation of <span class="math notranslate nohighlight">\(f(x)\)</span></p>
+<p><span class="math notranslate nohighlight">\( \mathbb{E}[f(U)] = e^(-0.5) \int_{0}^{1} \frac{1}{1+u^2} du = e^{-0.5} arctan(1) = e^{-0.5} \pi/4 \)</span></p>
+<p>Using our preliminary simulation, we estimate the correlation to be <span class="math notranslate nohighlight">\(\approx  \)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculating the value of Covariate Constant:-</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">420</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">thetac</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The covariance is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y2</span><span class="p">)))</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The variance of g(x) is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The variance of f(x) is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The correlation of g(x) and f(x) is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y2</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">)))</span> <span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y2</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The value of c: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The covariance is: 0.0234
+The variance of g(x) is: 0.0615
+The variance of f(x) is: 0.0094
+The correlation of g(x) and f(x) is: 0.9757
+The value of c: -2.5019
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">420</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">thetac</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">thetac</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The deterministic integral for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span> <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The MCI estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y1</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Control V estimate for m = </span><span class="si">%d</span><span class="s2"> is: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y2</span><span class="p">)),</span> <span class="s2">&quot;with variance: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">% r</span><span class="s2">eduction in variance = &quot;</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y2</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The deterministic integral for m = 10 is: 0.5321
+The MCI estimate for m = 10 is: 0.5757 with variance: 0.0471
+The Control V estimate for m = 10 is: 0.5100 with variance: 0.0026
+% reduction in variance =  94.45179873752338
+The deterministic integral for m = 1000 is: 0.5249
+The MCI estimate for m = 1000 is: 0.5276 with variance: 0.0597
+The Control V estimate for m = 1000 is: 0.5242 with variance: 0.0031
+% reduction in variance =  94.72639353010858
+The deterministic integral for m = 100000 is: 0.5248
+The MCI estimate for m = 100000 is: 0.5252 with variance: 0.0600
+The Control V estimate for m = 100000 is: 0.5247 with variance: 0.0032
+% reduction in variance =  94.7473229563462
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we can see how imporved the performance is with control variates, yet the method still cannot beat the numerical method, infact in small dimensions deterministic methods by far overtake the stochastic ones.</p>
+</section>
 </section>
 <section id="importance-sampling">
-<h2><span class="section-number">2.1.4. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">2.1.5. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Permalink to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\( m(x) =  \sum_{i=1}^n A_{i} * \mathcal{N}(t_{i}, \sigma_{i})(x)  \)</span></p>
 </section>
 </section>
@@ -524,8 +707,16 @@ Normal example</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-theory">2.1.1. Basic Theory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-examples">2.1.2. Basic Examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.4. Importance Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-variance">2.1.3. Understanding Variance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rate-of-descent">2.1.3.1. Rate of descent:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-variates">2.1.4. Control Variates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example1">2.1.4.1. Example1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.1.4.2. Example1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">2.1.5. Importance Sampling</a></li>
 </ul>
   </nav></div>
 
