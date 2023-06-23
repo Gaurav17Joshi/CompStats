@@ -177,6 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">4.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -554,11 +555,13 @@ Then take 10000 points and show that almost same histogram has been made</p>
 <p><span class="math notranslate nohighlight">\( P(X_{t+1} = X^{t+1} | X_{t} = X^{t}, X_{t-1} = X^{t-1}, X_{t-2} = X^{t-2}, ... ) = P(X_{t+1} = X^{t+1} | X_{t} = X^{t})  \)</span>,</p>
 <p>here <span class="math notranslate nohighlight">\(X_{t}\)</span>, is the t’th element of the chain of random variables</p>
 <img src="../images/Simulation/Graphical_Rep.png"  width="300" height="300">
+<img src="{{site.baseurl}}/notebooks/images/Simulation/Graphical_Rep.png" alt="Markov Chain">
 <p>To simplify, let us take an example of a chain with discrete, finite range.
 Suppose a person takes a random walk on a number line on the values 1, 2, 3, 4, 5. If the person is currently at an interior value (2, 3, 4), in the next second she is equally likely to remain at that number or move to an adjacent number. If she does move, she is equally likely to move left or right. If the person is currently at one of the end values (1 or 5), in the next second she is equally likely to stay still or move to the adjacent location.</p>
 <p>This is a simple discrete Markov chain, as the probability of the girl going to any place in next step depends on only her current position. (Discrete as the chain is discrete random variables, not because of the range space). We can describe her movements in terms of transition probabilities in a matrix P where</p>
 <p><span class="math notranslate nohighlight">\( P_{i,j} = prob\)</span>(transitioning from state <span class="math notranslate nohighlight">\(X_{i}\)</span> to <span class="math notranslate nohighlight">\(X_{j}\)</span>)</p>
 <img src="../images/Simulation/Transition_Matrix.png"  width="300" height="200">
+<img src="{{site.baseurl}}/notebooks/images/Simulation/Transition_Matrix.png" alt="Plot of High, low and non QPO kernel">
 <p>Credits: <a class="reference external" href="http://markov.yoriz.co.uk/">http://markov.yoriz.co.uk/</a></p>
 <section id="some-important-features">
 <h3><span class="section-number">3.1.2.1. </span>Some Important Features<a class="headerlink" href="#some-important-features" title="Permalink to this heading">#</a></h3>

@@ -66,6 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Maths_Appendix/Basic_Probability';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4.2. Basic Statistics" href="Basic_Statistics.html" />
     <link rel="prev" title="4. Maths Appendix" href="Preface.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -176,6 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">4. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Basic_Statistics.html">4.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -482,7 +484,7 @@ document.write(`
 <ol class="arabic simple" start="2">
 <li><p><span class="math notranslate nohighlight">\(\mathbb{E}[X+Y] = \mathbb{E}[X]+\mathbb{E}[Y] \)</span>, expectation of adding two different RV’s adds both.</p></li>
 </ol>
-<p><span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x+y) f_{X,Y}(x,y) dx dy = \int_{-\infty}^{-\infty} xf_{X}(x) dx + \int_{-\infty}^{-\infty} yf_{Y}(y) dy \)</span></p>
+<p><span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x+y) f_{X,Y}(x,y) dx dy = \int_{-\infty}^{\infty} (x) \int_{-\infty}^{\infty} (y) f_{X,Y}(x,y) dy dx + \int_{-\infty}^{\infty} (y) \int_{-\infty}^{\infty} (x) f_{X,Y}(x,y) dx dy = \int_{-\infty}^{-\infty} xf_{X}(x) dx + \int_{-\infty}^{-\infty} yf_{Y}(y) dy \)</span></p>
 <ol class="arabic simple" start="3">
 <li><p><span class="math notranslate nohighlight">\(\mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[Y]\)</span>, if X,Y are independent RVs</p></li>
 <li><p>Var(a) = 0, variance of a scalar is zero</p></li>
@@ -511,6 +513,24 @@ document.write(`
 </section>
 <section id="central-limit-theorem-clt">
 <h3><span class="section-number">4.1.5.3. </span>Central Limit Theorem (CLT)<a class="headerlink" href="#central-limit-theorem-clt" title="Permalink to this heading">#</a></h3>
+<p>Probabilty distribution (pdf) of the sample mean <span class="math notranslate nohighlight">\( \)</span> of a RV <span class="math notranslate nohighlight">\(X\)</span> tends to a normal distribution, with mean <span class="math notranslate nohighlight">\(\mu_{X} \)</span>, and variance <span class="math notranslate nohighlight">\( \frac{\sigma_{X}^2}{n} \)</span> as we increase the size of the sample. All the higher moments and central measures tend to zero as n tends to infinity</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Take a double normal and make histograms of samples of means of random samples of size 1,2,5, 10</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+
+<span class="c1"># Set up the figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+
+
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -554,6 +574,15 @@ document.write(`
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><span class="section-number">4. </span>Maths Appendix</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="Basic_Statistics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.2. </span>Basic Statistics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   
