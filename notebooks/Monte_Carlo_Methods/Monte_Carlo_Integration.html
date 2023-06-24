@@ -402,11 +402,12 @@ document.write(`
 <h2><span class="section-number">2.1.1. </span>Basic Theory<a class="headerlink" href="#basic-theory" title="Permalink to this heading">#</a></h2>
 <p>As we have seen that many integrals do not have analytic solutions and thier values are difficult to calculate with even deterministic methods. In monte carlo integration, we treat the <strong>integral as an expectation</strong>, and this leads to surprisingly efficient and potent ways of integral calculation.</p>
 <p>Target = Calculating <span class="math notranslate nohighlight">\( \int_{a}^{b} g(x) dx \)</span></p>
-<p>From statistics theory we know that if X is a RV with pdf <span class="math notranslate nohighlight">\(f(x)\)</span>, then the expectation of Random Variable <span class="math notranslate nohighlight">\(Y = g(X)\)</span> will be:
-$<span class="math notranslate nohighlight">\(
+<p>From statistics theory we know that if X is a RV with pdf <span class="math notranslate nohighlight">\(f(x)\)</span>, then the expectation of Random Variable <span class="math notranslate nohighlight">\(Y = g(X)\)</span> will be:</p>
+<div class="math notranslate nohighlight">
+\[
  \mathbb{E}_{f} [g(X)] = \int_{A} g(x) f(x) dx 
-\)</span>$
-where A is the domain of the random variable</p>
+\]</div>
+<p>where A is the domain of the random variable</p>
 <p>An unbiased estimate of <span class="math notranslate nohighlight">\( \mathbb{E}[g(X)] \)</span> can be caluculated by the statistic Sample Mean</p>
 <div class="math notranslate nohighlight">
 \[
@@ -463,16 +464,18 @@ The MCI estimate for m = 100000 is: 0.1170 with variance: 0.0043
 <h2><span class="section-number">2.1.3. </span>Understanding Variance<a class="headerlink" href="#understanding-variance" title="Permalink to this heading">#</a></h2>
 <p>While we know that the estimator (sample mean) that we are using is unbiased, but we also have to know its variance to understand how well constrained our answer would be.</p>
 <p><span class="math notranslate nohighlight">\(Var( \bar{\theta} ) = \frac{\sigma^2}{m} \)</span>, where <span class="math notranslate nohighlight">\(\sigma^2 = Var(g(X))\)</span>, but we cannot calculate the variance directly so, we will approximate it.</p>
-<p>We know that <span class="math notranslate nohighlight">\( S^2 = \frac{1}{m-1} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2 \)</span>, is an unbiased estimator of <span class="math notranslate nohighlight">\(\sigma^2\)</span>, so <span class="math notranslate nohighlight">\(Var(\bar{\theta})\)</span> can be estimated by:
-$<span class="math notranslate nohighlight">\(
+<p>We know that <span class="math notranslate nohighlight">\( S^2 = \frac{1}{m-1} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2 \)</span>, is an unbiased estimator of <span class="math notranslate nohighlight">\(\sigma^2\)</span>, so <span class="math notranslate nohighlight">\(Var(\bar{\theta})\)</span> can be estimated by:</p>
+<div class="math notranslate nohighlight">
+\[
 Var(\bar{\theta}) = \frac{1}{m(m-1)} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2
-\)</span>$</p>
+\]</div>
 <p>Also, we know from central limit theorem that the sample mean tends to a normal distribution on increasing the number of samples, and this can help us get confidence limits on the value of the integral.</p>
-<p>For our case:-
-$<span class="math notranslate nohighlight">\(
+<p>For our case:-</p>
+<div class="math notranslate nohighlight">
+\[
 \theta = \int_{a}^{b} g(x) dx = (b-a) \int_{a}^{b} g(x) \frac{1}{b-a} dx, \; \; f = U(a,b)
-\)</span><span class="math notranslate nohighlight">\(
-which leads to the statistic being equal to: \)</span>\bar{\theta} = (b-a) \bar{g(x)}$</p>
+\]</div>
+<p>which leads to the statistic being equal to: <span class="math notranslate nohighlight">\(\bar{\theta} = (b-a) \bar{g(x)}\)</span></p>
 <p>The <span class="math notranslate nohighlight">\( Var(\bar{g(x)}) = \frac{1}{m} Var(g(x)) \Rightarrow  Var(\bar{\theta}) = \frac{(b-a)^2}{m} Var(g(x)) \)</span></p>
 <section id="rate-of-descent">
 <h3><span class="section-number">2.1.3.1. </span>Rate of descent:<a class="headerlink" href="#rate-of-descent" title="Permalink to this heading">#</a></h3>
@@ -483,24 +486,27 @@ which leads to the statistic being equal to: \)</span>\bar{\theta} = (b-a) \bar{
 <section id="control-variates">
 <h2><span class="section-number">2.1.4. </span>Control Variates<a class="headerlink" href="#control-variates" title="Permalink to this heading">#</a></h2>
 <p>An approach to reduce the varaince of Monte carlo estimator of <span class="math notranslate nohighlight">\(\theta = \mathbb{E}[g(X)]\)</span>, is the use of Control Variates.</p>
-<p>Let us assume, we have a function <span class="math notranslate nohighlight">\(f\)</span>, such that <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[f(X)] \)</span>, is known and <span class="math notranslate nohighlight">\(f(X)\)</span> is correlated to <span class="math notranslate nohighlight">\(g{X}\)</span>, then <span class="math notranslate nohighlight">\(\hat{\theta_{c}}\)</span> is an unbiased estimator of the <span class="math notranslate nohighlight">\(\theta\)</span>
-$<span class="math notranslate nohighlight">\(
+<p>Let us assume, we have a function <span class="math notranslate nohighlight">\(f\)</span>, such that <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[f(X)] \)</span>, is known and <span class="math notranslate nohighlight">\(f(X)\)</span> is correlated to <span class="math notranslate nohighlight">\(g{X}\)</span>, then <span class="math notranslate nohighlight">\(\hat{\theta_{c}}\)</span> is an unbiased estimator of the <span class="math notranslate nohighlight">\(\theta\)</span></p>
+<div class="math notranslate nohighlight">
+\[
 \hat{\theta_{c}} = g(X) + c(f(X) - \mu)
-\)</span>$</p>
+\]</div>
 <p>The variance is <span class="math notranslate nohighlight">\( Var(\hat{\theta_{c}}) = Var(g(X)) + c^2 Var(f(X)) +2cCov(g(X), f(X))\)</span>, a quadratic function in c.
-It is minimised at <span class="math notranslate nohighlight">\(c = c^{*}\)</span>
-$<span class="math notranslate nohighlight">\(
+It is minimised at <span class="math notranslate nohighlight">\(c = c^{*}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
 c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))}
-\)</span><span class="math notranslate nohighlight">\(
-and the minimum variance is : \)</span> Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} $</p>
+\]</div>
+<p>and the minimum variance is : <span class="math notranslate nohighlight">\( Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} \)</span></p>
 <p>The challenge to this approach is that, we have to find the value of c, which depends on the Cov. We can estimate these parameters from a preliminary Monte-Carlo.</p>
 <section id="example1">
 <h3><span class="section-number">2.1.4.1. </span>Example1<a class="headerlink" href="#example1" title="Permalink to this heading">#</a></h3>
 <p>Calculating <span class="math notranslate nohighlight">\( \theta = \mathbb{E}[e^{x}] = \int_{0}^{1} e^x dx\)</span>, using <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span> as the control variate.</p>
-<p>As we know, the value before hand, we can calculate the reduction in variance
-$<span class="math notranslate nohighlight">\(
+<p>As we know, the value before hand, we can calculate the reduction in variance</p>
+<div class="math notranslate nohighlight">
+\[
 Var(g(U)) = Var_{f}(e^x) = \mathbb{E}_{f}[e^{2x}] - (\mathbb{E}_{f}[e^x])^2 = \frac{e^2-1}{2}- (e-1)^2 = 0.2420351
-\)</span>$</p>
+\]</div>
 <p>For the control variate <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span></p>
 <p><span class="math notranslate nohighlight">\(\mathbb{E}[U] = 1/2 \)</span>, <span class="math notranslate nohighlight">\(Var(U) = 1/12\)</span>, <span class="math notranslate nohighlight">\(Cov(e^U, U) = \int_{0}^{1} (x-1/2)(e^x - (e-1))dx =  1 - (1/2)(e-1) \)</span>, as the joint distribution of the two variables is 1, both are sampled from U with transformations.</p>
 <p>Hense, <span class="math notranslate nohighlight">\(c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))} = -12 +6(e-1) = -1.6903\)</span></p>
