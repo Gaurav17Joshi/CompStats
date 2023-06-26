@@ -532,7 +532,7 @@ Then take 10000 points and show that almost same histogram has been made</p>
 <p>Make a good function named danger function which we can use in other demonstrations also</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let us do this using gradient descent</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Finding Gradient</span>
 <span class="k">def</span> <span class="nf">simplef12</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">y</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(((</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
@@ -548,6 +548,7 @@ Then take 10000 points and show that almost same histogram has been made</p>
 </div>
 </div>
 </div>
+<p>One can see, that as the function is symmetric, the gradient will also be, and this may easily get stuck if started farther from 0</p>
 </section>
 <section id="basics-of-markov-chains">
 <h2><span class="section-number">3.1.2. </span>Basics of markov chains<a class="headerlink" href="#basics-of-markov-chains" title="Permalink to this heading">#</a></h2>
@@ -758,30 +759,31 @@ We can check for discrete range that the algorithm satisfies <span class="math n
 <span class="k">def</span> <span class="nf">monte_carlo_walk</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">jump_f</span> <span class="p">,</span><span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])),</span> <span class="p">):</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">keyval</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">xcurrent</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span> <span class="n">ycurrent</span> <span class="o">=</span> <span class="n">y0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">keyval</span> <span class="o">=</span> <span class="n">keyval</span><span class="o">+</span><span class="mi">1</span>
         <span class="n">jump</span> <span class="o">=</span> <span class="n">jump_f</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">keyval</span><span class="p">))</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">jump</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">jump</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="c1"># x1 = 0.2*random.normal(random.PRNGKey(i),shape = (1,)) + x0</span>
-        <span class="c1"># y1 = 0.2*random.normal(random.PRNGKey(i+1),shape = (1,)) + y0</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">xcurrent</span> <span class="o">+</span> <span class="n">jump</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">ycurrent</span> <span class="o">+</span> <span class="n">jump</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># x1 = 0.2*random.normal(random.PRNGKey(i),shape = (1,)) + xcurrent</span>
+        <span class="c1"># y1 = 0.2*random.normal(random.PRNGKey(i+1),shape = (1,)) + ycurrent</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&lt;</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&gt;</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">y1</span> <span class="o">&lt;</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">y1</span> <span class="o">&gt;</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span>
-            <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">xcurrent</span>
+            <span class="n">y1</span> <span class="o">=</span> <span class="n">ycurrent</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">fun</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">fun</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">):</span>
-            <span class="n">x0</span> <span class="o">=</span> <span class="n">x1</span>
-            <span class="n">y0</span> <span class="o">=</span> <span class="n">y1</span>
+        <span class="k">if</span> <span class="n">fun</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">fun</span><span class="p">(</span><span class="n">xcurrent</span><span class="p">,</span><span class="n">ycurrent</span><span class="p">):</span>
+            <span class="n">xcurrent</span> <span class="o">=</span> <span class="n">x1</span>
+            <span class="n">ycurrent</span> <span class="o">=</span> <span class="n">y1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">flip</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
-            <span class="k">if</span> <span class="n">flip</span> <span class="o">&lt;</span> <span class="n">fun</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span><span class="o">/</span><span class="n">fun</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">):</span>
-                <span class="n">x0</span> <span class="o">=</span> <span class="n">x1</span>
-                <span class="n">y0</span> <span class="o">=</span> <span class="n">y1</span>
+            <span class="k">if</span> <span class="n">flip</span> <span class="o">&lt;</span> <span class="n">fun</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span><span class="o">/</span><span class="n">fun</span><span class="p">(</span><span class="n">xcurrent</span><span class="p">,</span><span class="n">ycurrent</span><span class="p">):</span>
+                <span class="n">xcurrent</span> <span class="o">=</span> <span class="n">x1</span>
+                <span class="n">ycurrent</span> <span class="o">=</span> <span class="n">y1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
-                <span class="n">y0</span> <span class="o">=</span> <span class="n">y0</span>
-        <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+                <span class="n">xcurrent</span> <span class="o">=</span> <span class="n">xcurrent</span>
+                <span class="n">ycurrent</span> <span class="o">=</span> <span class="n">ycurrent</span>
+        <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">xcurrent</span><span class="p">;</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ycurrent</span>
     <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
