@@ -175,6 +175,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimensional Data</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -236,7 +238,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -253,7 +255,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Simulation_Based_Inference/Markov_Chains.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Simulation_Based_Inference/Markov_Chains.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -557,16 +559,22 @@ Then take 10000 points and show that almost same histogram has been made</p>
 <p>A Markov chain or Markov process is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.</p>
 <p><span class="math notranslate nohighlight">\( P(X_{t+1} = X^{t+1} | X_{t} = X^{t}, X_{t-1} = X^{t-1}, X_{t-2} = X^{t-2}, ... ) = P(X_{t+1} = X^{t+1} | X_{t} = X^{t})  \)</span>,</p>
 <p>here <span class="math notranslate nohighlight">\(X_{t}\)</span>, is the t’th element of the chain of random variables</p>
-<img src="../images/Simulation/Graphical_Rep.png"  width="300" height="300">
-<img src="{{site.baseurl}}/notebooks/images/Simulation/Graphical_Rep.png" alt="Markov Chain">
-![Chain](../images/Simulation/Graphical_Rep.png)
+<figure class="align-default" id="markov-chain-diagram">
+<a class="reference internal image-reference" href="../../_images/Graphical_Rep.png"><img alt="../../_images/Graphical_Rep.png" src="../../_images/Graphical_Rep.png" style="width: 250px; height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Markov chain diagram.</span><a class="headerlink" href="#markov-chain-diagram" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>To simplify, let us take an example of a chain with discrete, finite range.
 Suppose a person takes a random walk on a number line on the values 1, 2, 3, 4, 5. If the person is currently at an interior value (2, 3, 4), in the next second she is equally likely to remain at that number or move to an adjacent number. If she does move, she is equally likely to move left or right. If the person is currently at one of the end values (1 or 5), in the next second she is equally likely to stay still or move to the adjacent location.</p>
 <p>This is a simple discrete Markov chain, as the probability of the girl going to any place in next step depends on only her current position. (Discrete as the chain is discrete random variables, not because of the range space). We can describe her movements in terms of transition probabilities in a matrix P where</p>
 <p><span class="math notranslate nohighlight">\( P_{i,j} = prob\)</span>(transitioning from state <span class="math notranslate nohighlight">\(X_{i}\)</span> to <span class="math notranslate nohighlight">\(X_{j}\)</span>)</p>
-<img src="../images/Simulation/Transition_Matrix.png"  width="300" height="200">
-<img src="{{site.baseurl}}/notebooks/images/Simulation/Transition_Matrix.png" alt="Plot of High, low and non QPO kernel">
-![Chain2](../images/Simulation/Transition_Matrix.png)
+<figure class="align-default" id="transition-matrix">
+<a class="reference internal image-reference" href="../../_images/Transition_Matrix.png"><img alt="../../_images/Transition_Matrix.png" src="../../_images/Transition_Matrix.png" style="width: 300px; height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.2 </span><span class="caption-text">Transition Matrix.</span><a class="headerlink" href="#transition-matrix" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Credits: <a class="reference external" href="http://markov.yoriz.co.uk/">http://markov.yoriz.co.uk/</a></p>
 <section id="some-important-features">
 <h3><span class="section-number">3.1.2.1. </span>Some Important Features<a class="headerlink" href="#some-important-features" title="Permalink to this heading">#</a></h3>
