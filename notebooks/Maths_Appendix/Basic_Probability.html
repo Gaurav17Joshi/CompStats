@@ -173,6 +173,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimensional Data</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">4. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -234,7 +238,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -251,7 +255,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Maths_Appendix/Basic_Probability.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Maths_Appendix/Basic_Probability.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -378,19 +382,20 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-random-variables">4.1.1.2. Multiple Random variables</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expection-variance-moments">4.1.2. Expection, Variance, Moments</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#means">4.1.2.1. Means</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">4.1.2.2. Variance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.1.2.3. Multiple Random Variables</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.2.4. Independence:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-common-distributions">4.1.2. Some common distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expection-variance-moments">4.1.3. Expection, Variance, Moments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#means">4.1.3.1. Means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">4.1.3.2. Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.1.3.3. Multiple Random Variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.3.4. Independence:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-sample">4.1.3. Random Sample</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-expectation-and-variance">4.1.4. Properties of Expectation and Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamental-laws">4.1.5. 3 Fundamental Laws</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">4.1.5.1. Weak Law of Large Numbers (WLLN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">4.1.5.2. Strong Law of Large Numbers (sLLN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-limit-theorem-clt">4.1.5.3. Central Limit Theorem (CLT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-sample">4.1.4. Random Sample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-expectation-and-variance">4.1.5. Properties of Expectation and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamental-laws">4.1.6. 3 Fundamental Laws</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">4.1.6.1. Weak Law of Large Numbers (WLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">4.1.6.2. Strong Law of Large Numbers (sLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-limit-theorem-clt">4.1.6.3. Central Limit Theorem (CLT)</a></li>
 </ul>
 </li>
 </ul>
@@ -430,8 +435,13 @@ document.write(`
 <p>Similary this can be extended to multiple random variables</p>
 </section>
 </section>
+<section id="some-common-distributions">
+<h2><span class="section-number">4.1.2. </span>Some common distributions<a class="headerlink" href="#some-common-distributions" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<p>Consider <span class="math notranslate nohighlight">\(X\)</span> as the random variable.</p>
+</section>
 <section id="expection-variance-moments">
-<h2><span class="section-number">4.1.2. </span>Expection, Variance, Moments<a class="headerlink" href="#expection-variance-moments" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1.3. </span>Expection, Variance, Moments<a class="headerlink" href="#expection-variance-moments" title="Permalink to this heading">#</a></h2>
 <p>Expectations are weighted averages of functions of random variables, where the weights are the pdf of the random variable and the values are values of the random variable.</p>
 <p>The <strong>expected value</strong> of a function <span class="math notranslate nohighlight">\(g(x)\)</span> of a continous random variable X with pdf <span class="math notranslate nohighlight">\(f_X(x)\)</span> is:</p>
 <p><span class="math notranslate nohighlight">\( \mathbb{E} [g(X)] = \int_{-\infty}^{+\infty} g(x)f_{X}(x) dx  \)</span></p>
@@ -443,40 +453,40 @@ document.write(`
 </ol>
 <p>It does not mean the expected value of the RV so never say that, rather it is always reffered to as the expectation value</p>
 <section id="means">
-<h3><span class="section-number">4.1.2.1. </span>Means<a class="headerlink" href="#means" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.3.1. </span>Means<a class="headerlink" href="#means" title="Permalink to this heading">#</a></h3>
 <p><span class="math notranslate nohighlight">\( \mu_{X} = \mathbb{E} [X] = \int_{-\infty}^{+\infty} xf_{X}(x) dx \)</span>, is the mean or first moment of X.</p>
 <p><span class="math notranslate nohighlight">\( \mathbb{E} [X^r] = \int_{-\infty}^{+\infty} x^rf_{X}(x) dx \)</span>, is the <span class="math notranslate nohighlight">\(r^{th}\)</span> moment</p>
 </section>
 <section id="variance">
-<h3><span class="section-number">4.1.2.2. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.3.2. </span>Variance<a class="headerlink" href="#variance" title="Permalink to this heading">#</a></h3>
 <p>Variance of any RV X is its secound central moment defined by:</p>
 <p><span class="math notranslate nohighlight">\( Var(X) = \mathbb{E} [(X- \mathbb{E} )^2] = \int_{-\infty}^{+\infty} (x - \mu_{X})^2 f(x)dx \)</span></p>
 <p>After some calculations:- <span class="math notranslate nohighlight">\(Var(X) = \mathbb{E} [X^2 + \mathbb{E}^2 - 2X\mathbb{E} ] =  \mathbb{E}[X^2] + (\mathbb{E}[X])^2 -2\mathbb{E}[X]\mathbb{E}[X]\)</span>, hense</p>
 <p><span class="math notranslate nohighlight">\(Var(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2\)</span> (imp) or <span class="math notranslate nohighlight">\(\mathbb{E}[X^2] - (\mu_{X})^2 = \int_{-\infty}^{+\infty} x^2f_X(x)dx - (\mu_{X})^2 \)</span></p>
 </section>
 <section id="id1">
-<h3><span class="section-number">4.1.2.3. </span>Multiple Random Variables<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.3.3. </span>Multiple Random Variables<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <p>Expectation Value of the product of two random variables: <span class="math notranslate nohighlight">\( \mathbb{E} [XY] = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} xy f_{X,Y}(x,y) dx dy \)</span></p>
 <p>Covariance of X,Y:</p>
 <p><span class="math notranslate nohighlight">\(\sigma_{X,Y} = cov(X,Y) = \mathbb{E}[(x-\mu_{X})(y-\mu(Y))] = \mathbb{E}[XY] - \mu_{X} \mu_{Y} \)</span></p>
 <p><span class="math notranslate nohighlight">\( \rho(X,Y) = correlation(X,Y) = \frac{cov(X,Y)}{\sqrt{Var(X)Var(Y)}} = \frac{\sigma_{X,Y}}{\sigma_{X} \sigma_{Y}} \)</span>, the correlation actually has a meaning between the physical relations of the two radom varaibles, as to how they vary with each other.</p>
 </section>
 <section id="independence">
-<h3><span class="section-number">4.1.2.4. </span>Independence:<a class="headerlink" href="#independence" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.3.4. </span>Independence:<a class="headerlink" href="#independence" title="Permalink to this heading">#</a></h3>
 <p>Two random variables X and Y can be called independent if <span class="math notranslate nohighlight">\( f_{X,Y}(x,y) = f_{X}(x) f_{Y}(y) \)</span> (Note: having 0 correlation does not imply independence).</p>
 <p>Which means that if p(X = x, Y = y_i) = p(X = x, Y = y_j) (for all i,j) , ie the probability is independent of the value of Y then X and Y are independent RVs.</p>
 <p>A set of multiple Random Variables <span class="math notranslate nohighlight">\(\{X_1, X_2, ... X_n \}\)</span> is independent if: <span class="math notranslate nohighlight">\( f(x_1, ... x_n) = \prod_{j = 1}^{n} f_j(x_j) \)</span></p>
 </section>
 </section>
 <section id="random-sample">
-<h2><span class="section-number">4.1.3. </span>Random Sample<a class="headerlink" href="#random-sample" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1.4. </span>Random Sample<a class="headerlink" href="#random-sample" title="Permalink to this heading">#</a></h2>
 <p>Let X be a random variable with pdf <span class="math notranslate nohighlight">\(f_X(x)\)</span>, then a random sample from X is a set of random variables <span class="math notranslate nohighlight">\(\{X_1, X_2 .. X_n \}\)</span> if they are sampled out of X.</p>
 <p><span class="math notranslate nohighlight">\(X_i = i^{th}\)</span> random sample (a RV), <span class="math notranslate nohighlight">\(x_i = \)</span> value of the <span class="math notranslate nohighlight">\(i^{th}\)</span> random sample.</p>
 <p>A set of random samples is set to be <strong>independent and identically distributed (iid)</strong> if:
 <span class="math notranslate nohighlight">\( f(x_1, ... x_n) = \prod_{i = 1}^{n} f_{X}(x_i) \)</span></p>
 </section>
 <section id="properties-of-expectation-and-variance">
-<h2><span class="section-number">4.1.4. </span>Properties of Expectation and Variance<a class="headerlink" href="#properties-of-expectation-and-variance" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1.5. </span>Properties of Expectation and Variance<a class="headerlink" href="#properties-of-expectation-and-variance" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(\mathbb{E}[aX+b] = a\mathbb{E}[X] + b \)</span></p></li>
 </ol>
@@ -504,15 +514,15 @@ document.write(`
 <p>Note, in the important case that we will study ie. MCMC, the sample will not be independent.</p>
 </section>
 <section id="fundamental-laws">
-<h2><span class="section-number">4.1.5. </span>3 Fundamental Laws<a class="headerlink" href="#fundamental-laws" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">4.1.6. </span>3 Fundamental Laws<a class="headerlink" href="#fundamental-laws" title="Permalink to this heading">#</a></h2>
 <section id="weak-law-of-large-numbers-wlln">
-<h3><span class="section-number">4.1.5.1. </span>Weak Law of Large Numbers (WLLN)<a class="headerlink" href="#weak-law-of-large-numbers-wlln" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.6.1. </span>Weak Law of Large Numbers (WLLN)<a class="headerlink" href="#weak-law-of-large-numbers-wlln" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="strong-law-of-large-numbers-slln">
-<h3><span class="section-number">4.1.5.2. </span>Strong Law of Large Numbers (sLLN)<a class="headerlink" href="#strong-law-of-large-numbers-slln" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.6.2. </span>Strong Law of Large Numbers (sLLN)<a class="headerlink" href="#strong-law-of-large-numbers-slln" title="Permalink to this heading">#</a></h3>
 </section>
 <section id="central-limit-theorem-clt">
-<h3><span class="section-number">4.1.5.3. </span>Central Limit Theorem (CLT)<a class="headerlink" href="#central-limit-theorem-clt" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">4.1.6.3. </span>Central Limit Theorem (CLT)<a class="headerlink" href="#central-limit-theorem-clt" title="Permalink to this heading">#</a></h3>
 <p>Probabilty distribution (pdf) of the sample mean <span class="math notranslate nohighlight">\( \)</span> of a RV <span class="math notranslate nohighlight">\(X\)</span> tends to a normal distribution, with mean <span class="math notranslate nohighlight">\(\mu_{X} \)</span>, and variance <span class="math notranslate nohighlight">\( \frac{\sigma_{X}^2}{n} \)</span> as we increase the size of the sample. All the higher moments and central measures tend to zero as n tends to infinity</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -607,19 +617,20 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-random-variables">4.1.1.2. Multiple Random variables</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expection-variance-moments">4.1.2. Expection, Variance, Moments</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#means">4.1.2.1. Means</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">4.1.2.2. Variance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.1.2.3. Multiple Random Variables</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.2.4. Independence:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-common-distributions">4.1.2. Some common distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expection-variance-moments">4.1.3. Expection, Variance, Moments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#means">4.1.3.1. Means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">4.1.3.2. Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.1.3.3. Multiple Random Variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.3.4. Independence:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-sample">4.1.3. Random Sample</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-expectation-and-variance">4.1.4. Properties of Expectation and Variance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamental-laws">4.1.5. 3 Fundamental Laws</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">4.1.5.1. Weak Law of Large Numbers (WLLN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">4.1.5.2. Strong Law of Large Numbers (sLLN)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-limit-theorem-clt">4.1.5.3. Central Limit Theorem (CLT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-sample">4.1.4. Random Sample</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-expectation-and-variance">4.1.5. Properties of Expectation and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fundamental-laws">4.1.6. 3 Fundamental Laws</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">4.1.6.1. Weak Law of Large Numbers (WLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">4.1.6.2. Strong Law of Large Numbers (sLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#central-limit-theorem-clt">4.1.6.3. Central Limit Theorem (CLT)</a></li>
 </ul>
 </li>
 </ul>
