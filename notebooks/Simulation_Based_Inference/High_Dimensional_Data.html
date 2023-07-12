@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>3.6. High Dimensional Data &#8212; Computational Statistics</title>
+    <title>3.6. High Dimension Space &#8212; Computational Statistics</title>
   
   
   
@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/High_Dimensional_Data';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -174,7 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. High Dimensional Data</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. High Dimension Space</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -352,7 +354,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -363,11 +367,22 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>High Dimensional Data</h1>
+    <h1>High Dimension Space</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -377,8 +392,118 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="high-dimensional-data">
-<h1><span class="section-number">3.6. </span>High Dimensional Data<a class="headerlink" href="#high-dimensional-data" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="high-dimension-space">
+<h1><span class="section-number">3.6. </span>High Dimension Space<a class="headerlink" href="#high-dimension-space" title="Permalink to this heading">#</a></h1>
+<p>Uptil now, we have seen implementations of MCMC and Gibbs Sampling, but these methods do not scale very well to higher dimensions. MCMC has trouble due to low acceptance, and Gibbs has issues with getting the conditional distributions.</p>
+<p>Thus, we will take a detour and understand the geometry of High Dimensional parameter space, and how that geometry frustrates efficient statistical computing.</p>
+<section id="high-dimensional-integrals">
+<h2><span class="section-number">3.6.1. </span>High Dimensional Integrals<a class="headerlink" href="#high-dimensional-integrals" title="Permalink to this heading">#</a></h2>
+<p>We know that in bayesian inferencing, we develop a posterior pdf of the parameters based on a likelihood and a prior function.</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(q|D) \propto \pi(D|q) \pi(q)
+\]</div>
+<p>but, the posterior distribution in itself is abstract and all well posed question to it reduce to expectations and consequently to <strong>estimating High Dimensional Integrals</strong>.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_{\pi} [f] = \int_{Q} dq \; \pi(q) f(q)
+\]</div>
+<blockquote>
+<div><p>Note that Q is the target sample space and the integral will not depend on any reparametrisation to <span class="math notranslate nohighlight">\(Q^{*}\)</span>.</p>
+</div></blockquote>
+<p>One way to prevent computational inefficiency is to prevent wasting  computational resources evaluating the target density and relevant functions in regions of parameter space that have negligible contribution to the desired expectation.</p>
+<p>Consequently, a common intuition is to focus on regions where the integrand is largest. This intuition suggests that we consider regions where the target density and target function take on their largest values. If we assume that the <strong>target function is relatively uniform</strong> (true in many cases, but not calculating Expectations), this leads us to do integration near the mode. But, in practise this fails spectacularly.</p>
+<p>Expectation values are given by accumulating the integrand over a volume of parameter space and, while the density is largest around the mode, there is not much volume there.</p>
+<p>To identify the regions of parameter space that dominate expectations we need to consider the behavior of both the density and the volume. In high-dimensional spaces the volume behaves very differently from the density, resulting in a tension that concentrates the significant regions of parameter space away from either extreme. This region is called the <strong>Typical Set</strong>.</p>
+</section>
+<section id="geometry-of-high-dimensional-spaces">
+<h2><span class="section-number">3.6.2. </span>Geometry of High Dimensional Spaces<a class="headerlink" href="#geometry-of-high-dimensional-spaces" title="Permalink to this heading">#</a></h2>
+<p>We will describe high dimensional spaces using three important charachteristics:</p>
+<ol class="arabic simple">
+<li><p>There is much more volume outside any given neighborhood than inside of it.</p></li>
+</ol>
+<p>Images from Pg 6,7 and explaination</p>
+<ol class="arabic simple" start="2">
+<li><p>Most of the volume is in the corners.</p></li>
+</ol>
+<p>Volume of a high dimensional space increases with distance form the center of a body so the volume will be concentrated in regions farthest away from the center.</p>
+<p>This implies that in a spherical shell, most of the volume of the shell is inclosed in the surface in the form of a shell for higher dimensions.</p>
+<p>fig 1.3 high dim data paper</p>
+<p>Also, if we incribe a hyper-sphere in a cube of D dimensions, then the volume enclosed by the sphere wrt gets lesser and lesser, as most of the volume is concentrated in the corners. This leads to a peculiar feature that the distance between faces is constant, while the distance between corners keeps on growing.</p>
+<p>Code:</p>
+<ol class="arabic simple" start="3">
+<li><p>All points are far away from each other</p></li>
+</ol>
+<p>In higher dimensions, the points on average become further and further away from the center of the hypercube, as well as away from each other.</p>
+</section>
+<section id="typical-set">
+<h2><span class="section-number">3.6.3. </span>Typical Set<a class="headerlink" href="#typical-set" title="Permalink to this heading">#</a></h2>
+<p>draw image</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting values of e-x2 for different values of x</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">targetf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">targetf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Dimension &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">targetf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Dimension &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">targetf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;The pdf&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x170b57090&gt;
+</pre></div>
+</div>
+<img alt="../../_images/1583462a35acd2fb0d9df7c0bf12f3f11c2fdc009f46238dcc92d0e23984be43.png" src="../../_images/1583462a35acd2fb0d9df7c0bf12f3f11c2fdc009f46238dcc92d0e23984be43.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate mean radial distance of MCMC from the center of a normal distribution (uniform), and variance.</span>
+<span class="c1"># Plot it as a graph of radial distance points, also see acceptance rate</span>
+<span class="c1"># maybe put in GLAMCMC</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="geometric-look-at-mcmc">
+<h2><span class="section-number">3.6.4. </span>Geometric Look at MCMC<a class="headerlink" href="#geometric-look-at-mcmc" title="Permalink to this heading">#</a></h2>
+<p>introduce evidence and mcmc, and central lt, mcmc modified central lt</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making Figure 7 of the paper</span>
+
+<span class="c1"># Trying out mcmc for evidence estimation</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ideal MCMC behaviour, with fig 7</p>
+<p>Pathological behoaviours and issues in MCMC due to proposal rejection</p>
+<p>after this, foundations of HMC, gradients, how the gradients are shifted on using more variables, its main algo, simplified example, further discussion.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -439,6 +564,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
