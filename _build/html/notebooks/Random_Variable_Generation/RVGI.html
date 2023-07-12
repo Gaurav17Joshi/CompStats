@@ -176,7 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimensional Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -411,7 +411,13 @@ document.write(`
 <p>The method is directly based on the geometric idea that if we have an evelope pdf over the target, then if can pick a sample from the envelope and select the corresponding point on the target based on the ratio of differences of the probabilites and prob of target, then the samples will mimick the target.</p>
 <p>Example, in the image (credits: <a class="reference external" href="https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book">https://www.cs.helsinki.fi/u/ahonkela/teaching/compstats1/book</a>), we sample from the evelope g(x) or its mutiple with a scalar M (so that g(x) is an envelope). Then we take a unit uniform value u, and if
 <span class="math notranslate nohighlight">\(u &lt; \frac{g(x)}{M.f(x)} \)</span>, then we pick we take the sample as valid. (Here M*g(x) is the envelope and f(x) is the target)</p>
-<img src="../images/Random_Variables/Rejection_Sampling.png"  width="400" height="300"><p>This method makes intutive sense, as we know how to take sample from g(x), so a sample <span class="math notranslate nohighlight">\(x_{i}\)</span> is in tune with its prob density, and the closer the target prob at <span class="math notranslate nohighlight">\(x_{i}\)</span>, greater its chance of getting picked. (Complete Proof will follow)</p>
+<figure class="align-default" id="rejection-sampling">
+<a class="reference internal image-reference" href="../../_images/Rejection_Sampling.png"><img alt="../../_images/Rejection_Sampling.png" src="../../_images/Rejection_Sampling.png" style="width: 400px; height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.1 </span><span class="caption-text">Rejection Sampling.</span><a class="headerlink" href="#rejection-sampling" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This method makes intutive sense, as we know how to take sample from g(x), so a sample <span class="math notranslate nohighlight">\(x_{i}\)</span> is in tune with its prob density, and the closer the target prob at <span class="math notranslate nohighlight">\(x_{i}\)</span>, greater its chance of getting picked. (Complete Proof will follow)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Random sampling a target probability distribution using the Rejection Sampling method</span>

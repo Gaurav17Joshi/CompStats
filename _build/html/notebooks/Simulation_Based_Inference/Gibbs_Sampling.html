@@ -176,7 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3. Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimensional Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -412,15 +412,78 @@ p(\theta_j | \theta_{-j}^{t-1}, y)
 <section id="simple-example">
 <h2><span class="section-number">3.3.2. </span>Simple Example:-<a class="headerlink" href="#simple-example" title="Permalink to this heading">#</a></h2>
 <p><strong>Bivariate Normal Distribution</strong></p>
-<p>We will use the same example as in metropolis sampling example to check gibbs sampling.</p>
+<p>We will use the same example as in metropolis sampling example to check gibbs sampling. We will sample out a bivariate normal distribution.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4df3b6eb-8cdf-4bc9-8211-bb1efbb382a3">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-4df3b6eb-8cdf-4bc9-8211-bb1efbb382a3" title="Permalink to this equation">#</a></span>\[\begin{align}
+\begin{bmatrix} \theta_{1} \\ \theta_{2} \end{bmatrix} \bigg| y \sim N \left( \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} , \begin{bmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{bmatrix}  \right)
+\end{align}\]</div>
+<p>We know that for a multivariate gaussian distribution, the conditional is found by (for <span class="math notranslate nohighlight">\(\Lambda\)</span> being the precision matrix):</p>
+<div class="amsmath math notranslate nohighlight" id="equation-61392438-487d-4609-85c3-bd877f8bacb7">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-61392438-487d-4609-85c3-bd877f8bacb7" title="Permalink to this equation">#</a></span>\[\begin{align}
+x = \begin{bmatrix} x_a \\ x_b \end{bmatrix} \; \mu = \begin{bmatrix} \mu_{a} \\ \mu_{b} \end{bmatrix} \; \Lambda = \begin{bmatrix} \Lambda_{aa} &amp; \Lambda_{ab} \\ \Lambda_{ba} &amp; \Lambda_{bb} \end{bmatrix}
+\end{align}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-f9fdda50-56af-4500-aecf-281ce0d6f1f0">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-f9fdda50-56af-4500-aecf-281ce0d6f1f0" title="Permalink to this equation">#</a></span>\[\begin{align}
+p( \mathbb{x}_{a} | \mathbb{x}_b ) =  \mathcal{N}( \mathbb{x} | \mu_{a|b}, \Lambda^{-1}_{a a}  ) \\
+\mathbb{\mu}_{a|b} = \mu_{a} - \Lambda^{-1}_{a a} \Lambda_{a b} ( x_b - \mu_{b} )
+\end{align}\]</div>
+<p>Also, in our case:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-30c9d4f2-9e87-43ef-88d3-339b869deb51">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-30c9d4f2-9e87-43ef-88d3-339b869deb51" title="Permalink to this equation">#</a></span>\[\begin{align}
+\Sigma = \begin{bmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{bmatrix} \implies \Lambda = \begin{bmatrix} \frac{1}{1-\rho^{2}} &amp; \frac{-\rho}{1-\rho^{2}} \\ \frac{-\rho}{1-\rho^{2}} &amp; \frac{1}{1-\rho^{2}} \end{bmatrix}
+
+\end{align}\]</div>
+<p>Hense, we get</p>
+<div class="amsmath math notranslate nohighlight" id="equation-930ce8d9-895b-43df-a955-b40d8d36bf68">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-930ce8d9-895b-43df-a955-b40d8d36bf68" title="Permalink to this equation">#</a></span>\[\begin{align}
+p( \theta_{a} | \theta_{b}, y) =  \mathcal{N}( y_1 + \rho (\theta_2 - y_2 ) , 1 - \rho^2 ) \\
+p( \theta_{b} | \theta_{a}, y) =  \mathcal{N}( y_2 + \rho (\theta_1 - y_1 ) , 1 - \rho^2 )
+\end{align}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making a simple implementation of Gibbs Sampling</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making a simple implementation of Gibbs Sampling</span>
 <span class="c1"># Find gibbs equation for any multivariate normal distribution***</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
+<span class="k">def</span> <span class="nf">gibbs_sampler</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">burn_in</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gibbs Sampling for a bivariate normal distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">theta0</span>
 
+    <span class="c1"># Burn-in</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">burn_in</span><span class="p">):</span>
+        <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+
+    <span class="c1"># Gibbs Sampling</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rho</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">rho</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">theta</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">burn_in</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Run Gibbs Sampler</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">gibbs_sampler</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">burn_in</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">theta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">theta</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8005c9ea048f073975c8ec2a2b1811038cb52479d7a29effa58891fe60612f38.png" src="../../_images/8005c9ea048f073975c8ec2a2b1811038cb52479d7a29effa58891fe60612f38.png" />
 </div>
 </div>
 </section>

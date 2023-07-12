@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Evidence_Calculation';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3.6. High Dimensional Data" href="High_Dimensional_Data.html" />
+    <link rel="next" title="3.6. High Dimension Space" href="High_Dimensional_Data.html" />
     <link rel="prev" title="3.4. Metropolis Hastings" href="Metropolis_Hastings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -176,7 +176,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimensional Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -649,7 +649,7 @@ ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\par
 \]</div>
 <p>The integrand can be expressed as:</p>
 <div class="amsmath math notranslate nohighlight" id="equation-6b7c10c9-21ff-4ff2-b95e-fca116a624b4">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-6b7c10c9-21ff-4ff2-b95e-fca116a624b4" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-6b7c10c9-21ff-4ff2-b95e-fca116a624b4" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \frac{1}{Z_{\beta}} \frac{\partial Z_{\beta}}{\partial \beta}  \\
 &amp; =  \frac{1}{Z_{\beta}} \frac{\partial}{\partial \beta} \int_{\theta} \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; =  \frac{1}{Z_{\beta}} \int_{\theta} \frac{\partial  \pi^{*}_{\beta}(\theta)}{\partial \beta} d \theta \\
@@ -664,7 +664,7 @@ ln(\pi^{*}_{\beta}(\theta)) = \beta ln p (D|\theta) + ln(p(\theta)) \implies \fr
 \]</div>
 <p>Hense:</p>
 <div class="amsmath math notranslate nohighlight" id="equation-deee510f-5fa7-4a8a-a113-0935064a9578">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-deee510f-5fa7-4a8a-a113-0935064a9578" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-deee510f-5fa7-4a8a-a113-0935064a9578" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \int_{\theta} ln(p (D|\theta)) \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; = \mathbb{E}_{\beta} [ln p (D|\theta)] d \beta
 \end{align}\]</div>
@@ -728,7 +728,7 @@ ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\par
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.6. </span>High Dimensional Data</p>
+        <p class="prev-next-title"><span class="section-number">3.6. </span>High Dimension Space</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
