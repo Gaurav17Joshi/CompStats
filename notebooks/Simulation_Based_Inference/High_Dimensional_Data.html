@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/High_Dimensional_Data';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="4. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="next" title="3.7. Hamiltonian Monte Carlo" href="Hamiltonian_Monte_Carlo.html" />
     <link rel="prev" title="3.5. Bayesian Evidence" href="Evidence_Calculation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -177,6 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.7. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -380,7 +381,12 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.6.4.1. Ideal Behaviour of MCMC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.6.4.2. MCMC High Dimensional Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.6.4.3. MCMC for Expectation estimation</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -395,7 +401,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="high-dimension-space">
 <h1><span class="section-number">3.6. </span>High Dimension Space<a class="headerlink" href="#high-dimension-space" title="Permalink to this heading">#</a></h1>
 <p>Uptil now, we have seen implementations of MCMC and Gibbs Sampling, but these methods do not scale very well to higher dimensions. MCMC has trouble due to low acceptance, and Gibbs has issues with getting the conditional distributions.</p>
-<p>Thus, we will take a detour and understand the geometry of High Dimensional parameter space, and how that geometry frustrates efficient statistical computing.</p>
+<p>Thus, we will take a detour and understand the geometry of High Dimensional parameter space, and how geometry frustrates efficient statistical computing.</p>
 <section id="high-dimensional-integrals">
 <h2><span class="section-number">3.6.1. </span>High Dimensional Integrals<a class="headerlink" href="#high-dimensional-integrals" title="Permalink to this heading">#</a></h2>
 <p>We know that in bayesian inferencing, we develop a posterior pdf of the parameters based on a likelihood and a prior function.</p>
@@ -412,7 +418,7 @@ document.write(`
 <div><p>Note that Q is the target sample space and the integral will not depend on any reparametrisation to <span class="math notranslate nohighlight">\(Q^{*}\)</span>.</p>
 </div></blockquote>
 <p>One way to prevent computational inefficiency is to prevent wasting  computational resources evaluating the target density and relevant functions in regions of parameter space that have negligible contribution to the desired expectation.</p>
-<p>Consequently, a common intuition is to focus on regions where the integrand is largest. This intuition suggests that we consider regions where the target density and target function take on their largest values. If we assume that the <strong>target function is relatively uniform</strong> (true in many cases, but not calculating Expectations), this leads us to do integration near the mode. But, in practise this fails spectacularly.</p>
+<p>Consequently, a common intuition is to focus on regions where the integrand is largest. This intuition suggests that we consider regions where the target density and target function take on their largest values. If we assume that the <strong>target function is relatively uniform</strong> (f(q)) (true in many cases, but not calculating Expectations), this leads us to do integration near the mode. But, in practise this fails spectacularly.</p>
 <p>Expectation values are given by accumulating the integrand over a volume of parameter space and, while the density is largest around the mode, there is not much volume there.</p>
 <p>To identify the regions of parameter space that dominate expectations we need to consider the behavior of both the density and the volume. In high-dimensional spaces the volume behaves very differently from the density, resulting in a tension that concentrates the significant regions of parameter space away from either extreme. This region is called the <strong>Typical Set</strong>.</p>
 </section>
@@ -422,31 +428,123 @@ document.write(`
 <ol class="arabic simple">
 <li><p>There is much more volume outside any given neighborhood than inside of it.</p></li>
 </ol>
-<p>Images from Pg 6,7 and explaination</p>
+<figure class="align-default" id="hd1">
+<a class="reference internal image-reference" href="../../_images/HD1.png"><img alt="../../_images/HD1.png" src="../../_images/HD1.png" style="width: 450px; height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.3 </span><span class="caption-text">Paritioning High Dimensional Spaces</span><a class="headerlink" href="#hd1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>If we consider partitioning the space in retangular boxes, then in 1-D, there is <span class="math notranslate nohighlight">\(3^{-1}\)</span>, fraction of area in the middle part (which contains the mode). Similarly the volume of mode box in 2 and 3 dimensions is <span class="math notranslate nohighlight">\(3^{2}\)</span>, <span class="math notranslate nohighlight">\(3^{-3}\)</span>.</p>
+<p>As the total volume is 1 (all sides are of length one), the volume of the mode box in a D dimensional space will be <span class="math notranslate nohighlight">\(3^{-D}\)</span>. Hense, even though the mean spreads into one third of the length of the box, its volume is just <span class="math notranslate nohighlight">\(3^{-D}\)</span>.</p>
+<figure class="align-default" id="hd2">
+<a class="reference internal image-reference" href="../../_images/HD2.png"><img alt="../../_images/HD2.png" src="../../_images/HD2.png" style="width: 450px; height: 175px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.4 </span><span class="caption-text">More Volume Away from center</span><a class="headerlink" href="#hd2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This figure shows how the volume of an object is more away from the center. In one dimension, the volumes of both parts are equal but in higher dimension, the volume of the inner part keeps on decreasing with respect to the outer part.</p>
 <ol class="arabic simple" start="2">
 <li><p>Most of the volume is in the corners.</p></li>
 </ol>
 <p>Volume of a high dimensional space increases with distance form the center of a body so the volume will be concentrated in regions farthest away from the center.</p>
 <p>This implies that in a spherical shell, most of the volume of the shell is inclosed in the surface in the form of a shell for higher dimensions.</p>
-<p>fig 1.3 high dim data paper</p>
+<p><strong>Hyper Cubes</strong></p>
+<p>Hypercubes can be visualised wrt to their topology, metric, and measure</p>
+<figure class="align-default" id="hypercube">
+<a class="reference internal image-reference" href="../../_images/Hypercube.png"><img alt="../../_images/Hypercube.png" src="../../_images/Hypercube.png" style="width: 450px; height: 150px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.5 </span><span class="caption-text">Hypercube</span><a class="headerlink" href="#hypercube" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Hense, if we sample from a D dimensional uniform hypercube then, most of the draws will be concentrated at the surface, and the middle of faces, we will get an increasing mean distance proportional to <span class="math notranslate nohighlight">\(\sqrt{D}\)</span></p>
 <p>Also, if we incribe a hyper-sphere in a cube of D dimensions, then the volume enclosed by the sphere wrt gets lesser and lesser, as most of the volume is concentrated in the corners. This leads to a peculiar feature that the distance between faces is constant, while the distance between corners keeps on growing.</p>
-<p>Code:</p>
-<ol class="arabic simple" start="3">
-<li><p>All points are far away from each other</p></li>
-</ol>
-<p>In higher dimensions, the points on average become further and further away from the center of the hypercube, as well as away from each other.</p>
-</section>
-<section id="typical-set">
-<h2><span class="section-number">3.6.3. </span>Typical Set<a class="headerlink" href="#typical-set" title="Permalink to this heading">#</a></h2>
-<p>draw image</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting values of e-x2 for different values of x</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy.random</span> <span class="k">as</span> <span class="nn">npr</span>
 
+<span class="n">npr</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="c1"># Getting volumes of hyperspheres in hypercubes using Monte Carlo Methods</span>
+
+<span class="k">def</span> <span class="nf">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">npr</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">correct_samples</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">correct_samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Dimension&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume of Hypersphere in Hypercube&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Volume of Hypersphere in Hypercube&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/306fadc27025f2a6b08b9a7576c074f5fe7d961254d92416f08dca7cab7baa89.png" src="../../_images/306fadc27025f2a6b08b9a7576c074f5fe7d961254d92416f08dca7cab7baa89.png" />
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>All points are far away from each other</p></li>
+</ol>
+<p>In higher dimensions, the points on average become further and further away from the center of the hypercube, as well as away from each other. Here we can also see in the plot, the average distance between points is <span class="math notranslate nohighlight">\(\frac{1}{2} \sqrt{D}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distance of uniform random points in a hypercube</span>
+<span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">npr</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">distance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Dimension&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Distance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distance of Uniform Random Points in Hypercube&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Distance of Uniform Random Points in Hypercube&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/60d9375cd876e654167a4afca8e195bc1baac7370c792970df382a96c79196d3.png" src="../../_images/60d9375cd876e654167a4afca8e195bc1baac7370c792970df382a96c79196d3.png" />
+</div>
+</div>
+</section>
+<section id="typical-set">
+<h2><span class="section-number">3.6.3. </span>Typical Set<a class="headerlink" href="#typical-set" title="Permalink to this heading">#</a></h2>
+<p>The neighborhood immediately around the mode features large densities, but in more than a few dimensions the small volume of that neighborhood prevents it from having much contribution to any expectation. On the other hand, the complimentary neighborhood far away from the mode features a much larger volume, but the vanishing densities lead to similarly negligible contributions expectations.</p>
+<p>The only significant contributions come from the neighborhood between these two extremes known as the <strong>typical set</strong>.</p>
+<p>As we increase the dimensions D, the spaces where both densities and volume are big enough grow more and more narrow, and the only significant contributions to the Expectation comes from the Typical Set. Thus, we can accurately estimate expectations by averaging over the typical set instead of the entirety of parameter space.</p>
+<p>One way to understand this is the following example:</p>
+<p>Let us take the example of <span class="math notranslate nohighlight">\(\pi(x) = \)</span> a normal distribution in D dimensions and try to find the value of <span class="math notranslate nohighlight">\(\pi(q) dq\)</span></p>
+<figure class="align-default" id="id1">
+<img alt="../../_images/typical_set.jpg" src="../../_images/typical_set.jpg" />
+<figcaption>
+<p><span class="caption-number">Fig. 3.6 </span><span class="caption-text">Typical Set</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Hense, for a multivariate normal distribution,</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(q) dq \propto e^{-r^{2}} r^{d-1} dr
+\]</div>
+<p>We will plot one and see the distance of typical sets for higher dimensions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting values of e-r2 for different values of x</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
@@ -467,42 +565,167 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x170b57090&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x171608750&gt;
 </pre></div>
 </div>
 <img alt="../../_images/1583462a35acd2fb0d9df7c0bf12f3f11c2fdc009f46238dcc92d0e23984be43.png" src="../../_images/1583462a35acd2fb0d9df7c0bf12f3f11c2fdc009f46238dcc92d0e23984be43.png" />
 </div>
 </div>
+<p>This plot shows that the bulk of the integrand (<span class="math notranslate nohighlight">\(\pi(q) dq \)</span>) for the integral lies in a small region away from the mode. We can also simulate a multivariate normal distribution and confirm that the sample distance does not peak at the mode (which it should had if we were only taking the pdf into account).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate mean radial distance of MCMC from the center of a normal distribution (uniform), and variance.</span>
-<span class="c1"># Plot it as a graph of radial distance points, also see acceptance rate</span>
-<span class="c1"># maybe put in GLAMCMC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="c1"># d dimensional normal distribution</span>
+<span class="k">def</span> <span class="nf">normal_dist</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">r</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">];</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">normal_dist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;d=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Radial Distance of Multivariate Normal Distribution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
 </div>
+<img alt="../../_images/c64bcbfcb3183b7b8a171dc61a3706f416a6b34e0f594360949711606a1aee54.png" src="../../_images/c64bcbfcb3183b7b8a171dc61a3706f416a6b34e0f594360949711606a1aee54.png" />
+</div>
+</div>
+<p>This is a large deviation from our original idea of how data would behave and a very important one to understand.</p>
+<p><strong>Important to Understand</strong></p>
+<p>When we look at a 1d or 2d normal distribution, we think that if we take a lot of samples, the samples would peak at the mode (say zero), and then lesser and lesser samples away from the mode, but look at this radial distance plot (for d = 20), hardly any samples have been picked which have <span class="math notranslate nohighlight">\(r &lt; 2\)</span>, far from the pdf peak.</p>
+<p>So, the pdf is indeed like the 1d or 2d pdf which peaks at the mode and decays outwards, but when you actually sample out the samples most of the samples will be away, in a specific Typical Set.</p>
 </section>
 <section id="geometric-look-at-mcmc">
 <h2><span class="section-number">3.6.4. </span>Geometric Look at MCMC<a class="headerlink" href="#geometric-look-at-mcmc" title="Permalink to this heading">#</a></h2>
-<p>introduce evidence and mcmc, and central lt, mcmc modified central lt</p>
+<p>We can now take a Geometric look at the MCMC method, and how it goes well into the Typical Set, and how it does not.</p>
+<p>We now understand that we need algorithms that explore the typical set to get the correct value for the Expectation, and the simplest one of them is the MCMC algorithms.</p>
+<p>Markov chain Monte Carlo uses a Markov chain to stochastically explore the typical set, generating a random grid across the region of high probability from which we can construct accurate expectation estimates.</p>
+<p>Another definition of a Mcmc chain for a target distribution <span class="math notranslate nohighlight">\(T(q|q^{\prime})\)</span> can be:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(q) = \int_{Q} d q^{\prime} \pi (q^{\prime}) T(q|q^{\prime}) 
+\]</div>
+<p>which simply says that if chain element <span class="math notranslate nohighlight">\(q^{\prime}\)</span> is distributed acc to the target distribution <span class="math notranslate nohighlight">\(\pi()x\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+p(q|q^{\prime}) = \pi(q^{\prime}) T(q|q^{\prime})
+\]</div>
+<p>which on marginalising for any <span class="math notranslate nohighlight">\(q^{\prime}\)</span> gives:</p>
+<div class="math notranslate nohighlight">
+\[
+p(q) = \int_{Q} p(q|q^{\prime}) d q^{\prime} = \pi(q)
+\]</div>
+<p>I.e all samples are now from the target distribution.</p>
+<p>Given sufficient time, the history of the Markov chain, {q0,…,qN}, denoted samples generated by the Markov chain, becomes a convenient quantification of the typical set, and Monte Carlo Estimators average a given function over these samples to approximate the Evidence.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{N} \sum_{n = 1}{N} f(q_n) \sim \mathcal{N}( \mathbb{E_{\pi}}[f], \sqrt{\frac{Var_{\pi}[f]}{N}} ) 
+\]</div>
+<p>But, as the samples are correlated in our case, the central theorem changes to</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{N} \sum_{n = 1}{N} f(q_n) \sim \mathcal{N}( \mathbb{E_{\pi}}[f], \sqrt{\frac{Var_{\pi}[f]}{ESS}})
+\]</div>
+<p>and ESS is the effective sample size <span class="math notranslate nohighlight">\(= \frac{M}{(1+2 \sum_{k = 1}^{M} \rho_k)}\)</span></p>
+<p>introduce evidence and mcmc, and central limit theorem , mcmc modified central limit theorem.</p>
+<section id="ideal-behaviour-of-mcmc">
+<h3><span class="section-number">3.6.4.1. </span>Ideal Behaviour of MCMC<a class="headerlink" href="#ideal-behaviour-of-mcmc" title="Permalink to this heading">#</a></h3>
+<p>In the ideal behaviour the MCMC markov chain has 3 phases</p>
+<ol class="arabic simple">
+<li><p>In the first phase the Markov chain converges towards the typical set from its initial position in parameter space while the Markov chain Monte Carlo estimators suffer from strong biases.</p></li>
+<li><p>In the secound phase the Markov chain has finally entered the typical set and persists along it till it completes one trip around it. Now the approximated Evidence is much closer the actual one.</p></li>
+<li><p>The third phase consists of all subsequent exploration where the Markov chain refines its exploration of the typical set and the precision of the Markov chain Monte Carlo estimators improves, albeit at a slower rate</p></li>
+</ol>
+<figure class="align-default" id="mcmc-behavior">
+<a class="reference internal image-reference" href="../../_images/Mcmc_behavior.png"><img alt="../../_images/Mcmc_behavior.png" src="../../_images/Mcmc_behavior.png" style="width: 400px; height: 450px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.7 </span><span class="caption-text">Ideal Behaviour of MCMC</span><a class="headerlink" href="#mcmc-behavior" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Image Credits: A Conceptual Introduction to Hamiltonian Monte Carlo, Michael Betancourt</p>
+<p>Hense, a common practise is to warm up the chain and throw away the first half of the samples. This idealised case shows the MCMC should work in theory (rigorous proof or asymptotic correctness), but the algorithm has a lot of problems in High Dimensions.
+There are lot of cases in which the chain behaves pathologically due to high curvature but an even more concerning issue is the fact that, In higher dimensions the acceptance rate of the chain becomes vanishingly small making the chain dead. We will now look more into that aspect.</p>
+<p><strong>MCMC is Bad at Evidence Estimation</strong></p>
+<p>In the previous chapter on Evidence analysis, I said that we use other methods as MCMC is not good at evidence analysis, and this is indeed very true. I was trying to code up the above image but the Evidences of MCMC, just does not converge and goes in random directions, see the last code.</p>
+</section>
+<section id="mcmc-high-dimensional-issues">
+<h3><span class="section-number">3.6.4.2. </span>MCMC High Dimensional Issues<a class="headerlink" href="#mcmc-high-dimensional-issues" title="Permalink to this heading">#</a></h3>
+<p>While MCMC is produces and asymptotically unbiased estimate of Expectation, it does not work well in High Dimenstional Spaces.</p>
+<p>The main reason being that as the dimension of the target distribution increases, the volume exterior to the typical set overwhelms the volume interior to the typical set, and almost every Random Walk Metropolis proposal will produce a point on the outside of the typical set. The density of these points, however, is so small, that the acceptance probability becomes negligible. In this case almost all of the proposals will be rejected and the resulting Markov chain will only rarely move. We can induce a larger acceptance probability by shrinking the size of the proposal to stay within the typical set but those small jumps will move the Markov chain extremely slowly.</p>
+<p>Regardless of how we tune the covariance of the Random Walk Metropolis proposal or the particular details of the target distribution, the resulting Markov chain will explore the typical set extremely slowly in all but the lowest dimensional spaces.</p>
+<p>We can see through the figure (<a class="reference external" href="http://chi-feng.github.io/mcmc-demo/app.html?algorithm=RandomWalkMH&amp;target=banana">credits</a>), that alot of points which we take randomly will lie outside the typical set, hense low acceptance.</p>
+<figure class="align-default" id="low-acceptance">
+<a class="reference internal image-reference" href="../../_images/Low_acceptance.png"><img alt="../../_images/Low_acceptance.png" src="../../_images/Low_acceptance.png" style="width: 300px; height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.8 </span><span class="caption-text">Low Acceptance</span><a class="headerlink" href="#low-acceptance" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Also note that as we increase the dimensions, most of the samples we take will also be concentrated in the outer circle compltely diminshing our acceptance.</p>
+<p>Thus we will have to use a stratergy that works with the geometery of the Typical Set rather than merely guessin our next step.</p>
+</section>
+<section id="mcmc-for-expectation-estimation">
+<h3><span class="section-number">3.6.4.3. </span>MCMC for Expectation estimation<a class="headerlink" href="#mcmc-for-expectation-estimation" title="Permalink to this heading">#</a></h3>
+<p>One can see, the final Expectations are not matching at all.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making Figure 7 of the paper</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Trying out mcmc for evidence estimation</span>
 
-<span class="c1"># Trying out mcmc for evidence estimation</span>
+<span class="k">def</span> <span class="nf">log_target</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">log_MHsample</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">logtarget</span><span class="p">,</span> <span class="n">drawproposal</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">123</span><span class="p">):</span>
+    <span class="n">npr</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta0</span>
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">accepts</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">theta_prop</span> <span class="o">=</span> <span class="n">drawproposal</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">npr</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">logtarget</span><span class="p">(</span><span class="n">theta_prop</span><span class="p">)</span> <span class="o">-</span> <span class="n">logtarget</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop</span>
+            <span class="n">accepts</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="k">return</span> <span class="n">thetas</span><span class="p">,</span> <span class="n">accepts</span><span class="o">/</span><span class="n">n</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="n">seeds</span><span class="p">:</span>
+    <span class="n">theta</span><span class="p">,</span> <span class="n">accr</span> <span class="o">=</span> <span class="n">log_MHsample</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">seed</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">*</span><span class="mi">3</span><span class="p">]),</span> <span class="n">n</span><span class="p">,</span> <span class="n">log_target</span><span class="p">,</span>
+                                    <span class="k">lambda</span> <span class="n">theta</span><span class="p">:</span> <span class="n">theta</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">npr</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">)</span>
+    <span class="c1"># Calculating the evidence</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">Evidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">):]));</span> <span class="n">evidences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">evidences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="n">i</span><span class="p">])))</span>
+    <span class="n">evidences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">evidences</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evidences</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Evidence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Evidence Estimation using MCMC&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Evidence Estimation using MCMC&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/223dd302d038301a8ef2162c7d1f2ffd6a626a90407fdc055bedba40c9a80fe0.png" src="../../_images/223dd302d038301a8ef2162c7d1f2ffd6a626a90407fdc055bedba40c9a80fe0.png" />
 </div>
 </div>
 <p>Ideal MCMC behaviour, with fig 7</p>
 <p>Pathological behoaviours and issues in MCMC due to proposal rejection</p>
 <p>after this, foundations of HMC, gradients, how the gradients are shifted on using more variables, its main algo, simplified example, further discussion.</p>
+</section>
 </section>
 </section>
 
@@ -547,11 +770,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../Maths_Appendix/Preface.html"
+       href="Hamiltonian_Monte_Carlo.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Maths Appendix</p>
+        <p class="prev-next-title"><span class="section-number">3.7. </span>Hamiltonian Monte Carlo</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -576,7 +799,12 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.6.4.1. Ideal Behaviour of MCMC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.6.4.2. MCMC High Dimensional Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.6.4.3. MCMC for Expectation estimation</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

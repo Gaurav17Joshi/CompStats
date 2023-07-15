@@ -648,8 +648,8 @@ Marginal likelihood: -138.99704316390387
 ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\partial \beta} d \beta = \int_{0}^{1} \mathbb{E} [ ln(p(D|\theta)) ] d \beta
 \]</div>
 <p>The integrand can be expressed as:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6b7c10c9-21ff-4ff2-b95e-fca116a624b4">
-<span class="eqno">(3.6)<a class="headerlink" href="#equation-6b7c10c9-21ff-4ff2-b95e-fca116a624b4" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2a0be857-9e26-4ae9-a22d-e951813e5d71">
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-2a0be857-9e26-4ae9-a22d-e951813e5d71" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \frac{1}{Z_{\beta}} \frac{\partial Z_{\beta}}{\partial \beta}  \\
 &amp; =  \frac{1}{Z_{\beta}} \frac{\partial}{\partial \beta} \int_{\theta} \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; =  \frac{1}{Z_{\beta}} \int_{\theta} \frac{\partial  \pi^{*}_{\beta}(\theta)}{\partial \beta} d \theta \\
@@ -663,8 +663,8 @@ ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\par
 ln(\pi^{*}_{\beta}(\theta)) = \beta ln p (D|\theta) + ln(p(\theta)) \implies \frac{\partial ln(\pi^{*}_{\beta}(\theta))}{\partial \beta} = ln(p (D|\theta))
 \]</div>
 <p>Hense:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-deee510f-5fa7-4a8a-a113-0935064a9578">
-<span class="eqno">(3.7)<a class="headerlink" href="#equation-deee510f-5fa7-4a8a-a113-0935064a9578" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-197ea289-7593-46aa-b786-be95f09d3662">
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-197ea289-7593-46aa-b786-be95f09d3662" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \int_{\theta} ln(p (D|\theta)) \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; = \mathbb{E}_{\beta} [ln p (D|\theta)] d \beta
 \end{align}\]</div>
