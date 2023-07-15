@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>1.3. Advanced RV Generation &#8212; Computational Statistics</title>
+    <title>3.7. Hamiltonian Monte Carlo &#8212; Computational Statistics</title>
   
   
   
@@ -61,11 +61,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Random_Variable_Generation/RVGII';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="1.4. Pseudo Random Number Generation" href="Prng.html" />
-    <link rel="prev" title="1.2. Important RVs" href="ImpRV.html" />
+    <link rel="next" title="4. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="prev" title="3.6. High Dimension Space" href="High_Dimensional_Data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -157,24 +157,25 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">1. Random Variable Generation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Prng.html">1.4. Pseudo Random Number Generation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Monte_Carlo_Methods/Monte_Carlo_Integration.html">2.1. Monte Carlo Integration</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">3. Simulation Based Inference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Markov_Chains.html">3.1. Basic MCMC</a></li>
 
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.7. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -253,7 +254,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Random_Variable_Generation/RVGII.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -283,7 +284,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/notebooks/Random_Variable_Generation/RVGII.ipynb" target="_blank"
+      <li><a href="../../_sources/notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -363,7 +364,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Advanced RV Generation</h1>
+    <h1>Hamiltonian Monte Carlo</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,8 +378,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="advanced-rv-generation">
-<h1><span class="section-number">1.3. </span>Advanced RV Generation<a class="headerlink" href="#advanced-rv-generation" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="hamiltonian-monte-carlo">
+<h1><span class="section-number">3.7. </span>Hamiltonian Monte Carlo<a class="headerlink" href="#hamiltonian-monte-carlo" title="Permalink to this heading">#</a></h1>
+<p>We have seen that the guess and check strategy of the MCMC methods perform miserably in High-Dimensions as there are exponentially many directions to choose from and only limited number of directions which are along the Typical Set.</p>
+<p>This motivates us to make algorithms that use the geometry of the Typical Set to take the next step rather than guessing our jumps. Specifically, we need transitions that can follow those contours of high probability mass, coherently gliding through the typical set.</p>
+<p>Hamiltonian Monte Carlo Methods are one such methods that work with the geometery and find transitions which move along the Typical Set.</p>
+<p>Let us Clear one misconception first: People often claim that HMC is better as it leverages gradients, but this is not true. While yes, gradients give us much more information than just the pdf values, but the real reason is HMC uses these gradients to glide and move along the typical set and choose high probability steps, helping us trace the narrow high probability density shell</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -394,7 +399,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./notebooks/Random_Variable_Generation"
+            path: "./notebooks/Simulation_Based_Inference"
         },
         predefinedOutput: true
     }
@@ -413,20 +418,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ImpRV.html"
+       href="High_Dimensional_Data.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1.2. </span>Important RVs</p>
+        <p class="prev-next-title"><span class="section-number">3.6. </span>High Dimension Space</p>
       </div>
     </a>
     <a class="right-next"
-       href="Prng.html"
+       href="../Maths_Appendix/Preface.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1.4. </span>Pseudo Random Number Generation</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Maths Appendix</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

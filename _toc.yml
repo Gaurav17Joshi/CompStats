@@ -23,6 +23,7 @@ chapters:
   - file: notebooks/Simulation_Based_Inference/Metropolis_Hastings.ipynb
   - file: notebooks/Simulation_Based_Inference/Evidence_Calculation.ipynb
   - file: notebooks/Simulation_Based_Inference/High_Dimensional_Data.ipynb
+  - file: notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.ipynb
 - file: notebooks/Maths_Appendix/Preface.ipynb
   sections:
   - file : notebooks/Maths_Appendix/Basic_Probability.ipynb
