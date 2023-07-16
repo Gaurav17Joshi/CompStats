@@ -10,9 +10,9 @@ chapters:
 - file: notebooks/Random_Variable_Generation/Preface.ipynb
   sections:
   - file: notebooks/Random_Variable_Generation/RVGI.ipynb
-  - file: notebooks/Random_Variable_Generation/ImpRV.ipynb
-  - file: notebooks/Random_Variable_Generation/RVGII.ipynb
-  - file: notebooks/Random_Variable_Generation/Prng.ipynb
+  # - file: notebooks/Random_Variable_Generation/ImpRV.ipynb
+  # - file: notebooks/Random_Variable_Generation/RVGII.ipynb
+  # - file: notebooks/Random_Variable_Generation/Prng.ipynb
 - file: notebooks/Monte_Carlo_Methods/Preface.ipynb
   sections:
   - file: notebooks/Monte_Carlo_Methods/Monte_Carlo_Integration.ipynb

@@ -158,9 +158,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="notebooks/Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="notebooks/Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -169,12 +166,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.7. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="notebooks/Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -379,16 +375,18 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="computational-statistics">
 <h1>Computational Statistics<a class="headerlink" href="#computational-statistics" title="Permalink to this heading">#</a></h1>
+<figure class="align-default" id="histogram">
+<img alt="_images/histogram_logo.png" src="_images/histogram_logo.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Monte Carlo Sampling</span><a class="headerlink" href="#histogram" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The books is for exploring computational statistics, and its modern applications in Bayesian Data Analysis. It will also be accompanied by an appendix on Stats and Mathematics, and an entire section on Data analysis and examples on common parametric and non parametric models.</p>
 <p>This is mainly for a code based approach to understanding how various simulation methods and statistical algorithms run, accompanied by the necessary mathematics to understand them.</p>
 <p>I will also analyse a few recent and important papers in the field.</p>
 <blockquote>
-<div><p>Please use full screen and hide the primary taskbar when not using for best book experience.</p>
+<div><p>Please use full screen and hide the primary taskbar when not using for best book experience. Equations look aligned and plots are bigger in size.</p>
 </div></blockquote>
-<blockquote>
-<div><p>Jupyter-book website gets buggy and sometimes does not show pages so click on the CompStats written below the logo</p>
-</div></blockquote>
-<p>Check out the content pages bundled with this sample book to see more.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/Random_Variable_Generation/Preface.html">1. Random Variable Generation</a></li>

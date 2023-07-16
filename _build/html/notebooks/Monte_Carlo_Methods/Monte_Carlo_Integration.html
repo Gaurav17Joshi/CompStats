@@ -161,9 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">2. Monte Carlo Methods</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -177,6 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.7. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -491,7 +489,7 @@ Var(\bar{\theta}) = \frac{1}{m(m-1)} \sum_{i=1}^{m} [g(x_i) - \bar{g(x)} ]^2
 <section id="control-variates">
 <h2><span class="section-number">2.1.4. </span>Control Variates<a class="headerlink" href="#control-variates" title="Permalink to this heading">#</a></h2>
 <p>An approach to reduce the varaince of Monte carlo estimator of <span class="math notranslate nohighlight">\(\theta = \mathbb{E}[g(X)]\)</span>, is the use of Control Variates.</p>
-<p>Let us assume, we have a function <span class="math notranslate nohighlight">\(f\)</span>, such that <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[f(X)] \)</span>, is known and <span class="math notranslate nohighlight">\(f(X)\)</span> is correlated to <span class="math notranslate nohighlight">\(g{X}\)</span>, then <span class="math notranslate nohighlight">\(\hat{\theta_{c}}\)</span> is an unbiased estimator of the <span class="math notranslate nohighlight">\(\theta\)</span></p>
+<p>Let us assume, we have a function <span class="math notranslate nohighlight">\(f\)</span>, such that <span class="math notranslate nohighlight">\(\mu = \mathbb{E}[f(X)] \)</span>, is known and <span class="math notranslate nohighlight">\(f(X)\)</span> is correlated to <span class="math notranslate nohighlight">\(g(X)\)</span>, then <span class="math notranslate nohighlight">\(\hat{\theta_{c}}\)</span> is an unbiased estimator of the <span class="math notranslate nohighlight">\(\theta\)</span></p>
 <div class="math notranslate nohighlight">
 \[
 \hat{\theta_{c}} = g(X) + c(f(X) - \mu)
@@ -502,7 +500,11 @@ It is minimised at <span class="math notranslate nohighlight">\(c = c^{*}\)</spa
 \[
 c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))}
 \]</div>
-<p>and the minimum variance is : <span class="math notranslate nohighlight">\( Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} \)</span></p>
+<p>and the minimum variance is :</p>
+<div class="math notranslate nohighlight">
+\[ 
+Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} 
+\]</div>
 <p>The challenge to this approach is that, we have to find the value of c, which depends on the Cov. We can estimate these parameters from a preliminary Monte-Carlo.</p>
 <section id="example1">
 <h3><span class="section-number">2.1.4.1. </span>Example1<a class="headerlink" href="#example1" title="Permalink to this heading">#</a></h3>
@@ -512,10 +514,19 @@ c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))}
 \[
 Var(g(U)) = Var_{f}(e^x) = \mathbb{E}_{f}[e^{2x}] - (\mathbb{E}_{f}[e^x])^2 = \frac{e^2-1}{2}- (e-1)^2 = 0.2420351
 \]</div>
-<p>For the control variate <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span></p>
-<p><span class="math notranslate nohighlight">\(\mathbb{E}[U] = 1/2 \)</span>, <span class="math notranslate nohighlight">\(Var(U) = 1/12\)</span>, <span class="math notranslate nohighlight">\(Cov(e^U, U) = \int_{0}^{1} (x-1/2)(e^x - (e-1))dx =  1 - (1/2)(e-1) \)</span>, as the joint distribution of the two variables is 1, both are sampled from U with transformations.</p>
+<p>For the control variate <span class="math notranslate nohighlight">\(f(x) = U(0,1)\)</span> we have</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbb{E}[U] = 1/2 \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Var(U) = 1/12\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(Cov(e^U, U) = \int_{0}^{1} (x-1/2)(e^x - (e-1))dx =  1 - (1/2)(e-1) \)</span>,</p></li>
+</ul>
+<p>also, as the joint distribution of the two variables is 1, both are sampled from U with transformations.</p>
 <p>Hense, <span class="math notranslate nohighlight">\(c^{*} = \frac{-Cov(g(X), f(X))}{Var(f(X))} = -12 +6(e-1) = -1.6903\)</span></p>
-<p>This gives us <span class="math notranslate nohighlight">\(Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} = \frac{e^2-1}{2} - (e-1)^2 - 12(1 - \frac{e-1}{2}) = 0.00394\)</span></p>
+<p>Finally this gives us approximated variance as:</p>
+<div class="math notranslate nohighlight">
+\[
+Var(\hat{\theta_{c}}) = Var(g(X)) - \frac{-Cov(g(X), f(X))}{Var(f(X))} = \frac{e^2-1}{2} - (e-1)^2 - 12(1 - \frac{e-1}{2}) = 0.00394
+\]</div>
 <p><strong>Percent reduction in varaince = 100(1 - 0.00394/0.2429) = 98.3781%</strong>, a significant drop</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -564,8 +575,8 @@ The Control V estimate for m = 100000 is: 1.7184 with std: 0.0002
 <p>Calculating <span class="math notranslate nohighlight">\( \theta = \int_{0}^{1} \frac{e^{-x}}{1+x^2} dx\)</span>, using <span class="math notranslate nohighlight">\(f(x) = \frac{e^{-0.5}}{1+x^2}\)</span> as the control variate.</p>
 <p>The choise for the central variate was made by keeping in mind the fact that we want the two functions to be as corelated as possible.</p>
 <p>As the range is still (0,1), we will use U(0,1) again, in which the expectation of <span class="math notranslate nohighlight">\(f(x)\)</span></p>
-<p><span class="math notranslate nohighlight">\( \mathbb{E}[f(U)] = e^(-0.5) \int_{0}^{1} \frac{1}{1+u^2} du = e^{-0.5} arctan(1) = e^{-0.5} \pi/4 \)</span></p>
-<p>Using our preliminary simulation, we estimate the correlation to be <span class="math notranslate nohighlight">\(\approx  \)</span></p>
+<p><span class="math notranslate nohighlight">\( \mathbb{E}[f(U)] = e^{-0.5} \int_{0}^{1} \frac{1}{1+u^2} du = e^{-0.5} arctan(1) = e^{-0.5} \pi/4 \)</span></p>
+<p>Using our preliminary simulation, we estimate the correlation to be <span class="math notranslate nohighlight">\(\approx  0.975\)</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculating the value of Covariate Constant:-</span>
@@ -674,8 +685,8 @@ The Control V estimate for m = 100000 is: 0.5247 with variance: 0.0032
 \int_{0}^{1} \frac{e^{-x}}{1 + x^2} dx
 \]</div>
 <p>Candidates for the importance sampling are:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e61b1c6d-3c2f-4bfb-8530-2427f81d2854">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-e61b1c6d-3c2f-4bfb-8530-2427f81d2854" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a237dffe-1379-4260-9404-f2f956735c03">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-a237dffe-1379-4260-9404-f2f956735c03" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp; f_0(x) = 1 &amp; 0 &lt; x &lt; 1 \\
 &amp; f_1(x) = e^{-x} &amp; 0 &lt; x &lt; \infty \\ 
 &amp; f_2(x) = (1+x^2)^{-1}/\pi &amp; -\infty &lt; x &lt; \infty \\

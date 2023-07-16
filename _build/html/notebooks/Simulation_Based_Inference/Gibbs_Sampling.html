@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>3.3. Gibbs Sampling &#8212; Computational Statistics</title>
+    <title>3.2. Gibbs Sampling &#8212; Computational Statistics</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Gibbs_Sampling';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3.4. Metropolis Hastings" href="Metropolis_Hastings.html" />
+    <link rel="next" title="3.3. Metropolis Hastings" href="Metropolis_Hastings.html" />
     <link rel="prev" title="3.1. Basic MCMC" href="Markov_Chains.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -161,9 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -172,11 +169,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">3. Simulation Based Inference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Markov_Chains.html">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -377,9 +374,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-implimenataion">3.3.1. Basic Implimenataion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example">3.3.2. Simple Example:-</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-of-gibbs-sampler">3.3.3. Importance of Gibbs Sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-implimenataion">3.2.1. Basic Implimenataion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example">3.2.2. Simple Example:-</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-of-gibbs-sampler">3.2.3. Importance of Gibbs Sampler</a></li>
 </ul>
             </nav>
         </div>
@@ -392,9 +389,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="gibbs-sampling">
-<h1><span class="section-number">3.3. </span>Gibbs Sampling<a class="headerlink" href="#gibbs-sampling" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">3.2. </span>Gibbs Sampling<a class="headerlink" href="#gibbs-sampling" title="Permalink to this heading">#</a></h1>
 <section id="basic-implimenataion">
-<h2><span class="section-number">3.3.1. </span>Basic Implimenataion<a class="headerlink" href="#basic-implimenataion" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.2.1. </span>Basic Implimenataion<a class="headerlink" href="#basic-implimenataion" title="Permalink to this heading">#</a></h2>
 <p>A particular Markov chain algorithm that has been found useful in many multidimensional problems is the Gibbs sampler, also called alternating conditional sampling, which is defined in terms of subvectors of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>We first divide the parameter vector to its subvectors <span class="math notranslate nohighlight">\(\theta = (\theta_{1}, ... \theta_{d})\)</span>.</p>
 <p>Each iteration of the Gibbs sampler cycles through the subvectors of <span class="math notranslate nohighlight">\(\theta\)</span>, drawing each subset conditional on the value of all the others. There are thus <span class="math notranslate nohighlight">\(d\)</span> steps in iteration <span class="math notranslate nohighlight">\(t\)</span>. At each iteration <span class="math notranslate nohighlight">\(t\)</span>, an ordering of the d subvectors of <span class="math notranslate nohighlight">\(\theta\)</span> is chosen and, in turn, each <span class="math notranslate nohighlight">\(\theta_{j}^{t}\)</span> is sampled from the conditional distribution given all the other components of <span class="math notranslate nohighlight">\(\theta\)</span></p>
@@ -410,7 +407,7 @@ p(\theta_j | \theta_{-j}^{t-1}, y)
 <p>We sample out <span class="math notranslate nohighlight">\(\theta_{j}\)</span>, conditioned on the value  of other parameters obtained up till now. It is quite useful in multidimensional cases, where the conditional distribution is easy to get.</p>
 </section>
 <section id="simple-example">
-<h2><span class="section-number">3.3.2. </span>Simple Example:-<a class="headerlink" href="#simple-example" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.2.2. </span>Simple Example:-<a class="headerlink" href="#simple-example" title="Permalink to this heading">#</a></h2>
 <p><strong>Bivariate Normal Distribution</strong></p>
 <p>We will use the same example as in metropolis sampling example to check gibbs sampling. We will sample out a bivariate normal distribution.</p>
 <div class="amsmath math notranslate nohighlight" id="equation-35119c6b-35e5-4598-b968-7588ae12a22b">
@@ -488,7 +485,7 @@ p( \theta_{b} | \theta_{a}, y) =  \mathcal{N}( y_2 + \rho (\theta_1 - y_1 ) , 1 
 </div>
 </section>
 <section id="importance-of-gibbs-sampler">
-<h2><span class="section-number">3.3.3. </span>Importance of Gibbs Sampler<a class="headerlink" href="#importance-of-gibbs-sampler" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.2.3. </span>Importance of Gibbs Sampler<a class="headerlink" href="#importance-of-gibbs-sampler" title="Permalink to this heading">#</a></h2>
 <p>Gibbs sampler seems to have a problem, the problem of getting the conditioned mean is indeed not straightforward in many case (eg: the example above), but we still make use of it as works much better than ordinary MCMC in High Dimensions.</p>
 <p>Why might that be the case??</p>
 <p>The reason being that in higher dimensions, the acceptance probability of proposals reduces exponentially. Think of it in general terms as if we are going away from the mode, the ratio of pdf values (or p), will we be say r in each direction, then the ratio becomes <span class="math notranslate nohighlight">\(r^d\)</span> for d directions, hence reducing significantly. Whereas in Gibbs sampling we are updating the chain in one dimension at a time, hense we mitigate this problem of exponentially reducing acceptance.</p>
@@ -540,7 +537,7 @@ p( \theta_{b} | \theta_{a}, y) =  \mathcal{N}( y_2 + \rho (\theta_1 - y_1 ) , 1 
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.4. </span>Metropolis Hastings</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Metropolis Hastings</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -562,9 +559,9 @@ p( \theta_{b} | \theta_{a}, y) =  \mathcal{N}( y_2 + \rho (\theta_1 - y_1 ) , 1 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-implimenataion">3.3.1. Basic Implimenataion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example">3.3.2. Simple Example:-</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-of-gibbs-sampler">3.3.3. Importance of Gibbs Sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-implimenataion">3.2.1. Basic Implimenataion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example">3.2.2. Simple Example:-</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-of-gibbs-sampler">3.2.3. Importance of Gibbs Sampler</a></li>
 </ul>
   </nav></div>
 
