@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>3.6. High Dimension Space &#8212; Computational Statistics</title>
+    <title>3.5. High Dimension Space &#8212; Computational Statistics</title>
   
   
   
@@ -66,8 +66,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/High_Dimensional_Data';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3.7. Hamiltonian Monte Carlo" href="Hamiltonian_Monte_Carlo.html" />
-    <link rel="prev" title="3.5. Bayesian Evidence" href="Evidence_Calculation.html" />
+    <link rel="next" title="3.6. Hamiltonian Monte Carlo" href="Hamiltonian_Monte_Carlo.html" />
+    <link rel="prev" title="3.4. Bayesian Evidence" href="Evidence_Calculation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -161,9 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -172,12 +169,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">3. Simulation Based Inference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Markov_Chains.html">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. High Dimension Space</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.7. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -378,13 +374,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.6.4.1. Ideal Behaviour of MCMC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.6.4.2. MCMC High Dimensional Issues</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.6.4.3. MCMC for Expectation estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.5.1. High Dimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.5.2. Geometry of High Dimensional Spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.5.3. Typical Set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.5.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.5.4.1. Ideal Behaviour of MCMC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.5.4.2. MCMC High Dimensional Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.5.4.3. MCMC for Expectation estimation</a></li>
 </ul>
 </li>
 </ul>
@@ -399,11 +395,11 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="high-dimension-space">
-<h1><span class="section-number">3.6. </span>High Dimension Space<a class="headerlink" href="#high-dimension-space" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">3.5. </span>High Dimension Space<a class="headerlink" href="#high-dimension-space" title="Permalink to this heading">#</a></h1>
 <p>Uptil now, we have seen implementations of MCMC and Gibbs Sampling, but these methods do not scale very well to higher dimensions. MCMC has trouble due to low acceptance, and Gibbs has issues with getting the conditional distributions.</p>
 <p>Thus, we will take a detour and understand the geometry of High Dimensional parameter space, and how geometry frustrates efficient statistical computing.</p>
 <section id="high-dimensional-integrals">
-<h2><span class="section-number">3.6.1. </span>High Dimensional Integrals<a class="headerlink" href="#high-dimensional-integrals" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.5.1. </span>High Dimensional Integrals<a class="headerlink" href="#high-dimensional-integrals" title="Permalink to this heading">#</a></h2>
 <p>We know that in bayesian inferencing, we develop a posterior pdf of the parameters based on a likelihood and a prior function.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -423,7 +419,7 @@ document.write(`
 <p>To identify the regions of parameter space that dominate expectations we need to consider the behavior of both the density and the volume. In high-dimensional spaces the volume behaves very differently from the density, resulting in a tension that concentrates the significant regions of parameter space away from either extreme. This region is called the <strong>Typical Set</strong>.</p>
 </section>
 <section id="geometry-of-high-dimensional-spaces">
-<h2><span class="section-number">3.6.2. </span>Geometry of High Dimensional Spaces<a class="headerlink" href="#geometry-of-high-dimensional-spaces" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.5.2. </span>Geometry of High Dimensional Spaces<a class="headerlink" href="#geometry-of-high-dimensional-spaces" title="Permalink to this heading">#</a></h2>
 <p>We will describe high dimensional spaces using three important charachteristics:</p>
 <ol class="arabic simple">
 <li><p>There is much more volume outside any given neighborhood than inside of it.</p></li>
@@ -524,7 +520,7 @@ document.write(`
 </div>
 </section>
 <section id="typical-set">
-<h2><span class="section-number">3.6.3. </span>Typical Set<a class="headerlink" href="#typical-set" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.5.3. </span>Typical Set<a class="headerlink" href="#typical-set" title="Permalink to this heading">#</a></h2>
 <p>The neighborhood immediately around the mode features large densities, but in more than a few dimensions the small volume of that neighborhood prevents it from having much contribution to any expectation. On the other hand, the complimentary neighborhood far away from the mode features a much larger volume, but the vanishing densities lead to similarly negligible contributions expectations.</p>
 <p>The only significant contributions come from the neighborhood between these two extremes known as the <strong>typical set</strong>.</p>
 <p>As we increase the dimensions D, the spaces where both densities and volume are big enough grow more and more narrow, and the only significant contributions to the Expectation comes from the Typical Set. Thus, we can accurately estimate expectations by averaging over the typical set instead of the entirety of parameter space.</p>
@@ -603,7 +599,7 @@ document.write(`
 <p>So, the pdf is indeed like the 1d or 2d pdf which peaks at the mode and decays outwards, but when you actually sample out the samples most of the samples will be away, in a specific Typical Set.</p>
 </section>
 <section id="geometric-look-at-mcmc">
-<h2><span class="section-number">3.6.4. </span>Geometric Look at MCMC<a class="headerlink" href="#geometric-look-at-mcmc" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">3.5.4. </span>Geometric Look at MCMC<a class="headerlink" href="#geometric-look-at-mcmc" title="Permalink to this heading">#</a></h2>
 <p>We can now take a Geometric look at the MCMC method, and how it goes well into the Typical Set, and how it does not.</p>
 <p>We now understand that we need algorithms that explore the typical set to get the correct value for the Expectation, and the simplest one of them is the MCMC algorithms.</p>
 <p>Markov chain Monte Carlo uses a Markov chain to stochastically explore the typical set, generating a random grid across the region of high probability from which we can construct accurate expectation estimates.</p>
@@ -636,7 +632,7 @@ p(q) = \int_{Q} p(q|q^{\prime}) d q^{\prime} = \pi(q)
 <p>and ESS is the effective sample size <span class="math notranslate nohighlight">\(= \frac{M}{(1+2 \sum_{k = 1}^{M} \rho_k)}\)</span></p>
 <p>introduce evidence and mcmc, and central limit theorem , mcmc modified central limit theorem.</p>
 <section id="ideal-behaviour-of-mcmc">
-<h3><span class="section-number">3.6.4.1. </span>Ideal Behaviour of MCMC<a class="headerlink" href="#ideal-behaviour-of-mcmc" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">3.5.4.1. </span>Ideal Behaviour of MCMC<a class="headerlink" href="#ideal-behaviour-of-mcmc" title="Permalink to this heading">#</a></h3>
 <p>In the ideal behaviour the MCMC markov chain has 3 phases</p>
 <ol class="arabic simple">
 <li><p>In the first phase the Markov chain converges towards the typical set from its initial position in parameter space while the Markov chain Monte Carlo estimators suffer from strong biases.</p></li>
@@ -656,7 +652,7 @@ There are lot of cases in which the chain behaves pathologically due to high cur
 <p>In the previous chapter on Evidence analysis, I said that we use other methods as MCMC is not good at evidence analysis, and this is indeed very true. I was trying to code up the above image but the Evidences of MCMC, just does not converge and goes in random directions, see the last code.</p>
 </section>
 <section id="mcmc-high-dimensional-issues">
-<h3><span class="section-number">3.6.4.2. </span>MCMC High Dimensional Issues<a class="headerlink" href="#mcmc-high-dimensional-issues" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">3.5.4.2. </span>MCMC High Dimensional Issues<a class="headerlink" href="#mcmc-high-dimensional-issues" title="Permalink to this heading">#</a></h3>
 <p>While MCMC is produces and asymptotically unbiased estimate of Expectation, it does not work well in High Dimenstional Spaces.</p>
 <p>The main reason being that as the dimension of the target distribution increases, the volume exterior to the typical set overwhelms the volume interior to the typical set, and almost every Random Walk Metropolis proposal will produce a point on the outside of the typical set. The density of these points, however, is so small, that the acceptance probability becomes negligible. In this case almost all of the proposals will be rejected and the resulting Markov chain will only rarely move. We can induce a larger acceptance probability by shrinking the size of the proposal to stay within the typical set but those small jumps will move the Markov chain extremely slowly.</p>
 <p>Regardless of how we tune the covariance of the Random Walk Metropolis proposal or the particular details of the target distribution, the resulting Markov chain will explore the typical set extremely slowly in all but the lowest dimensional spaces.</p>
@@ -671,7 +667,7 @@ There are lot of cases in which the chain behaves pathologically due to high cur
 <p>Thus we will have to use a stratergy that works with the geometery of the Typical Set rather than merely guessin our next step.</p>
 </section>
 <section id="mcmc-for-expectation-estimation">
-<h3><span class="section-number">3.6.4.3. </span>MCMC for Expectation estimation<a class="headerlink" href="#mcmc-for-expectation-estimation" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">3.5.4.3. </span>MCMC for Expectation estimation<a class="headerlink" href="#mcmc-for-expectation-estimation" title="Permalink to this heading">#</a></h3>
 <p>One can see, the final Expectations are not matching at all.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -722,9 +718,6 @@ There are lot of cases in which the chain behaves pathologically due to high cur
 <img alt="../../_images/223dd302d038301a8ef2162c7d1f2ffd6a626a90407fdc055bedba40c9a80fe0.png" src="../../_images/223dd302d038301a8ef2162c7d1f2ffd6a626a90407fdc055bedba40c9a80fe0.png" />
 </div>
 </div>
-<p>Ideal MCMC behaviour, with fig 7</p>
-<p>Pathological behoaviours and issues in MCMC due to proposal rejection</p>
-<p>after this, foundations of HMC, gradients, how the gradients are shifted on using more variables, its main algo, simplified example, further discussion.</p>
 </section>
 </section>
 </section>
@@ -766,7 +759,7 @@ There are lot of cases in which the chain behaves pathologically due to high cur
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.5. </span>Bayesian Evidence</p>
+        <p class="prev-next-title"><span class="section-number">3.4. </span>Bayesian Evidence</p>
       </div>
     </a>
     <a class="right-next"
@@ -774,7 +767,7 @@ There are lot of cases in which the chain behaves pathologically due to high cur
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.7. </span>Hamiltonian Monte Carlo</p>
+        <p class="prev-next-title"><span class="section-number">3.6. </span>Hamiltonian Monte Carlo</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -796,13 +789,13 @@ There are lot of cases in which the chain behaves pathologically due to high cur
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.6.1. High Dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.6.2. Geometry of High Dimensional Spaces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.6.3. Typical Set</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.6.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.6.4.1. Ideal Behaviour of MCMC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.6.4.2. MCMC High Dimensional Issues</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.6.4.3. MCMC for Expectation estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-integrals">3.5.1. High Dimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-high-dimensional-spaces">3.5.2. Geometry of High Dimensional Spaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-set">3.5.3. Typical Set</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-look-at-mcmc">3.5.4. Geometric Look at MCMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ideal-behaviour-of-mcmc">3.5.4.1. Ideal Behaviour of MCMC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-high-dimensional-issues">3.5.4.2. MCMC High Dimensional Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcmc-for-expectation-estimation">3.5.4.3. MCMC for Expectation estimation</a></li>
 </ul>
 </li>
 </ul>

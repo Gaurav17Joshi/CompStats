@@ -160,9 +160,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -171,11 +168,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">4. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -398,12 +395,42 @@ document.write(`
 <ol class="arabic simple">
 <li><p><strong>Unbiased</strong>, a statistic whose expectation value is equal to the target parameter</p></li>
 </ol>
-<p><strong>Sample Mean Statistic (iid)</strong>
-<span class="math notranslate nohighlight">\( \bar{X} = \frac{1}{n} \sum_{i = 1}^{n} X_i \)</span> is called the mean statistic. It is an unbiased statistic as it has</p>
-<p><span class="math notranslate nohighlight">\(\mathbb{E}[\bar{X}] = \mu_{X} \)</span>, and <span class="math notranslate nohighlight">\(Var(\bar{X}) = \frac{\sigma_{X}^2}{n} \)</span></p>
-<p><strong>Sample Variance Statistic (iid)</strong>
-<span class="math notranslate nohighlight">\( S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2 \)</span> is called the variance statistics, it an unbiased statistic for the variance of RV X.</p>
-<p><span class="math notranslate nohighlight">\( \mathbb{E}[S^2] = \frac{1}{n-1}[ \sum_{i} \mathbb{E}[X_i^2] - n \mathbb{E}[\bar{X}^2]] \)</span>, also ,<span class="math notranslate nohighlight">\(\mathbb{E}[X_i^2] = var(X) + \mu_{X}\)</span>, hense <span class="math notranslate nohighlight">\( = \frac{1}{n-1}[ n\sigma^2 + n\mu^2 - n \frac{1}{n} \sigma^2 - n \mu^2 ] = \sigma^2  \)</span>, here we used <span class="math notranslate nohighlight">\( \mathbb{E}[\bar{X}^2] = Var(\bar{X}^2) + \mu_{\bar{X}}^2 \)</span>, and used the results from up.</p>
+<p><strong>Sample Mean Statistic (iid):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\bar{X} = \frac{1}{n} \sum_{i = 1}^{n} X_i 
+\]</div>
+<p>is called the mean statistic. It is an unbiased statistic as it has</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}[\bar{X}] = \mu_{X} \; \; , \; \; Var(\bar{X}) = \frac{\sigma_{X}^2}{n} 
+\]</div>
+<p><strong>Sample Variance Statistic (iid):</strong></p>
+<div class="math notranslate nohighlight">
+\[
+S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2 
+\]</div>
+<p>is called the variance statistics, it an unbiased statistic for the variance of RV X.</p>
+<p>Proof of non bias in <span class="math notranslate nohighlight">\(S^2\)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-ff83fd29-c4df-42dc-b445-73850e277112">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-ff83fd29-c4df-42dc-b445-73850e277112" title="Permalink to this equation">#</a></span>\[\begin{align}
+\mathbb{E}[S^2] &amp;= \frac{1}{n-1} \mathbb{E}[\sum_{i=1}^{n} (X_i - \bar{X})^2 ]  \\
+                &amp;= \frac{1}{n-1} \mathbb{E}[\sum_{i=1}^{n} X_i^2  + n\bar{X}^2 - 2 \bar{X} \sum_{i=1}^{n}X_i  ]  \\
+                &amp;= \frac{1}{n-1}[ \sum_{i=1}^{n} \mathbb{E}[X_i^2] - n \mathbb{E}[\bar{X}^2]] \\
+
+\end{align}\]</div>
+<p>using</p>
+<div class="math notranslate nohighlight">
+\[
+\; \; \mathbb{E}[X_i^2] = var(X) + \mu_{X} \; \; , \; \;  \mathbb{E}[\bar{X}^2] = Var(\bar{X}^2) + \mu_{\bar{X}}^2 
+\]</div>
+<p>we get</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ef523009-732f-4a2e-ac21-5f50d707e1e5">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-ef523009-732f-4a2e-ac21-5f50d707e1e5" title="Permalink to this equation">#</a></span>\[\begin{align}
+\mathbb{E}[S^2] &amp;= \frac{1}{n-1}[ n\sigma^2 + n\mu^2 - n \frac{1}{n} \sigma^2 - n \mu^2 ]  \\
+                &amp;= \sigma^2  \\
+
+\end{align}\]</div>
 </section>
 </section>
 

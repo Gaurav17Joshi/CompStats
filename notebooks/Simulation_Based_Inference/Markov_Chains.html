@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Markov_Chains';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3.3. Gibbs Sampling" href="Gibbs_Sampling.html" />
+    <link rel="next" title="3.2. Gibbs Sampling" href="Gibbs_Sampling.html" />
     <link rel="prev" title="3. Simulation Based Inference" href="Preface.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -161,9 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -172,11 +169,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">3. Simulation Based Inference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -377,7 +374,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3.1. Basic MCMC</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-walker">3.1.1. Monte Carlo Walker</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-markov-chains">3.1.2. Basics of markov chains</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-important-features">3.1.2.1. Some Important Features</a></li>
@@ -385,11 +381,8 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-algorithm">3.1.3. Metropolis Algorithm</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-example">3.1.4. Basic Example:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-metropolis-algorithm">3.1.5. Proof of Metropolis Algorithm</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-metropolis-algorithm">3.2. Proof of Metropolis Algorithm</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -402,12 +395,23 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basic-mcmc">
 <h1><span class="section-number">3.1. </span>Basic MCMC<a class="headerlink" href="#basic-mcmc" title="Permalink to this heading">#</a></h1>
+<p>Let us try to do an experiment to evaluate the maximum of a function f(x).</p>
+<p>What we will do is, we will start from a point (<span class="math notranslate nohighlight">\(x_0\)</span>) and then make jumps according a random function (say U(0,1)). We will make the jump to the next point if</p>
+<div class="math notranslate nohighlight">
+\[
+random(0,1) &lt; \frac{f(x_{i})}{f_{i-1}}
+\]</div>
+<p>Ie, if the next point is higher then will jump to else we will jump based on the fraction of both values vs a Uniform number in (0,1).</p>
+<p>As it turns out this method works very well even compared to Stochastic Gradient Descent, as we are constantly progressing to the maxima, but still have randomness with us to bail us out of sticky situations.</p>
+<p>As, we will also see, this Monte Carlo Walker actually makes a tour of the parameter space and visits volumes proportional to the function values at those points (have to take the volume element also into account, see High dimensional data chapter).</p>
+<p>This is also the basis of the Monte Carlo Methods for parameter sampling.</p>
 <section id="monte-carlo-walker">
 <h2><span class="section-number">3.1.1. </span>Monte Carlo Walker<a class="headerlink" href="#monte-carlo-walker" title="Permalink to this heading">#</a></h2>
-<p>Making the plot of markov chain walker, explaination</p>
+<p>Making the plot of markov chain walker, and analysis its path</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing Dependencies</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="n">vmap</span>
@@ -420,17 +424,9 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making a monte carlo optimiser for a function</span>
-
-<span class="k">def</span> <span class="nf">complexf1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">complexf2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making a monte carlo walker (optimiser) for a function</span>
 <span class="k">def</span> <span class="nf">simplef1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(((</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">simplef2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(((</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">))</span> <span class="o">+</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
-
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
@@ -488,8 +484,6 @@ document.write(`
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">simplef1</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">),</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">simplef1</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">),</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">lw</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Monte Carlo Walk&#39;</span><span class="p">)</span>
-
-<span class="c1"># Try to add slider, which actually works on jupyter book</span>
 </pre></div>
 </div>
 </div>
@@ -500,8 +494,9 @@ document.write(`
 <img alt="../../_images/ba71745dfec2f4cc949579c16ad8b171455fe2da9aea075869330466c7e0e42a.png" src="../../_images/ba71745dfec2f4cc949579c16ad8b171455fe2da9aea075869330466c7e0e42a.png" />
 </div>
 </div>
-<p>Note on why gradient descent fails here,
-Then take 10000 points and show that almost same histogram has been made</p>
+<p><strong>Why will gradient descent fail here?</strong></p>
+<p>Gradient Descent is likely to fail if the Hyperparameter tuning is not done properly, as the sfunction is symmentric and has many local maximas, which can make the process stuck in a local mode.</p>
+<p>We also claimed that the walker will trace out the function based on its values at different points, hense we will take 10000 points and show that the histogram formed resembles the function</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">monte_carlo_walk</span><span class="p">(</span><span class="n">simplef1</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
@@ -531,7 +526,6 @@ Then take 10000 points and show that almost same histogram has been made</p>
 </div>
 </div>
 <p>This took almost 20 s to run on my computer, for such a simple implementation (although it uses a lot of for loop). This makes us appreciate how much powerful our methods have to be if we have to work on complex distributions with thousands of parameters and many complicated priors.</p>
-<p>Make a good function named danger function which we can use in other demonstrations also</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Finding Gradient</span>
@@ -557,7 +551,10 @@ Then take 10000 points and show that almost same histogram has been made</p>
 <p>The above monte carlo walker seems to be efficiently travelling along the target function in proportion to the function values. If we have a probability distribution that we have to sample then, this seems like a good method as it only requires that we can get the value at any point on the function. But why does it work?</p>
 <p>The reason being that the methods forms a set of stochastic variables known as a Markov chain, whose stationary distribution is equal to the target distribution.</p>
 <p>A Markov chain or Markov process is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.</p>
-<p><span class="math notranslate nohighlight">\( P(X_{t+1} = X^{t+1} | X_{t} = X^{t}, X_{t-1} = X^{t-1}, X_{t-2} = X^{t-2}, ... ) = P(X_{t+1} = X^{t+1} | X_{t} = X^{t})  \)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+P(X_{t+1} = X^{t+1} | X_{t} = X^{t}, X_{t-1} = X^{t-1}, X_{t-2} = X^{t-2}, ... ) = P(X_{t+1} = X^{t+1} | X_{t} = X^{t})  
+\]</div>
 <p>here <span class="math notranslate nohighlight">\(X_{t}\)</span>, is the t’th element of the chain of random variables</p>
 <figure class="align-default" id="markov-chain-diagram">
 <a class="reference internal image-reference" href="../../_images/Graphical_Rep.png"><img alt="../../_images/Graphical_Rep.png" src="../../_images/Graphical_Rep.png" style="width: 250px; height: 250px;" /></a>
@@ -586,10 +583,16 @@ Suppose a person takes a random walk on a number line on the values 1, 2, 3, 4, 
 <p>We represent one’s current location as a probability row vector of the form: <span class="math notranslate nohighlight">\(p = (p_{1}, p_{2}, p_{3}, p_{4}, p_{5})\)</span>
 where <span class="math notranslate nohighlight">\(p_{i}\)</span> represents the probability that the person is currently in state i .</p>
 <p>If <span class="math notranslate nohighlight">\(p^{j}\)</span> represents the location of the traveler at step j, then the location of the traveler at the  j+1 step is given by the matrix product: <span class="math notranslate nohighlight">\(p^{j+1} = p^{j} P\)</span>, and hense the probability vector after travelling m steps will be:</p>
-<p><span class="math notranslate nohighlight">\(p^{j+1} = p^{j} P^{m}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+p^{j+1} = p^{j} P^{m}
+\]</div>
 <p><strong>STATIONARITY</strong></p>
 <p>For an irreducible, aperiodic Markov chain, there is a limiting behavior of the matrix power <span class="math notranslate nohighlight">\(P^{m}\)</span> as m approaches infinity. Specifically, this limit is equal to</p>
-<p><span class="math notranslate nohighlight">\(W = \lim_{m \to \infty} P^{m}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+W = \lim_{m \to \infty} P^{m}
+\]</div>
 <p>The implication of this result is that, as one takes an infinite number of moves, the probability of landing at a particular state does not depend on the initial starting state.</p>
 <p>From this result about the limiting behavior of the matrix power <span class="math notranslate nohighlight">\(P^{m}\)</span>, one can derive a rule for determining this constant vector. Suppose we can find a probability vector w such that <span class="math notranslate nohighlight">\(w = wP\)</span>. This vector w is said to be the <strong>stationary distribution</strong>. If a Markov chain is irreducible and aperiodic, then it has a unique stationary distribution. Moreover, as illustrated above, the limiting distribution of this Markov chain, as the number of steps approaches infinity, will be equal to this stationary distribution.</p>
 <div class="cell docutils container">
@@ -700,7 +703,10 @@ where <span class="math notranslate nohighlight">\(p_{i}\)</span> represents the
 The Jumping distribution must be symmetric (for metropolis).</p></li>
 <li><p>(ACCEPTANCE PROBABILITY) We will compute the ratio R of the posterior density at the proposed value and the current value:</p></li>
 </ol>
-<p><span class="math notranslate nohighlight">\(R = \frac{p(θ^{*}|y)}{p(θ^{t-1}|y)}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+R = \frac{p(θ^{*}|y)}{p(θ^{t-1}|y)}
+\]</div>
 <ol class="arabic simple" start="4">
 <li><p>(MOVE OR STAY?) We will sample a unifrom value <span class="math notranslate nohighlight">\(U(0,1)\)</span>, and if <span class="math notranslate nohighlight">\(u &gt;r\)</span>, then we will jump, or else we will stay. If the next value has higher probability then we will certainly jump, but even if it has lower probability, we have a chance of jumping.</p></li>
 <li><p>(CONTINUE) One continues by returning to Step 2 – propose a new simulated value, compute an acceptance probability, decide to move to the proposed value or stay, and so on.</p></li>
@@ -885,9 +891,8 @@ We can check for discrete range that the algorithm satisfies <span class="math n
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="proof-of-metropolis-algorithm">
-<h1><span class="section-number">3.2. </span>Proof of Metropolis Algorithm<a class="headerlink" href="#proof-of-metropolis-algorithm" title="Permalink to this heading">#</a></h1>
+<section id="proof-of-metropolis-algorithm">
+<h2><span class="section-number">3.1.5. </span>Proof of Metropolis Algorithm<a class="headerlink" href="#proof-of-metropolis-algorithm" title="Permalink to this heading">#</a></h2>
 <p>The metropolis algorithm seems to move around the complete domain space and produce samples in accordance with the pdf, but how do we proove that?
 The proof will be along the lines of the proof of stationarity of Markov chains, where we assumed that the probability vector <span class="math notranslate nohighlight">\(p\)</span> became equal to stationary distribution <span class="math notranslate nohighlight">\(w\)</span>, and then we showed that afterwards, it stayed stationary to w as <span class="math notranslate nohighlight">\(Pw = w\)</span>, (the Metropolis proof is on similar lines).</p>
 <p><strong>Proof</strong></p>
@@ -912,6 +917,7 @@ p(\theta_{t-1} = \theta_b, \theta_{t} = \theta_a) = p(\theta_b|y)Jt(\theta_a|\th
 \]</div>
 <p>which is the same as the probability of a transition from  <span class="math notranslate nohighlight">\(\theta_a\)</span> to <span class="math notranslate nohighlight">\(\theta_b\)</span>, since we have required that <span class="math notranslate nohighlight">\(J_t()\)</span> be symmetric. Since the joint distribution of RVs <span class="math notranslate nohighlight">\(\theta_{t-1}, \theta_{t}\)</span> is symmetric, they have the same marginal distributions, and so <span class="math notranslate nohighlight">\(p(\theta|y)\)</span> is the stationary distribution of the Markov chain of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>Note we cannot be proove that it will necessarily reach stationarity, only that if does, then it remain constant after that. (Indeed, a lot of times MCMC sampling fails)</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -959,7 +965,7 @@ p(\theta_{t-1} = \theta_b, \theta_{t} = \theta_a) = p(\theta_b|y)Jt(\theta_a|\th
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.3. </span>Gibbs Sampling</p>
+        <p class="prev-next-title"><span class="section-number">3.2. </span>Gibbs Sampling</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -981,7 +987,6 @@ p(\theta_{t-1} = \theta_b, \theta_{t} = \theta_a) = p(\theta_b|y)Jt(\theta_a|\th
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3.1. Basic MCMC</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-walker">3.1.1. Monte Carlo Walker</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-markov-chains">3.1.2. Basics of markov chains</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-important-features">3.1.2.1. Some Important Features</a></li>
@@ -989,11 +994,8 @@ p(\theta_{t-1} = \theta_b, \theta_{t} = \theta_a) = p(\theta_b|y)Jt(\theta_a|\th
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-algorithm">3.1.3. Metropolis Algorithm</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-example">3.1.4. Basic Example:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-metropolis-algorithm">3.1.5. Proof of Metropolis Algorithm</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-of-metropolis-algorithm">3.2. Proof of Metropolis Algorithm</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>

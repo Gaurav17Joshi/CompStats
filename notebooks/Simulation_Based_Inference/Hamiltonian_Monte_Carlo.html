@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>3.7. Hamiltonian Monte Carlo &#8212; Computational Statistics</title>
+    <title>3.6. Hamiltonian Monte Carlo &#8212; Computational Statistics</title>
   
   
   
@@ -61,11 +61,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="4. Maths Appendix" href="../Maths_Appendix/Preface.html" />
-    <link rel="prev" title="3.6. High Dimension Space" href="High_Dimensional_Data.html" />
+    <link rel="prev" title="3.5. High Dimension Space" href="High_Dimensional_Data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -159,9 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/ImpRV.html">1.2. Important RVs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGII.html">1.3. Advanced RV Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/Prng.html">1.4. Pseudo Random Number Generation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -170,12 +169,11 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">3. Simulation Based Inference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Markov_Chains.html">3.1. Basic MCMC</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.3. Gibbs Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.4. Metropolis Hastings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.5. Bayesian Evidence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.6. High Dimension Space</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.7. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -353,7 +351,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -369,6 +369,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-vector-fields">3.6.1. Using Vector Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space-and-hamiltons-equations">3.6.2. Phase Space and Hamiltons Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simplified-example">3.6.3. Simplified Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-with-hmc">3.6.4. Issues with HMC</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -379,11 +390,325 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="hamiltonian-monte-carlo">
-<h1><span class="section-number">3.7. </span>Hamiltonian Monte Carlo<a class="headerlink" href="#hamiltonian-monte-carlo" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">3.6. </span>Hamiltonian Monte Carlo<a class="headerlink" href="#hamiltonian-monte-carlo" title="Permalink to this heading">#</a></h1>
 <p>We have seen that the guess and check strategy of the MCMC methods perform miserably in High-Dimensions as there are exponentially many directions to choose from and only limited number of directions which are along the Typical Set.</p>
 <p>This motivates us to make algorithms that use the geometry of the Typical Set to take the next step rather than guessing our jumps. Specifically, we need transitions that can follow those contours of high probability mass, coherently gliding through the typical set.</p>
 <p>Hamiltonian Monte Carlo Methods are one such methods that work with the geometery and find transitions which move along the Typical Set.</p>
 <p>Let us Clear one misconception first: People often claim that HMC is better as it leverages gradients, but this is not true. While yes, gradients give us much more information than just the pdf values, but the real reason is HMC uses these gradients to glide and move along the typical set and choose high probability steps, helping us trace the narrow high probability density shell</p>
+<section id="using-vector-fields">
+<h2><span class="section-number">3.6.1. </span>Using Vector Fields<a class="headerlink" href="#using-vector-fields" title="Permalink to this heading">#</a></h2>
+<p>One way of using geometry to guide our transitions will be to use vector fields which are aligned with the typical set. In other words, instead of fumbling around parameter space with random, uninformed jumps, we can follow the direction assigned to each at point for a small distance. By construction this will move us to a new point in the typical set, where we will find a new direction to follow.</p>
+<p>So, the vector field that we want to achieve looks somewhat like this (<a class="reference external" href="https://arxiv.org/abs/1701.02434">Credits</a>):</p>
+<figure class="align-default" id="target-dist">
+<a class="reference internal image-reference" href="../../_images/Target_dist.png"><img alt="../../_images/Target_dist.png" src="../../_images/Target_dist.png" style="width: 300px; height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.9 </span><span class="caption-text">Required Vector Field</span><a class="headerlink" href="#target-dist" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To get this, sort of configuration, we will need to use the gradients, but we soon run into problems. The gradient vector field based on the Target pdf does not follow the Typical set (which we want), rather it follows straight into the mode of the distribution (which it should).</p>
+<figure class="align-default" id="grad-dist">
+<a class="reference internal image-reference" href="../../_images/Grad_dist.png"><img alt="../../_images/Grad_dist.png" src="../../_images/Grad_dist.png" style="width: 300px; height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.10 </span><span class="caption-text">Gradient Vector Field</span><a class="headerlink" href="#grad-dist" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In order to generate motion through the typical set we need to introduce additional structure that carefully twists the gradient into alignment with the typical set. The additional structure that we include are momentum parameters in addition to the original parameters.</p>
+<p>In an analogy to classical mechanics (complete explaination requires differential geometry), we assume the parameters to be space parameters and add same number of momentum parameters. Assume a satellite in the gradient field. If left as it is, the craft will fall directly into the mode, but if we give it the correct momentum, then the trajectory will make it move in a stable orbit around the planet.</p>
+<p>Similarly, if we add the momentum parameters in the correct amount, the resulting trajectory of the sample will move along the Typical Set instead of falling into the mode.</p>
+</section>
+<section id="phase-space-and-hamiltons-equations">
+<h2><span class="section-number">3.6.2. </span>Phase Space and Hamiltons Equations<a class="headerlink" href="#phase-space-and-hamiltons-equations" title="Permalink to this heading">#</a></h2>
+<p>Conservative dynamics in physical systems requires that volumes are exactly preserved. As the system evolves, any compression or expansion in position space must be compensated with a respective expansion or compression in momentum space to ensure that the volume of any neighborhood in position-momentum phase space is unchanged.</p>
+<p>We introduce new momentum parameters <span class="math notranslate nohighlight">\(p_n\)</span> to complement each dimension of the position space. Ie we lift the <span class="math notranslate nohighlight">\(D\)</span> dimensional parameter space to the higher <span class="math notranslate nohighlight">\(2D\)</span> dimensional phase space.</p>
+<div class="math notranslate nohighlight">
+\[
+q_n \to (q_n , p_n)
+\]</div>
+<p>Consecuently, we also lift the target distribution onto a joint probability distribution on phase space called the canonical distribution.</p>
+<div class="math notranslate nohighlight">
+\[
+\pi (q, p) = T(p|q) \pi(q) 
+\]</div>
+<p>Ie, we had the position vector <span class="math notranslate nohighlight">\(q\)</span>, we lift it to another dimension <span class="math notranslate nohighlight">\((q,p)\)</span>, after picking up a momentum vector <span class="math notranslate nohighlight">\(p\)</span> based on the trasition pdf <span class="math notranslate nohighlight">\(T(p|q)\)</span>. Also Note:, We have made a probability distribution on phase space that marginalizes to the target distribution, and we ensured that the typical set on phase space projects to the typical set of the target distribution.</p>
+<figure class="align-default" id="travelling">
+<a class="reference internal image-reference" href="../../_images/travelling.png"><img alt="../../_images/travelling.png" src="../../_images/travelling.png" style="width: 250px; height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.11 </span><span class="caption-text">Travelling over the phase space</span><a class="headerlink" href="#travelling" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We can further exted the physics analogy to solve for the trajectory. We will first define the Hamiltonian over the phase space (position + momentum) by the negative log of the joint pdf:</p>
+<div class="math notranslate nohighlight">
+\[
+H(q,p) = - log(\pi (q,p))
+\]</div>
+<p>this decomposes into the Kinetic and the Potential Energies:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-43f8ebaa-d773-4c5c-8907-4232557da8a9">
+<span class="eqno">(3.9)<a class="headerlink" href="#equation-43f8ebaa-d773-4c5c-8907-4232557da8a9" title="Permalink to this equation">#</a></span>\[\begin{align}
+H(q,p) &amp;= -log T(p|q) - log \pi(q) \\
+&amp; = + K(p,q) + V(q)
+\end{align}\]</div>
+<p>The Kinetic energy depends on the positon and momentum, while the potential energy depends only on the position. We can then solve the Hamilton’s differential equations to get the trajectory.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-507105ff-f075-46c0-8aba-cb06ebe8da4b">
+<span class="eqno">(3.10)<a class="headerlink" href="#equation-507105ff-f075-46c0-8aba-cb06ebe8da4b" title="Permalink to this equation">#</a></span>\[\begin{align}
+&amp; \frac{dq}{dt} &amp;= + \frac{\partial H}{\partial p} &amp;= \frac{\partial K}{\partial p} \\
+&amp; \frac{dp}{dt} &amp;= - \frac{\partial H}{\partial q} &amp;= - \frac{\partial K}{\partial q} - \frac{\partial V}{\partial q}
+\end{align}\]</div>
+<p>By channeling the gradient through the momentum instead of the target parameters directly, Hamilton’s equations twist differential information to align with the typical set of canonical distribution.</p>
+<p>Following the Hamiltonian vector field for some time, <span class="math notranslate nohighlight">\(t\)</span> , generates trajectories, <span class="math notranslate nohighlight">\(\phi_t(q, p)\)</span>, that rapidly move through phase space while being constrained to the typical set. Projecting these trajectories back down onto the target parameter space finally yields the efficient exploration of the target typical set for which we are searching.</p>
+<p>Now, two important questions remain to implement the HMC:</p>
+<ol class="arabic simple">
+<li><p>How to choose the K: There are a lot of useful rule of thumbs to choose K, but most simple one will work fairly well. In our example, we will use a Multivariate Normal distribution to select the momentum.</p></li>
+<li><p>How to solve the Hamiltons Equation: This is usually done by a method called Symplectic Integrators, a technique which keeps the H fixed. We will use a simplified version of it called the leap-frog integrator.</p></li>
+</ol>
+</section>
+<section id="simplified-example">
+<h2><span class="section-number">3.6.3. </span>Simplified Example<a class="headerlink" href="#simplified-example" title="Permalink to this heading">#</a></h2>
+<p>In a simplified example, we will take a spherically symmetric probability distribution to simulate:</p>
+<div class="math notranslate nohighlight">
+\[
+U(\theta) = -log (\pi(\theta)) = 20 (|\theta|_2 - 10)^2
+\]</div>
+<p>with the momentum transition probability being a normal function:</p>
+<div class="math notranslate nohighlight">
+\[
+K(r) = \sum_{i = 1}^{d} \frac{1}{2} r_i^2 \; \; with  \; \; r_i \sim \mathcal{N}(0,1)
+\]</div>
+<p>For this <span class="math notranslate nohighlight">\(H(\theta, r)\)</span>, we have the Hamiltons equation as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2879f298-d20e-4200-8009-aaba4955aa7f">
+<span class="eqno">(3.11)<a class="headerlink" href="#equation-2879f298-d20e-4200-8009-aaba4955aa7f" title="Permalink to this equation">#</a></span>\[\begin{align}
+&amp; \frac{d \theta_i}{dt} = r_i \\
+&amp; \frac{d r_i}{dt}  = \frac{\partial log(\pi(\theta))}{\partial \theta_i} 
+
+\end{align}\]</div>
+<p>For simulating the trajectory, we will use the leapfrog integrator, which works like</p>
+<div class="amsmath math notranslate nohighlight" id="equation-82ca8861-eb08-44d0-95b6-63b8dbca62bc">
+<span class="eqno">(3.12)<a class="headerlink" href="#equation-82ca8861-eb08-44d0-95b6-63b8dbca62bc" title="Permalink to this equation">#</a></span>\[\begin{align}
+&amp; r(t + \epsilon/2) &amp; = &amp; \; \;  r(t) - (\epsilon /2) \nabla_{\theta} U (\theta(t)) \\
+&amp; \theta(t + \epsilon) &amp; = &amp; \; \; \theta(t) + \epsilon r(t + \epsilon/2) \\
+&amp; r(t + \epsilon) &amp; = &amp; \; \; r(t+ \epsilon/2) - (\epsilon /2) \nabla_{\theta} U (\theta(t + \epsilon/2)) \\
+\end{align}\]</div>
+<p>We will have to choose a suitable <span class="math notranslate nohighlight">\(L\)</span> (leapfrog steps), so that the path is neither too long or too short.</p>
+<p>We will also select the points based on the Hamiltonian of the new state wrt to the original state. In perfect HMC, this will not be needed as the Hamiltonian is conserved, but in our case, there is error due to the numerical integration, thus we also do the check step of ordinary MCMC.</p>
+<div class="math notranslate nohighlight">
+\[
+log (Uniform (0,1)) &lt; H(\theta, r) - H(\theta^{\prime}, r^{\prime})
+\]</div>
+<p><strong>Parameters to be tune</strong></p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span>: The value of epsilon effects only the acceptance rate (as it give rise to errors in H). So large <span class="math notranslate nohighlight">\(\epsilon\)</span>’s cause a larger error in H (hense low acceptance), while a small <span class="math notranslate nohighlight">\(\epsilon\)</span> will increase integration time.</p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span>: Tuning L is more difficult. HMC leapfrog trajectories can resemble the flight path of a boomerang that starts moving away but at some point will turn back to the starting point. At <span class="math notranslate nohighlight">\(L = 1\)</span> HMC reduces to random walk MCMC, so larger L are needed to benefit from the more complicated algorithm. At the same time, too large L can at worst lead to very inefficient sampling when the trajectories will return back to their starting point.</p></li>
+</ol>
+<p>This problem is usually mitigated by NUTS sampling, but here will will use a moderately small <span class="math notranslate nohighlight">\(\epsilon = 0.2\)</span>, and <span class="math notranslate nohighlight">\(L = 50\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([-1.6729976,  1.3104093], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Coding up the HMC algorithm</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">grad</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">HMC</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">target_f</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta0</span><span class="p">)))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">theta0</span><span class="p">)</span>
+    <span class="n">grad_f</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">target_f</span><span class="p">)</span>
+    <span class="n">gradient</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span> <span class="n">logp</span> <span class="o">=</span> <span class="n">target_f</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">accepts</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># For the N samples</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># Sample a random momentum</span>
+        <span class="n">H_current</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">p</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">logp</span>                    <span class="c1"># Evaluating the Hamiltonian = KE + PE</span>
+
+        <span class="n">pnew</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="n">thetanew</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span> <span class="n">gradientnew</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span>
+        <span class="c1"># L leapfrog steps</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+            <span class="n">pnew</span> <span class="o">=</span> <span class="n">pnew</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">gradientnew</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1">#### + or -</span>
+            <span class="n">thetanew</span> <span class="o">=</span> <span class="n">thetanew</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">pnew</span>
+            <span class="n">gradientnew</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">thetanew</span><span class="p">)</span>
+            <span class="n">pnew</span> <span class="o">=</span> <span class="n">pnew</span> <span class="o">+</span> <span class="n">e</span> <span class="o">*</span> <span class="n">gradientnew</span> <span class="o">/</span> <span class="mi">2</span>
+        
+        <span class="n">logpnew</span> <span class="o">=</span> <span class="n">target_f</span><span class="p">(</span><span class="n">thetanew</span><span class="p">)</span>
+        <span class="n">H_new</span> <span class="o">=</span> <span class="n">pnew</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">pnew</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">logpnew</span>
+
+        <span class="c1"># Acceptance probability</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">)))</span> <span class="o">&lt;</span> <span class="n">H_current</span> <span class="o">-</span> <span class="n">H_new</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">thetanew</span>
+            <span class="n">gradient</span> <span class="o">=</span> <span class="n">gradientnew</span>
+            <span class="n">logp</span> <span class="o">=</span> <span class="n">logpnew</span>
+            <span class="n">accepts</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">samples</span><span class="p">,</span> <span class="n">accepts</span><span class="o">/</span><span class="n">n</span>
+
+<span class="c1"># Spherical Traget Function</span>
+<span class="k">def</span> <span class="nf">target_f</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">20</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">samples</span><span class="p">,</span> <span class="n">accept_rate</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance Rate: &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+<span class="c1"># print(samples)</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">accept_rate</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance Rate:  0.91
+</pre></div>
+</div>
+<img alt="../../_images/e3661c33d31ca6836103853eec300bba0ddf29472599d6f208cfe77c08924997.png" src="../../_images/e3661c33d31ca6836103853eec300bba0ddf29472599d6f208cfe77c08924997.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x19eeec690&gt;]
+</pre></div>
+</div>
+<img alt="../../_images/2e7e8b1d1497ca71fe7ab4993ebaf1af94e56c48aaa641464e41da298d5eee42.png" src="../../_images/2e7e8b1d1497ca71fe7ab4993ebaf1af94e56c48aaa641464e41da298d5eee42.png" />
+</div>
+</div>
+<p>This code shows how well Hamiltonian Monte Carlo works as it moves along the Typical set. On comparison, the simple MCMC does not perform equally well.</p>
+<p>One thing to note is that for each step, we are doing 50 calculations (L =50) instead of 1 (for MCMC), but we will get the full benefits in Higher Dimensions.</p>
+<p><strong>Results</strong></p>
+<p>Times taken by my PC for all dimensions were from 40-50 secounds (High but scales well).</p>
+<p>The acceptance rates for all the dimensions were well after tuning the hyperparameters. While dimensions 2 and 3 worked well with <span class="math notranslate nohighlight">\(\epsilon = 0.2, L = 50\)</span>, dimension 4 gave a very low acceptance as due to high <span class="math notranslate nohighlight">\(\epsilon\)</span>, there was a significant error in trajectory integration leading to points going outside the Typical Set. On reducing <span class="math notranslate nohighlight">\(\epsilon\)</span> to 0.1, the accuracy rose up again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_f3</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">30</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="mi">13</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">samples</span><span class="p">,</span> <span class="n">accept_rate</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f3</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance rate in Dimension 3: &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance rate in Dimension 3:  0.84
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_f4</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">50</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="mi">40</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">samples</span><span class="p">,</span> <span class="n">accept_rate</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f4</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance rate in Dimension 4 for e = 0.2, L = 50 is = &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance rate in Dimension 4 for e = 0.2, L = 50 is =  0.06
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples4</span><span class="p">,</span> <span class="n">accept_rate4</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f4</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance rate in Dimension 4 for e = 0.1, L = 50 is = &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance rate in Dimension 4 for e = 0.1, L = 50 is =  0.935
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples4</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;dim 1&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples4</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;dim 2&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples4</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;dim 3&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples4</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;dim 4&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e1c686a058d84ae5459d4173acd9d8dbab5b4dc1ad2ea03e129ed6e1d6dd4ba1.png" src="../../_images/e1c686a058d84ae5459d4173acd9d8dbab5b4dc1ad2ea03e129ed6e1d6dd4ba1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_f5</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">20</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">samples5</span><span class="p">,</span> <span class="n">accept_rate5</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f5</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance rate in Dimension 5: &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance rate in Dimension 5:  0.935
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples5</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;dim </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8b7c20f12b3fca9cbd650fc58859b786c1c5b728e776e16e16806d1d177d1b97.png" src="../../_images/8b7c20f12b3fca9cbd650fc58859b786c1c5b728e776e16e16806d1d177d1b97.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_f7</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">70</span><span class="o">*</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="mi">40</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">samples</span><span class="p">,</span> <span class="n">accept_rate</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">target_f</span> <span class="o">=</span> <span class="n">target_f7</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acceptance rate in Dimension 7: &quot;</span><span class="p">,</span> <span class="n">accept_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Acceptance rate in Dimension 7:  0.94
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="issues-with-hmc">
+<h2><span class="section-number">3.6.4. </span>Issues with HMC<a class="headerlink" href="#issues-with-hmc" title="Permalink to this heading">#</a></h2>
+<p>HMC has been made with High Dimensional spaces in mind, but in the case of multimodal distributions, HMC has the same problems as simple MCMC. This issue is mitigated by using tempering chains.</p>
+<p>Another important issue is the fact that the trajectories often boomerang to the starting point. This issue is mitigated by using the NUTS sampling.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -423,7 +748,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.6. </span>High Dimension Space</p>
+        <p class="prev-next-title"><span class="section-number">3.5. </span>High Dimension Space</p>
       </div>
     </a>
     <a class="right-next"
@@ -444,6 +769,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-vector-fields">3.6.1. Using Vector Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space-and-hamiltons-equations">3.6.2. Phase Space and Hamiltons Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simplified-example">3.6.3. Simplified Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues-with-hmc">3.6.4. Issues with HMC</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
