@@ -176,9 +176,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">4.2. Basic Statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Probabilistic_Modelling/preface.html">4. Probabilistic Modelling</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/Graphical_Models.html">4.1. Graphical Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">5.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -528,8 +532,8 @@ logZ = -139.04999
 \pi^{*} (\theta) = p(D|\theta)p(\theta), \; \; \pi^{*}_{\beta} (\theta) = p(D|\theta)^{\beta}p(\theta), \; \; \pi_{\beta} (\theta) = \frac{\pi^{*}_{\beta} (\theta)}{Z_{\beta}}
 \]</div>
 <p>Also the values of Z’s</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7fa03e01-d51d-4a68-9313-6d9c90f5188f">
-<span class="eqno">(3.6)<a class="headerlink" href="#equation-7fa03e01-d51d-4a68-9313-6d9c90f5188f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7713846b-bb4c-49b7-8052-e8177f791641">
+<span class="eqno">(3.6)<a class="headerlink" href="#equation-7713846b-bb4c-49b7-8052-e8177f791641" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp; Z_{\beta} = \int_{\theta} \pi_{\beta} (\theta) d(\theta) = \int_{\theta} p(D|\theta)^{\beta}p(\theta) d(\theta) \\
 &amp; Z_{1} = p(D|M) = \int_{\theta} \pi^{*} (\theta) d(\theta) \\
 &amp; Z_{0} = \int_{\theta} p(\theta) d(\theta)  = 1 \\
@@ -645,8 +649,8 @@ Marginal likelihood: -138.99704316390387
 ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\partial \beta} d \beta = \int_{0}^{1} \mathbb{E} [ ln(p(D|\theta)) ] d \beta
 \]</div>
 <p>The integrand can be expressed as:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1b8a36f1-cb72-4fcd-9327-014974588f3b">
-<span class="eqno">(3.7)<a class="headerlink" href="#equation-1b8a36f1-cb72-4fcd-9327-014974588f3b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-330ac2be-db8c-40a4-ad6b-60767fa135b9">
+<span class="eqno">(3.7)<a class="headerlink" href="#equation-330ac2be-db8c-40a4-ad6b-60767fa135b9" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \frac{1}{Z_{\beta}} \frac{\partial Z_{\beta}}{\partial \beta}  \\
 &amp; =  \frac{1}{Z_{\beta}} \frac{\partial}{\partial \beta} \int_{\theta} \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; =  \frac{1}{Z_{\beta}} \int_{\theta} \frac{\partial  \pi^{*}_{\beta}(\theta)}{\partial \beta} d \theta \\
@@ -660,8 +664,8 @@ ln(p(D|M)) = ln(Z_1) - ln(Z_0) = \int_{0}^{1} \frac{\partial ln(Z_{\beta})}{\par
 ln(\pi^{*}_{\beta}(\theta)) = \beta ln p (D|\theta) + ln(p(\theta)) \implies \frac{\partial ln(\pi^{*}_{\beta}(\theta))}{\partial \beta} = ln(p (D|\theta))
 \]</div>
 <p>Hense:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-01b9a6ca-7138-4fc1-a035-1d48beb82670">
-<span class="eqno">(3.8)<a class="headerlink" href="#equation-01b9a6ca-7138-4fc1-a035-1d48beb82670" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ab6002ed-687e-4269-8b85-0d6399d05fcc">
+<span class="eqno">(3.8)<a class="headerlink" href="#equation-ab6002ed-687e-4269-8b85-0d6399d05fcc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{\partial ln(Z_{\beta})}{\partial \beta}  &amp;=  \int_{\theta} ln(p (D|\theta)) \pi^{*}_{\beta}(\theta) d \theta \\
 &amp; = \mathbb{E}_{\beta} [ln p (D|\theta)] d \beta
 \end{align}\]</div>

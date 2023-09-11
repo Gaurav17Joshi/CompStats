@@ -24,6 +24,9 @@ chapters:
   - file: notebooks/Simulation_Based_Inference/Evidence_Calculation.ipynb
   - file: notebooks/Simulation_Based_Inference/High_Dimensional_Data.ipynb
   - file: notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo.ipynb
+- file: notebooks/Probabilistic_Modelling/preface.ipynb
+  sections:
+  - file: notebooks/Probabilistic_Modelling/Graphical_Models.ipynb
 - file: notebooks/Maths_Appendix/Preface.ipynb
   sections:
   - file : notebooks/Maths_Appendix/Basic_Probability.ipynb

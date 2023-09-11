@@ -176,9 +176,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">4.2. Basic Statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Probabilistic_Modelling/preface.html">4. Probabilistic Modelling</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/Graphical_Models.html">4.1. Graphical Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">5.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -410,29 +414,29 @@ p(\theta_j | \theta_{-j}^{t-1}, y)
 <h2><span class="section-number">3.2.2. </span>Simple Example:-<a class="headerlink" href="#simple-example" title="Permalink to this heading">#</a></h2>
 <p><strong>Bivariate Normal Distribution</strong></p>
 <p>We will use the same example as in metropolis sampling example to check gibbs sampling. We will sample out a bivariate normal distribution.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-35119c6b-35e5-4598-b968-7588ae12a22b">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-35119c6b-35e5-4598-b968-7588ae12a22b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ed4217ec-215c-4ed5-a52e-4057e923b994">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-ed4217ec-215c-4ed5-a52e-4057e923b994" title="Permalink to this equation">#</a></span>\[\begin{align}
 \begin{bmatrix} \theta_{1} \\ \theta_{2} \end{bmatrix} \bigg| y \sim N \left( \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} , \begin{bmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{bmatrix}  \right)
 \end{align}\]</div>
 <p>We know that for a multivariate gaussian distribution, the conditional is found by (for <span class="math notranslate nohighlight">\(\Lambda\)</span> being the precision matrix):</p>
-<div class="amsmath math notranslate nohighlight" id="equation-932b38bf-25ce-4361-b27f-45a075c2493a">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-932b38bf-25ce-4361-b27f-45a075c2493a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a047aa61-32a3-4352-8041-74e401646900">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-a047aa61-32a3-4352-8041-74e401646900" title="Permalink to this equation">#</a></span>\[\begin{align}
 x = \begin{bmatrix} x_a \\ x_b \end{bmatrix} \; \mu = \begin{bmatrix} \mu_{a} \\ \mu_{b} \end{bmatrix} \; \Lambda = \begin{bmatrix} \Lambda_{aa} &amp; \Lambda_{ab} \\ \Lambda_{ba} &amp; \Lambda_{bb} \end{bmatrix}
 \end{align}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-438c6a84-a0f8-4dfc-83da-f5f9a41d49be">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-438c6a84-a0f8-4dfc-83da-f5f9a41d49be" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-135aad9c-cdf9-413d-8326-b569632e239d">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-135aad9c-cdf9-413d-8326-b569632e239d" title="Permalink to this equation">#</a></span>\[\begin{align}
 p( \mathbb{x}_{a} | \mathbb{x}_b ) =  \mathcal{N}( \mathbb{x} | \mu_{a|b}, \Lambda^{-1}_{a a}  ) \\
 \mathbb{\mu}_{a|b} = \mu_{a} - \Lambda^{-1}_{a a} \Lambda_{a b} ( x_b - \mu_{b} )
 \end{align}\]</div>
 <p>Also, in our case:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b1f508de-dcdc-4909-ba9c-32f6d6ec408f">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-b1f508de-dcdc-4909-ba9c-32f6d6ec408f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bbf48838-346a-4d91-9f9f-440b195097b2">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-bbf48838-346a-4d91-9f9f-440b195097b2" title="Permalink to this equation">#</a></span>\[\begin{align}
 \Sigma = \begin{bmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{bmatrix} \implies \Lambda = \begin{bmatrix} \frac{1}{1-\rho^{2}} &amp; \frac{-\rho}{1-\rho^{2}} \\ \frac{-\rho}{1-\rho^{2}} &amp; \frac{1}{1-\rho^{2}} \end{bmatrix}
 
 \end{align}\]</div>
 <p>Hense, we get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1397efb0-b791-4181-8185-0d0142823726">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-1397efb0-b791-4181-8185-0d0142823726" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-63dbe3d9-ec61-46f1-855c-880dc082b2b9">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-63dbe3d9-ec61-46f1-855c-880dc082b2b9" title="Permalink to this equation">#</a></span>\[\begin{align}
 p( \theta_{a} | \theta_{b}, y) =  \mathcal{N}( y_1 + \rho (\theta_2 - y_2 ) , 1 - \rho^2 ) \\
 p( \theta_{b} | \theta_{a}, y) =  \mathcal{N}( y_2 + \rho (\theta_1 - y_1 ) , 1 - \rho^2 )
 \end{align}\]</div>

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4.2. Basic Statistics &#8212; Computational Statistics</title>
+    <title>5.2. Basic Statistics &#8212; Computational Statistics</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Maths_Appendix/Basic_Statistics';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="4.1. Basic Probability" href="Basic_Probability.html" />
+    <link rel="prev" title="5.1. Basic Probability" href="Basic_Probability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -175,9 +175,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">4. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Basic_Probability.html">4.1. Basic Probability</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Basic Statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Probabilistic_Modelling/preface.html">4. Probabilistic Modelling</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/Graphical_Models.html">4.1. Graphical Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">5. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -373,7 +377,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistic">4.2.1. Statistic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistic">5.2.1. Statistic</a></li>
 </ul>
             </nav>
         </div>
@@ -386,9 +390,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basic-statistics">
-<h1><span class="section-number">4.2. </span>Basic Statistics<a class="headerlink" href="#basic-statistics" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">5.2. </span>Basic Statistics<a class="headerlink" href="#basic-statistics" title="Permalink to this heading">#</a></h1>
 <section id="statistic">
-<h2><span class="section-number">4.2.1. </span>Statistic<a class="headerlink" href="#statistic" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.2.1. </span>Statistic<a class="headerlink" href="#statistic" title="Permalink to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\( \{ X_1, X_2, ... X_n \} \)</span> be a Random Sample set and <span class="math notranslate nohighlight">\(\{x_1, x_2, ... x_n \} \)</span> be the observed sample, the</p>
 <p>A statistic <span class="math notranslate nohighlight">\(T_n = T(X_1, X_2, ... X_n) \)</span>, is a function of a sample used to estimate the value of a parameter or something else (quantile, means etc)</p>
 <p>Properties of statistic’s:-</p>
@@ -412,8 +416,8 @@ S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
 \]</div>
 <p>is called the variance statistics, it an unbiased statistic for the variance of RV X.</p>
 <p>Proof of non bias in <span class="math notranslate nohighlight">\(S^2\)</span></p>
-<div class="amsmath math notranslate nohighlight" id="equation-ff83fd29-c4df-42dc-b445-73850e277112">
-<span class="eqno">(4.5)<a class="headerlink" href="#equation-ff83fd29-c4df-42dc-b445-73850e277112" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1403e567-bf98-46fd-94b0-9f3a06f33a8e">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-1403e567-bf98-46fd-94b0-9f3a06f33a8e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbb{E}[S^2] &amp;= \frac{1}{n-1} \mathbb{E}[\sum_{i=1}^{n} (X_i - \bar{X})^2 ]  \\
                 &amp;= \frac{1}{n-1} \mathbb{E}[\sum_{i=1}^{n} X_i^2  + n\bar{X}^2 - 2 \bar{X} \sum_{i=1}^{n}X_i  ]  \\
                 &amp;= \frac{1}{n-1}[ \sum_{i=1}^{n} \mathbb{E}[X_i^2] - n \mathbb{E}[\bar{X}^2]] \\
@@ -425,8 +429,8 @@ S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
 \; \; \mathbb{E}[X_i^2] = var(X) + \mu_{X} \; \; , \; \;  \mathbb{E}[\bar{X}^2] = Var(\bar{X}^2) + \mu_{\bar{X}}^2 
 \]</div>
 <p>we get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef523009-732f-4a2e-ac21-5f50d707e1e5">
-<span class="eqno">(4.6)<a class="headerlink" href="#equation-ef523009-732f-4a2e-ac21-5f50d707e1e5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-90b84bf6-e2ed-46b4-ac9a-2ac05bc41d80">
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-90b84bf6-e2ed-46b4-ac9a-2ac05bc41d80" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbb{E}[S^2] &amp;= \frac{1}{n-1}[ n\sigma^2 + n\mu^2 - n \frac{1}{n} \sigma^2 - n \mu^2 ]  \\
                 &amp;= \sigma^2  \\
 
@@ -471,7 +475,7 @@ S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">4.1. </span>Basic Probability</p>
+        <p class="prev-next-title"><span class="section-number">5.1. </span>Basic Probability</p>
       </div>
     </a>
 </div></div>
@@ -492,7 +496,7 @@ S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistic">4.2.1. Statistic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistic">5.2.1. Statistic</a></li>
 </ul>
   </nav></div>
 
