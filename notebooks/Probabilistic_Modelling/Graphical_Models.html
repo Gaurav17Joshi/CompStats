@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>4.1. Graphical Models &#8212; Computational Statistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Probabilistic_Modelling/Graphical_Models';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="prev" title="4. Probabilistic Modelling" href="preface.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Computational Statistics
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Monte_Carlo_Methods/Monte_Carlo_Integration.html">2.1. Monte Carlo Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="preface.html">4. Probabilistic Modelling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Graphical Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">5.2. Basic Statistics</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Probabilistic_Modelling/Graphical_Models.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/Probabilistic_Modelling/Graphical_Models.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Graphical Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphical-models">4.1.1. Directed Graphical Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#space-reduction">4.1.1.1. Space Reduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-independence">4.1.1.2. Conditional Independence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-elementary-examples">4.1.1.3. Three Elementary Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphical-models">4.1.2. Undirected Graphical Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.1.2.1. Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.2.2. Independence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability">4.1.2.3. Joint Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">4.1.2.4. Inference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trees">4.1.3. Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plates">4.1.4. Plates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inferencing">4.1.5. Inferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-learning">4.1.6. Structure Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">4.1.7. Examples</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="graphical-models">
+<h1><span class="section-number">4.1. </span>Graphical Models<a class="headerlink" href="#graphical-models" title="Permalink to this heading">#</a></h1>
+<p><strong>Why graphical models</strong></p>
+<p>Graphical models are of fundamental importance to Probabilistic modeling as most relations and structures in models are represented in the form of graphical structures. They are also useful to demonstrate relations between random variables, parameters which comes handy when we have to make probabilistic programs to make inferences.</p>
+<p><strong>Definition</strong></p>
+<p>Graphical models refer to a family of probability distributions defined in terms of a directed or undirected graph.</p>
+<p><strong>Examples of Graphcial Models</strong></p>
+<p><strong>Note:</strong> All the circles in the graph are Random Variables. The shaded ones are observed variables (like <span class="math notranslate nohighlight">\(y_i\)</span>), variables that can be measured. The non shaded ones are latent variables, those that have to be infered (like <span class="math notranslate nohighlight">\(\mu\)</span>).</p>
+<ol class="arabic simple">
+<li><p>Markov Model</p></li>
+</ol>
+<figure class="align-default" id="markov-model">
+<a class="reference internal image-reference" href="../../_images/Markov_model.png"><img alt="../../_images/Markov_model.png" src="../../_images/Markov_model.png" style="width: 200px; height: 90px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Markov Model</span><a class="headerlink" href="#markov-model" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="2">
+<li><p>Hidden Markov Model</p></li>
+</ol>
+<figure class="align-default" id="hidden-markov-model">
+<a class="reference internal image-reference" href="../../_images/HMM.png"><img alt="../../_images/HMM.png" src="../../_images/HMM.png" style="width: 200px; height: 132px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">Hidden Markov Model</span><a class="headerlink" href="#hidden-markov-model" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Mixture Model</p></li>
+</ol>
+<figure class="align-default" id="mixture-model">
+<a class="reference internal image-reference" href="../../_images/MM.png"><img alt="../../_images/MM.png" src="../../_images/MM.png" style="width: 180px; height: 180px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">Mixture Model</span><a class="headerlink" href="#mixture-model" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="directed-graphical-models">
+<h2><span class="section-number">4.1.1. </span>Directed Graphical Models<a class="headerlink" href="#directed-graphical-models" title="Permalink to this heading">#</a></h2>
+<p>Directed Graphical Models are graphical model in which the edges have directions associated with them. Also known as Bayesian networks which are a useful representation for hierarchical Bayesian models. They form the foundation of applied Bayesian statistics (see e.g., the BUGS project). In such a model, the parameters are treated like any other random variable, and becomes nodes in the graph.</p>
+<figure class="align-default" id="example-graph">
+<a class="reference internal image-reference" href="../../_images/Example_GM.png"><img alt="../../_images/Example_GM.png" src="../../_images/Example_GM.png" style="width: 250px; height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">Example Graph</span><a class="headerlink" href="#example-graph" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let <span class="math notranslate nohighlight">\( {X_1, X_2, ... X_n } \)</span> be a set of random variables, and <span class="math notranslate nohighlight">\( {x_1, x_2, ... x_n } \)</span> be a random sample.</p>
+<p><strong>Parents</strong>: We define <span class="math notranslate nohighlight">\(\Pi_i\)</span> as the set of parents of X_i. We will these definations to explore some important facts about these graphs.</p>
+<p>For the example graph: <span class="math notranslate nohighlight">\(\Pi_6 = {X_2, X_5}\)</span> and <span class="math notranslate nohighlight">\( \)</span></p>
+<p><strong>Topological Sort</strong>: A topological sort is a arrangement of random variables such that children come after parents. Ie all elements of set <span class="math notranslate nohighlight">\(\Pi_i\)</span>, have index less than i.</p>
+<p>For the example graph: <span class="math notranslate nohighlight">\({1,2,3,4,5,6}\)</span>, and <span class="math notranslate nohighlight">\({1,3,5,2,4,6}\)</span></p>
+<p><strong>Joint Probability</strong>: We can define the joint probability of the RV set as:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x_{1:n}) = \prod_{i=1}^{n} p(x_i|x_{\pi_{i}})
+\]</div>
+<p>So for the example graph:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x_{1:6}) = p(x_{1})p(x_{2}|x_1)p(x_3|x_1)p(x_4|x_2)p(x_5|x_3)p(x_6|x_2,x_5)
+\]</div>
+<blockquote>
+<div><p>One of the main advantages of directed graph is that the joint distribution can be easily factored out based on the parents of nodes.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Causality:</strong> Directed Graphs are also popular as a path from A to B signifies a causal realtion between A and B.</p>
+</div></blockquote>
+<section id="space-reduction">
+<h3><span class="section-number">4.1.1.1. </span>Space Reduction<a class="headerlink" href="#space-reduction" title="Permalink to this heading">#</a></h3>
+<p>It is worth noting that epressing RV’s as graphs helps us reduce the space required. Consider the example with binary RV’s, as we have 6 RV’s it will require <span class="math notranslate nohighlight">\(2^6 = 64\)</span> data points to define distribution (joint). But notice that <span class="math notranslate nohighlight">\(p(x_{1})\)</span> takes only 2 values, <span class="math notranslate nohighlight">\(p(x_{2}|x_1)\)</span> takes 4 and <span class="math notranslate nohighlight">\(p(x_6|x_2,x_5)\)</span> takes 8 totalling, 26 for the joint distribution, hense saving space.</p>
+</section>
+<section id="conditional-independence">
+<h3><span class="section-number">4.1.1.2. </span>Conditional Independence<a class="headerlink" href="#conditional-independence" title="Permalink to this heading">#</a></h3>
+<p>We want to understand when two or mulitple varaibles are independent of each other or independent conditional on value of some other variable being known. (Using I for independence symbol)</p>
+<ul class="simple">
+<li><p>Independence:</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight" id="equation-06851d3c-8c64-4d9b-9238-8ab8232a12e1">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-06851d3c-8c64-4d9b-9238-8ab8232a12e1" title="Permalink to this equation">#</a></span>\[\begin{align}
+X_A \; I \; X_B  &amp; \iff p(x_A, x_B) = p(x_A) p(x_B) \\ 
+                 &amp; \iff p(x_A | x_B) = p(x_A)
+\end{align}\]</div>
+<ul class="simple">
+<li><p>Conditional Independence:</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight" id="equation-5f765146-6188-4c0c-bc5e-b312b177f51a">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-5f765146-6188-4c0c-bc5e-b312b177f51a" title="Permalink to this equation">#</a></span>\[\begin{align}
+X_A \; I \; X_B | X_C &amp; \iff p(x_A, x_B | x_C) = p(x_A|x_C) p(x_B|x_C) \\ 
+                      &amp; \iff p(x_A | x_B, x_C) = p(x_A|x_C)
+\end{align}\]</div>
+<p>This means that if we know the value of <span class="math notranslate nohighlight">\(X_C\)</span>, then the value of <span class="math notranslate nohighlight">\(X_A\)</span> does not depend on the value of <span class="math notranslate nohighlight">\(X_B\)</span>. This is an important concept and comes in handy when we want to explore the dependencies of the features of the models.</p>
+<p>In general, the conditional independence relationships encoded by a Bayes Net are best be explained by means of the “Bayes Ball” algorithm. At its core, it uses the below three fundamental examples to find independence.</p>
+</section>
+<section id="three-elementary-examples">
+<h3><span class="section-number">4.1.1.3. </span>Three Elementary Examples<a class="headerlink" href="#three-elementary-examples" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Past-Present-Future Sequence</strong></p></li>
+</ol>
+<figure class="align-default" id="past-present-future-sequence">
+<a class="reference internal image-reference" href="../../_images/PPF_graph.png"><img alt="../../_images/PPF_graph.png" src="../../_images/PPF_graph.png" style="width: 180px; height: 60px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.5 </span><span class="caption-text">Past-Present-Future Sequence</span><a class="headerlink" href="#past-present-future-sequence" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This graph represents the Markov chain where every Random Variable depends only on the one behind it.</p>
+<p>Some properties:</p>
+<p>Joint Distribution: <span class="math notranslate nohighlight">\(p(x,y,z) = p(x)p(y|x)p(z|y)\)</span></p>
+<p>Dependencies: <span class="math notranslate nohighlight">\( X \; I \; Z | Y \)</span>, ie. value of X is independent of Z if we know the value of Y</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Little Tree</strong></p></li>
+</ol>
+<figure class="align-default" id="little-tree">
+<a class="reference internal image-reference" href="../../_images/LT_graph.png"><img alt="../../_images/LT_graph.png" src="../../_images/LT_graph.png" style="width: 120px; height: 120px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.6 </span><span class="caption-text">Little Tree</span><a class="headerlink" href="#little-tree" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Some Properties:</p>
+<p>Joint Distribution: <span class="math notranslate nohighlight">\(p(x,y,z) = p(y)p(x|y)p(z|y)\)</span></p>
+<p>Dependencies: <span class="math notranslate nohighlight">\( X \; I \; Z | Y \)</span>, just like the one above, here also Z is independent of X if Y is given otherwise, they may or may not be dependent.</p>
+<ol class="arabic simple" start="3">
+<li><p><strong>Inverse Tree</strong></p></li>
+</ol>
+<figure class="align-default" id="inverse-tree">
+<a class="reference internal image-reference" href="../../_images/Inv_tree.png"><img alt="../../_images/Inv_tree.png" src="../../_images/Inv_tree.png" style="width: 120px; height: 120px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.7 </span><span class="caption-text">Inverse Tree</span><a class="headerlink" href="#inverse-tree" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The inverse tree is also a very elementary graph found in many models.</p>
+<p>Properties:</p>
+<p>Joint Distribution: <span class="math notranslate nohighlight">\(p(x,y,z) = p(x)p(y)p(z|x,y)\)</span></p>
+<p>Dependencies: Here we have a direct independence between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, but notably the conditional independence <span class="math notranslate nohighlight">\( X \; I \; Z | Y \)</span>, as seen in the above ones are not true. <em>Hense X and Y are independent if Z is not known, and dependent if Z is known</em>.</p>
+</section>
+</section>
+<section id="undirected-graphical-models">
+<h2><span class="section-number">4.1.2. </span>Undirected Graphical Models<a class="headerlink" href="#undirected-graphical-models" title="Permalink to this heading">#</a></h2>
+<p>Undirected graphs are much harder to work with (especially when defining the joint probabilities) as there is no parent and child relation rather the dependence is mutual, (but they also are quite useful as more expressive). Also known as Markov random fields (MRV).</p>
+<figure class="align-default" id="undirected-graph">
+<a class="reference internal image-reference" href="../../_images/Und_graph.png"><img alt="../../_images/Und_graph.png" src="../../_images/Und_graph.png" style="width: 200px; height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Undirected Graph</span><a class="headerlink" href="#undirected-graph" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="structure">
+<h3><span class="section-number">4.1.2.1. </span>Structure<a class="headerlink" href="#structure" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Every node in an MRV, is conditionally independent of every other node in the network conditional on its direct neighbours. (Similar to directed graph)</p></li>
+<li><p>We use potentials and graphs cliques to factorise the joint distribution (unlike the parent child factorisation)</p></li>
+<li><p>We can give correlations between variables but no explicit way to generate samples (special case: gaussian processes)</p></li>
+</ol>
+</section>
+<section id="independence">
+<h3><span class="section-number">4.1.2.2. </span>Independence<a class="headerlink" href="#independence" title="Permalink to this heading">#</a></h3>
+<p>While undirected graphs are more complicated than directed ones, independece finding is much more simpler.</p>
+<p>Two (sets of) nodes A and B are conditionally independent given a third set, C, if all paths between the nodes in A and B are separated by a node in C.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/und_grph.png"><img alt="../../_images/und_grph.png" src="../../_images/und_grph.png" style="width: 300px; height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.9 </span><span class="caption-text">Undirected Graph A,B,C</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In this example we can see that the undirected graph has the <span class="math notranslate nohighlight">\(A \; I\; B | C\)</span>, if there is even a single path between the two sets then independence will be broken.</p>
+<p>We can use this info to get conditional independece, and construct factorised joint distribution.</p>
+</section>
+<section id="joint-probability">
+<h3><span class="section-number">4.1.2.3. </span>Joint Probability<a class="headerlink" href="#joint-probability" title="Permalink to this heading">#</a></h3>
+<p>If we consider two nodes xi and xj that are not connected by a link, then these variables must be conditionally independent given all other nodes in the graph. This follows from the fact that there is no direct path between the two nodes, and all other paths pass through nodes that are observed, and hence those paths are blocked. This conditional independence property can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x_i, x_j | x_{\backslash \{i,j\}}) = p(x_i | x_{\backslash \{i,j\}}) p(x_j | x_{\backslash \{i,j\}})
+\]</div>
+<p>This leads us to consider a graphical concept called a clique, which is defined as a subset of the nodes in a graph such that there exists a link between all pairs of nodes in the subset.</p>
+<p>Hense, we can divide up the graph based on cliques and use potential functions (representative functions) to factorise the joint dist.</p>
+<p>Let us denote a clique by C and the set of variables in that clique by <span class="math notranslate nohighlight">\(x_C\)</span> . Then the joint distribution is written as a product of potential functions <span class="math notranslate nohighlight">\(\phi_C (x_C) \)</span> over the maximal cliques of the graph</p>
+<div class="math notranslate nohighlight">
+\[
+p(x) = \frac{1}{Z} \prod_{C} phi_C (x_C)
+\]</div>
+<p>Here the quantity Z, sometimes called the partition function, is a normalization constant and is given by (integrate if continous distribution):</p>
+<div class="math notranslate nohighlight">
+\[
+Z = \sum_{x} \prod_{C} phi_C (x_C)
+\]</div>
+</section>
+<section id="inference">
+<h3><span class="section-number">4.1.2.4. </span>Inference<a class="headerlink" href="#inference" title="Permalink to this heading">#</a></h3>
+<p>The main challenge is to calculate the conditional probabilites and we will show the general method here.</p>
+<p>Let f be the query node indexes, E be the evidence indexes, and R be the remaining indexes.</p>
+<p><strong>Goal:</strong>   <span class="math notranslate nohighlight">\( p(x_f | x_E) = \frac{p(x_f, x_E)}{p(x_E)} \)</span></p>
+<ol class="arabic simple">
+<li><p>Compute the marginal (integrate if continuous)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+p(x_f , x_E) = \sum_{x_R} p(x_f , x_E, x_R)
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Compute the denominator (another marginal)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+p(x_E) = \sum_{x_f} p(x_f , x_E)
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>Take the ratio (goal)</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+p(x_f | x_E) = \frac{\sum_{x_R} p(x_f , x_E, x_R)}{\sum_{x_f} p(x_f , x_E)}
+\]</div>
+</section>
+</section>
+<section id="trees">
+<h2><span class="section-number">4.1.3. </span>Trees<a class="headerlink" href="#trees" title="Permalink to this heading">#</a></h2>
+<p>Trees are important because many well known graphical models can be represented as trees, and some complicated ones can be approximated by trees. It is also the basis for the junction tree algorithm It is also the basis of an approximate inference algorithm.</p>
+</section>
+<section id="plates">
+<h2><span class="section-number">4.1.4. </span>Plates<a class="headerlink" href="#plates" title="Permalink to this heading">#</a></h2>
+<p>Sometimes when describing graphical models, it is convenient to have a notation to indicate repeated structures. We use plates (or rectangular boxes) to enclose a repeated structure. We interpret this by copying the structure inside the plate N times, when N is indicated in the lower right corner of the plate.</p>
+<p><strong>Examples</strong>:
+A simple example would be a parametric gaussian model. Suppose we generate N i.i.d Samples from a gaussian distribution with mean <span class="math notranslate nohighlight">\(\mu\)</span>, and standard deviation <span class="math notranslate nohighlight">\(\sigma^2\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+p(x_1, x_2, ... x_N, \mu, \sigma) = p(\mu)p(\sigma) \prod_{n = 1}^{N} p(x | \mu ,\sigma)
+\]</div>
+<p>We can also represent it using plates as:-</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../_images/plates.png"><img alt="../../_images/plates.png" src="../../_images/plates.png" style="width: 400px; height: 150px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.10 </span><span class="caption-text">Plates</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference external" href="https://www.cs.cmu.edu/~epxing/Class/10701-08s/Lecture/lecture18-GM1.pdf">https://www.cs.cmu.edu/~epxing/Class/10701-08s/Lecture/lecture18-GM1.pdf</a>
+<a class="reference external" href="https://www.cs.ubc.ca/~murphyk/Bayes/bnintro.html">https://www.cs.ubc.ca/~murphyk/Bayes/bnintro.html</a>
+<a class="reference external" href="https://mlg.eng.cam.ac.uk/zoubin/talks/lect2gm.pdf">https://mlg.eng.cam.ac.uk/zoubin/talks/lect2gm.pdf</a></p>
+</section>
+<section id="inferencing">
+<h2><span class="section-number">4.1.5. </span>Inferencing<a class="headerlink" href="#inferencing" title="Permalink to this heading">#</a></h2>
+<p>Two lines on inferencing and use of these models.</p>
+</section>
+<section id="structure-learning">
+<h2><span class="section-number">4.1.6. </span>Structure Learning<a class="headerlink" href="#structure-learning" title="Permalink to this heading">#</a></h2>
+<p>Two lines on structure learning</p>
+<p><a class="reference external" href="https://www.cs.ubc.ca/~murphyk/Papers/intro_gm.pdf">https://www.cs.ubc.ca/~murphyk/Papers/intro_gm.pdf</a></p>
+</section>
+<section id="examples">
+<h2><span class="section-number">4.1.7. </span>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Factor Analysis and PCA</p></li>
+<li><p>Kalman Filters, HMMs</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/Probabilistic_Modelling"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="preface.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Probabilistic Modelling</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Maths_Appendix/Preface.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Maths Appendix</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphical-models">4.1.1. Directed Graphical Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#space-reduction">4.1.1.1. Space Reduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-independence">4.1.1.2. Conditional Independence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-elementary-examples">4.1.1.3. Three Elementary Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphical-models">4.1.2. Undirected Graphical Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.1.2.1. Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independence">4.1.2.2. Independence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability">4.1.2.3. Joint Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">4.1.2.4. Inference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trees">4.1.3. Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plates">4.1.4. Plates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inferencing">4.1.5. Inferencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-learning">4.1.6. Structure Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">4.1.7. Examples</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gaurav Joshi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

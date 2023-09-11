@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Simulation_Based_Inference/Hamiltonian_Monte_Carlo';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="4. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="next" title="4. Probabilistic Modelling" href="../Probabilistic_Modelling/preface.html" />
     <link rel="prev" title="3.5. High Dimension Space" href="High_Dimensional_Data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -176,9 +176,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">4. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">4.1. Basic Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">4.2. Basic Statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Probabilistic_Modelling/preface.html">4. Probabilistic Modelling</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/Graphical_Models.html">4.1. Graphical Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Maths_Appendix/Basic_Statistics.html">5.2. Basic Statistics</a></li>
 </ul>
 </li>
 </ul>
@@ -442,14 +446,14 @@ q_n \to (q_n , p_n)
 H(q,p) = - log(\pi (q,p))
 \]</div>
 <p>this decomposes into the Kinetic and the Potential Energies:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-43f8ebaa-d773-4c5c-8907-4232557da8a9">
-<span class="eqno">(3.9)<a class="headerlink" href="#equation-43f8ebaa-d773-4c5c-8907-4232557da8a9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8d6851b7-3424-4d88-9d4c-49c53c120ed6">
+<span class="eqno">(3.9)<a class="headerlink" href="#equation-8d6851b7-3424-4d88-9d4c-49c53c120ed6" title="Permalink to this equation">#</a></span>\[\begin{align}
 H(q,p) &amp;= -log T(p|q) - log \pi(q) \\
 &amp; = + K(p,q) + V(q)
 \end{align}\]</div>
 <p>The Kinetic energy depends on the positon and momentum, while the potential energy depends only on the position. We can then solve the Hamilton’s differential equations to get the trajectory.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-507105ff-f075-46c0-8aba-cb06ebe8da4b">
-<span class="eqno">(3.10)<a class="headerlink" href="#equation-507105ff-f075-46c0-8aba-cb06ebe8da4b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f08f181f-d18e-49d9-bfbd-71d2f5f0a3ca">
+<span class="eqno">(3.10)<a class="headerlink" href="#equation-f08f181f-d18e-49d9-bfbd-71d2f5f0a3ca" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp; \frac{dq}{dt} &amp;= + \frac{\partial H}{\partial p} &amp;= \frac{\partial K}{\partial p} \\
 &amp; \frac{dp}{dt} &amp;= - \frac{\partial H}{\partial q} &amp;= - \frac{\partial K}{\partial q} - \frac{\partial V}{\partial q}
 \end{align}\]</div>
@@ -474,15 +478,15 @@ U(\theta) = -log (\pi(\theta)) = 20 (|\theta|_2 - 10)^2
 K(r) = \sum_{i = 1}^{d} \frac{1}{2} r_i^2 \; \; with  \; \; r_i \sim \mathcal{N}(0,1)
 \]</div>
 <p>For this <span class="math notranslate nohighlight">\(H(\theta, r)\)</span>, we have the Hamiltons equation as:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2879f298-d20e-4200-8009-aaba4955aa7f">
-<span class="eqno">(3.11)<a class="headerlink" href="#equation-2879f298-d20e-4200-8009-aaba4955aa7f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-546163c6-372d-42ec-a77e-b0f2b9507eb6">
+<span class="eqno">(3.11)<a class="headerlink" href="#equation-546163c6-372d-42ec-a77e-b0f2b9507eb6" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp; \frac{d \theta_i}{dt} = r_i \\
 &amp; \frac{d r_i}{dt}  = \frac{\partial log(\pi(\theta))}{\partial \theta_i} 
 
 \end{align}\]</div>
 <p>For simulating the trajectory, we will use the leapfrog integrator, which works like</p>
-<div class="amsmath math notranslate nohighlight" id="equation-82ca8861-eb08-44d0-95b6-63b8dbca62bc">
-<span class="eqno">(3.12)<a class="headerlink" href="#equation-82ca8861-eb08-44d0-95b6-63b8dbca62bc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-498cb6ba-25f6-4441-873e-f1afeac6dd96">
+<span class="eqno">(3.12)<a class="headerlink" href="#equation-498cb6ba-25f6-4441-873e-f1afeac6dd96" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp; r(t + \epsilon/2) &amp; = &amp; \; \;  r(t) - (\epsilon /2) \nabla_{\theta} U (\theta(t)) \\
 &amp; \theta(t + \epsilon) &amp; = &amp; \; \; \theta(t) + \epsilon r(t + \epsilon/2) \\
 &amp; r(t + \epsilon) &amp; = &amp; \; \; r(t+ \epsilon/2) - (\epsilon /2) \nabla_{\theta} U (\theta(t + \epsilon/2)) \\
@@ -752,11 +756,11 @@ log (Uniform (0,1)) &lt; H(\theta, r) - H(\theta^{\prime}, r^{\prime})
       </div>
     </a>
     <a class="right-next"
-       href="../Maths_Appendix/Preface.html"
+       href="../Probabilistic_Modelling/preface.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Maths Appendix</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Probabilistic Modelling</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
