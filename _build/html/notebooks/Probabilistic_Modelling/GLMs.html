@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4. Probabilistic Modelling &#8212; Computational Statistics</title>
+    <title>4.2. Generalised Linear Models &#8212; Computational Statistics</title>
   
   
   
@@ -61,11 +61,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Probabilistic_Modelling/preface';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Probabilistic_Modelling/GLMs';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="4.1. Graphical Models" href="Graphical_Models.html" />
-    <link rel="prev" title="3.6. Hamiltonian Monte Carlo" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html" />
+    <link rel="next" title="5. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="prev" title="4.1. Graphical Models" href="Graphical_Models.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,9 +176,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">4. Probabilistic Modelling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="preface.html">4. Probabilistic Modelling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Graphical_Models.html">4.1. Graphical Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="GLMs.html">4.2. Generalised Linear Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Generalised Linear Models</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -256,7 +258,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Probabilistic_Modelling/preface.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Probabilistic_Modelling/GLMs.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -286,7 +288,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/notebooks/Probabilistic_Modelling/preface.ipynb" target="_blank"
+      <li><a href="../../_sources/notebooks/Probabilistic_Modelling/GLMs.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -355,7 +357,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -366,11 +370,20 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Probabilistic Modelling</h1>
+    <h1>Generalised Linear Models</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.2.1. Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-poisson-regression">4.2.2. Example 1 - Poisson Regression</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -380,11 +393,80 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="probabilistic-modelling">
-<h1><span class="section-number">4. </span>Probabilistic Modelling<a class="headerlink" href="#probabilistic-modelling" title="Permalink to this heading">#</a></h1>
-<p>The main use of Computational Statistics is in Probabilistic Modelling and related problems, which are a mainstay of modern machine learning research. In this part, we will first understand about Graphical Models and slowly understand other probabilistic models in detail.</p>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="generalised-linear-models">
+<h1><span class="section-number">4.2. </span>Generalised Linear Models<a class="headerlink" href="#generalised-linear-models" title="Permalink to this heading">#</a></h1>
+<p>We have seen simple linear regression and used it for modeling simple relations in data. In this part, we will try to model more complex relations using generalised linear models.</p>
+<section id="structure">
+<h2><span class="section-number">4.2.1. </span>Structure<a class="headerlink" href="#structure" title="Permalink to this heading">#</a></h2>
+<figure class="align-default" id="glms">
+<a class="reference internal image-reference" href="../../_images/glms.png"><img alt="../../_images/glms.png" src="../../_images/glms.png" style="width: 350px; height: 150px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.11 </span><span class="caption-text">Generalised Linear Model (Graphical Representation)</span><a class="headerlink" href="#glms" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The basic structure of a GLM is as shown in the graphical representation (with the box being a plate).</p>
+<p>Here, <span class="math notranslate nohighlight">\(\beta\)</span> are all the parameters of the model, <span class="math notranslate nohighlight">\(x\)</span> is the input data, <span class="math notranslate nohighlight">\(y\)</span> is the output data, <span class="math notranslate nohighlight">\(f\)</span> is the link function, and <span class="math notranslate nohighlight">\(g\)</span> is the distribution function.</p>
+<p>In steps:-</p>
+<ol class="arabic simple">
+<li><p>We take the input data and apply a linear transformation to it. ie <span class="math notranslate nohighlight">\(x \rightarrow \theta^Tx\)</span></p></li>
+<li><p>We then apply a link function to the output of the linear transformation. ie <span class="math notranslate nohighlight">\(\mu \rightarrow f(\theta^Tx)\)</span></p></li>
+<li><p>We then apply a distribution function to the output of the link function. ie <span class="math notranslate nohighlight">\(y \sim g(f(\theta^Tx), \sigma)\)</span></p></li>
+</ol>
+<p>As an example the linear regression model:-</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8f9969a7-0845-4932-9325-e16aab431765">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-8f9969a7-0845-4932-9325-e16aab431765" title="Permalink to this equation">#</a></span>\[\begin{align}
+\mu_i = \theta_0 + \theta_1x_i \\
+y_i \sim \mathcal{N}(\mu_i, \sigma^2)
+\end{align}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\beta\)</span> signifies both <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span></p>
+<ul class="simple">
+<li><p>What makes these models linear is that the loss is linear for the parameters <span class="math notranslate nohighlight">\(\theta\)</span> (Not exactly after adding a link function, but the gradients are still easy). This makes calculating the gradients easier and also makes the models more interpretable.</p></li>
+<li><p>What makes it Generalised is that we can use any distribution function <span class="math notranslate nohighlight">\(g\)</span> and any link function <span class="math notranslate nohighlight">\(f\)</span>. This allows us to model a wide variety of data.</p></li>
+</ul>
+<p>The most common link functions are the identity function, the sigmoid function, and the softmax function.</p>
+<p>The distribution function can be any exponential function but the most common are the Gaussian distribution, the Bernoulli distribution, and the Multinoulli distribution.</p>
+</section>
+<section id="example-1-poisson-regression">
+<h2><span class="section-number">4.2.2. </span>Example 1 - Poisson Regression<a class="headerlink" href="#example-1-poisson-regression" title="Permalink to this heading">#</a></h2>
+<p>We usually assume a linear model and add a normal error as a model, but often the errors are poissonian in nature. For example, the number of cars passing through a toll booth in a given time interval etc.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing Dependencies</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making the data:-</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Adding poisson noise, Here 0.5 is the lambda value of the poisson distribution</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Plotting the data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True Function&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/eef71db6dd500cfce0616794325cf96d41ccfcd8f0cd3a8a8b95dda5efd7cf01.png" src="../../_images/eef71db6dd500cfce0616794325cf96d41ccfcd8f0cd3a8a8b95dda5efd7cf01.png" />
+</div>
+</div>
+<p>Softmax and cross entropy with uni and multi logistic regression, also including neural networks</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -419,20 +501,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html"
+       href="Graphical_Models.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.6. </span>Hamiltonian Monte Carlo</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Graphical Models</p>
       </div>
     </a>
     <a class="right-next"
-       href="Graphical_Models.html"
+       href="../Maths_Appendix/Preface.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4.1. </span>Graphical Models</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Maths Appendix</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -445,6 +527,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.2.1. Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-poisson-regression">4.2.2. Example 1 - Poisson Regression</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

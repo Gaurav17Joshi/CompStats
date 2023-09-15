@@ -27,7 +27,9 @@ chapters:
 - file: notebooks/Probabilistic_Modelling/preface.ipynb
   sections:
   - file: notebooks/Probabilistic_Modelling/Graphical_Models.ipynb
+  - file: notebooks/Probabilistic_Modelling/GLMs.ipynb
 - file: notebooks/Maths_Appendix/Preface.ipynb
   sections:
   - file : notebooks/Maths_Appendix/Basic_Probability.ipynb
   - file : notebooks/Maths_Appendix/Basic_Statistics.ipynb
+  - file : notebooks/Maths_Appendix/Information_Theory.ipynb
