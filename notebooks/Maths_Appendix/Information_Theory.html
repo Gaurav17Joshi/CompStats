@@ -1,0 +1,840 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>5.3. Information Theory &#8212; Computational Statistics</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Maths_Appendix/Information_Theory';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="5.2. Basic Statistics" href="Basic_Statistics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Computational Statistics
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Random_Variable_Generation/Preface.html">1. Random Variable Generation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Random_Variable_Generation/RVGI.html">1.1. Basic RV Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Monte_Carlo_Methods/Preface.html">2. Monte Carlo Methods</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Monte_Carlo_Methods/Monte_Carlo_Integration.html">2.1. Monte Carlo Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Simulation_Based_Inference/Preface.html">3. Simulation Based Inference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Markov_Chains.html">3.1. Basic MCMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Gibbs_Sampling.html">3.2. Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Metropolis_Hastings.html">3.3. Metropolis Hastings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Evidence_Calculation.html">3.4. Bayesian Evidence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/High_Dimensional_Data.html">3.5. High Dimension Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Probabilistic_Modelling/preface.html">4. Probabilistic Modelling</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/Graphical_Models.html">4.1. Graphical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Probabilistic_Modelling/GLMs.html">4.2. Generalised Linear Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Preface.html">5. Maths Appendix</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Basic_Probability.html">5.1. Basic Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Basic_Statistics.html">5.2. Basic Statistics</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.3. Information Theory</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Maths_Appendix/Information_Theory.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/Maths_Appendix/Information_Theory.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Information Theory</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy">5.3.1. Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-entropy">5.3.2. Joint Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy">5.3.3. Cross Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutual-information">5.3.4. Mutual Information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">5.3.5. KL Divergence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kld-properties">5.3.5.1. KLD properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy-and-kld">5.3.5.2. Entropy and KLD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-and-kld">5.3.5.3. Cross Entropy and KLD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mi-and-kld">5.3.5.4. MI and KLD</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="information-theory">
+<h1><span class="section-number">5.3. </span>Information Theory<a class="headerlink" href="#information-theory" title="Permalink to this heading">#</a></h1>
+<p>In layman terms Data Analysis is the process of extracting useful information from data. But what is information? How do we measure it?</p>
+<p>In this notebook, we will explore the concept of information, uncertainity in Random Variables and how it can be quantified. We will also be looking at a way to quantify the magnitude of an update from one set of beliefs to another using the concept of KL Divergence.</p>
+<section id="entropy">
+<h2><span class="section-number">5.3.1. </span>Entropy<a class="headerlink" href="#entropy" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>Entropy is the average amount of “information”, “surprise”, or “uncertainty” inherent in the variable’s possible outcomes.</p>
+</div></blockquote>
+<p>For a random variable <span class="math notranslate nohighlight">\(X\)</span> with <span class="math notranslate nohighlight">\(n\)</span> possible outcomes, the entropy <span class="math notranslate nohighlight">\(H(X)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[H(X) = -\sum_{i=1}^{n} p(x_i) \log p(x_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(x_i)\)</span> is the probability of the <span class="math notranslate nohighlight">\(i^{th}\)</span> outcome.</p>
+<p>Here we share a simple intution of entropy. Suppose we have two events x and y, then the info gained on observing both would be sum of info gained on observing x and y individually <span class="math notranslate nohighlight">\(h(x,y) = h(x)+h(y)\)</span>. Also, the probability will have the relation <span class="math notranslate nohighlight">\(p(x,y) = p(x) p(y)\)</span>. From this we can infer that <span class="math notranslate nohighlight">\(h(x)\)</span> must be given by a logarithm of <span class="math notranslate nohighlight">\(p(x)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+h(x) = -\log p(x)
+\]</div>
+<p>Now, for a random variable <span class="math notranslate nohighlight">\(X\)</span> with a state <span class="math notranslate nohighlight">\(x_1\)</span>, the info we gain on it occuring is <span class="math notranslate nohighlight">\(h(x_1) = -\log p(x_1)\)</span>, but it also only occurs with probability <span class="math notranslate nohighlight">\(p(x_1)\)</span>, so the average info we gain is <span class="math notranslate nohighlight">\(h(X) = -\sum_{i=1}^{n} p(x_i) \log p(x_i)\)</span>.</p>
+<p>The base of the logarithm is arbitrary. If we use base 2, then the unit of information is the bit. If we use base e, then the unit of information is the nat. If we use base 10, then the unit of information is the digit.</p>
+<p><strong>Entropy as Length of Transmitted Code</strong></p>
+<p>If we have 8 states (a,b,c,d,e,f,g, h) with probabilities (<span class="math notranslate nohighlight">\(\frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \frac{1}{16}, \frac{1}{64}, \frac{1}{64}, \frac{1}{64}, \frac{1}{64}\)</span>) respectively, then the entropy is:</p>
+<div class="math notranslate nohighlight">
+\[
+H(X) = -\frac{1}{2} \log \frac{1}{2} - \frac{1}{4} \log \frac{1}{4} - \frac{1}{8} \log \frac{1}{8} - \frac{1}{16} \log \frac{1}{16} - \frac{4}{64} \log \frac{1}{64} = -2
+\]</div>
+<p>This means that on average, we need 2 bits to encode the state of the random variable.
+We can represent the codes as (a: 0, b: 10, c: 110, d: 1110, e: 111100, f: 111101, g: 111110, h: 111111). The pdf average length of the code is 2 bits.</p>
+<p><strong>Differential Entropy</strong></p>
+<p>The continuous version of entropy is called differential entropy. It is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+H(X) = -\int_{-\infty}^{\infty} p(x) \log p(x) dx
+\]</div>
+<p>Note, this can also be in negative as pdf can be greater than 1.</p>
+</section>
+<section id="joint-entropy">
+<h2><span class="section-number">5.3.2. </span>Joint Entropy<a class="headerlink" href="#joint-entropy" title="Permalink to this heading">#</a></h2>
+<p>Joint entropy is the extension of entropy to multiple random variables. For two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, the joint entropy <span class="math notranslate nohighlight">\(H(X,Y)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[H(X,Y) = -\sum_{i=1}^{n} \sum_{j=1}^{m} p(x_i,y_j) \log p(x_i,y_j)\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(x_i,y_j)\)</span> is the joint probability of the <span class="math notranslate nohighlight">\(i^{th}\)</span> outcome of <span class="math notranslate nohighlight">\(X\)</span> and the <span class="math notranslate nohighlight">\(j^{th}\)</span> outcome of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+</section>
+<section id="cross-entropy">
+<h2><span class="section-number">5.3.3. </span>Cross Entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>Cross-entropy is a measure of the difference between two probability distributions for a given random variable or set of events. <strong>Note</strong>: on same set.</p>
+</div></blockquote>
+<p>Till now, we have been looking at the entropy of a single random variable. But what if we have two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> with the same set of outcomes? In this case, we can use the cross entropy to get a measure of the difference between the two probability distributions over the same underlying set of events.</p>
+<div class="math notranslate nohighlight">
+\[H_{ce} = -\sum_{i=1}^{n} p(x_i) \log q(x_i)\]</div>
+<p>The intution between why it gives a measure of the difference between the two probability distributions will become clearer after we look at KL Divergence.</p>
+<p>It shows up in the Cross entropy loss function in logistic learning, where we are trying to minimize the difference between the actual output (a one hot vector, which acts like a probibility distribution), and the predicted distribution of probabilites for different classes.</p>
+</section>
+<section id="mutual-information">
+<h2><span class="section-number">5.3.4. </span>Mutual Information<a class="headerlink" href="#mutual-information" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>Mutual information is a measure of the amount of information that one random variable contains about another random variable.</p>
+</div></blockquote>
+<p>For two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, the mutual information <span class="math notranslate nohighlight">\(I(X;Y)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[I(X;Y) = \sum_{i=1}^{n} \sum_{j=1}^{m} p(x_i,y_j) \log \frac{p(x_i,y_j)}{p(x_i)p(y_j)}\]</div>
+<p>It intuitively measures how much information is shared between the two random variables. If <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent, then <span class="math notranslate nohighlight">\(I(X;Y) = 0\)</span>, and it increases the more dependent they become.</p>
+<p>Here we can recognise that <span class="math notranslate nohighlight">\(\frac{p(x_i,y_j)}{p(x_i)p(y_j)}\)</span>, is the correlation between the two variables, and the mutual information is the expectation of the log of the correlation.</p>
+</section>
+<section id="kl-divergence">
+<h2><span class="section-number">5.3.5. </span>KL Divergence<a class="headerlink" href="#kl-divergence" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>KL Divergence is a measure of how one probability distribution is different from a second, reference probability distribution.</p>
+</div></blockquote>
+<p>Information in itself is a vague and abstract concept. But we can quantify the magnitude of an update from one set of beliefs to another very well using the concept of KL Divergence. Here we will show the KL divergence formulae, understand some of its properties and relate them to entropy and cross entropy.</p>
+<p>For two probability distributions <span class="math notranslate nohighlight">\(p(x)\)</span> and <span class="math notranslate nohighlight">\(q(x)\)</span>, the KL divergence <span class="math notranslate nohighlight">\(D_{KL}(p||q)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[D_{KL}(p||q) = \sum_{i=1}^{n} p(x_i) \log \frac{p(x_i)}{q(x_i)}\]</div>
+<p>In the continuous case, it is defined as:</p>
+<div class="math notranslate nohighlight">
+\[D_{KL}(p||q) = \int_{-\infty}^{\infty} p(x) \log \frac{p(x)}{q(x)} dx\]</div>
+<p>This quantifies the information update on changing from prior belief <span class="math notranslate nohighlight">\(q(x)\)</span> to posterior belief <span class="math notranslate nohighlight">\(p(x)\)</span>.</p>
+<section id="kld-properties">
+<h3><span class="section-number">5.3.5.1. </span>KLD properties<a class="headerlink" href="#kld-properties" title="Permalink to this heading">#</a></h3>
+<p><strong>1. Continuity of KL Divergence</strong></p>
+<blockquote>
+<div><p>KL Divergence is continuous in the limit as <span class="math notranslate nohighlight">\(p \to 0\)</span> and <span class="math notranslate nohighlight">\(q \to 0\)</span>.</p>
+</div></blockquote>
+<p>The information gain should be continous. The KL divergence by its formulae is continous, but we have to check the cases where <span class="math notranslate nohighlight">\(p(x) = 0\)</span> and <span class="math notranslate nohighlight">\(q(x) = 0\)</span>.</p>
+<p>In the limit <span class="math notranslate nohighlight">\(p \to 0\)</span>, we have <span class="math notranslate nohighlight">\( \lim_{p \to 0} p \log \frac{p}{q} \to 0\)</span>, so the KL divergence is continous at <span class="math notranslate nohighlight">\(p = 0\)</span>.</p>
+<p>For <span class="math notranslate nohighlight">\(q \to 0\)</span>, we have <span class="math notranslate nohighlight">\( \lim_{q \to 0} p \log \frac{p}{q} \to \infty\)</span>, but, this is expected as if <span class="math notranslate nohighlight">\(q\)</span> (prior) is zero at some point, then if the posterior <span class="math notranslate nohighlight">\(p\)</span> is non-zero at that point, then the information gain is infinite, as we had not expected the event to occur at all.</p>
+<p><strong>2. Non Negativity of KL Divergence</strong></p>
+<blockquote>
+<div><p>KL Divergence is non-negative, and is equal to zero if and only if <span class="math notranslate nohighlight">\(p(x) = q(x)\)</span>.</p>
+</div></blockquote>
+<p>The information gain should be positive regardless of the probability distributions, as we always gain information on changing our beliefs.</p>
+<p>We will make use of the <strong>Jensens Inequality</strong>, which states that for a convex function <span class="math notranslate nohighlight">\(f(x)\)</span>, we have:</p>
+<div class="math notranslate nohighlight">
+\[f(\sum_{i} \lambda_i x_i) \leq \sum_{i} \lambda_i f(x_i)\]</div>
+<figure class="align-default" id="jensen-inequality">
+<a class="reference internal image-reference" href="../../_images/Jensen.png"><img alt="../../_images/Jensen.png" src="../../_images/Jensen.png" style="width: 700px; height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">Jensen Inequality</span><a class="headerlink" href="#jensen-inequality" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Jensens Inequality is the equation for the statement that in a convex function, all secant lines lie above the graph of the function. This is also evident by the figure above.</p>
+<p><strong>Proof:</strong> <span class="math notranslate nohighlight">\(D_{KL}(p||q) \geq 0\)</span> with equality if and only if <span class="math notranslate nohighlight">\(p(x) = q(x)\)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-09a36c68-798e-4b6b-9d82-f569ae10e3d4">
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-09a36c68-798e-4b6b-9d82-f569ae10e3d4" title="Permalink to this equation">#</a></span>\[\begin{align}
+-D_{KL}(p||q) &amp;= -\sum_{x} p(x) \log \frac{p(x)}{q(x)} = \sum_{x} p(x) \log \frac{q(x)}{p(x)}  \\
+&amp; \leq \log \sum_{x} p(x) \frac{q(x)}{p(x)} = \log \sum_{x} q(x) = 0 \\
+&amp; \leq \log \sum_{x} q(x) = log(1) = 0
+\end{align}\]</div>
+<p>The equality holds when <span class="math notranslate nohighlight">\(p(x) = q(x)\)</span>. Note: We used the fact that log is a concave function, so we can apply inverse Jensens Inequality.</p>
+<p>The non-negativity of the KL divergence is a very important property, as it allows us to get bounds on expressions.</p>
+<p><strong>3. Chain Rule for KL Divergence</strong></p>
+<blockquote>
+<div><p>KL Diveregence is additive, i.e. <span class="math notranslate nohighlight">\(D_{KL}(p(x,y)||q(x,y)) = D_{KL}(p(x)||q(x)) + D_{KL}(p(y|x)||q(y|x))\)</span></p>
+</div></blockquote>
+<p>For probabilities we have the chain rule (product rule) as:</p>
+<div class="math notranslate nohighlight">
+\[p(x,y) = p(x|y)p(y) = p(y|x)p(x)\]</div>
+<p>Is there a similar rule for KL divergence? Can we split the information gain from two variables in a chain rule as we did for probabilities?</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ec3bbf44-6778-44ee-af16-d8c7e1114fc9">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-ec3bbf44-6778-44ee-af16-d8c7e1114fc9" title="Permalink to this equation">#</a></span>\[\begin{align}
+D_{KL}(p(x,y)||q(x,y)) &amp;= \int_{x} \int_{y} dx \; dy \; p(x,y) \log \frac{p(x,y)}{q(x,y)} \\
+&amp;= \int_{x} \int_{y} dx \; dy \; p(x,y) \left[ \log \frac{p(x)}{q(x)} + \log \frac{p(y|x)}{q(y|x)} \right] \\
+&amp;= \int_{x} dx \; \log \frac{p(x)}{q(x)} \int_{y}  p(x,y) \; dy + \int_{x} p(x) \; dx \int_{y} p(y|x) \log \frac{p(y|x)}{q(y|x)} \; dy \\
+&amp; = \int_{x} dx \; p(x) \log \frac{p(x)}{q(x)} +  \int_{x} p(x) D_{KL}(p(y|x)||q(y|x)) \; dx  \\ 
+&amp; = D_{KL}(p(x)||q(x)) + D_{KL}(p(y|x)||q(y|x))
+\end{align}\]</div>
+<p>Here we have put <span class="math notranslate nohighlight">\(D_{KL}(p(y|x)||q(y|x))\)</span> inplace of <span class="math notranslate nohighlight">\(\mathbb{E}_{p(x)}[D_{KL}(p(y|x)||q(y|x))]\)</span>, as the expectation is taken over <span class="math notranslate nohighlight">\(p(x)\)</span>, and <span class="math notranslate nohighlight">\(p(y|x)\)</span> is a function of <span class="math notranslate nohighlight">\(x\)</span>, so it is constant with respect to <span class="math notranslate nohighlight">\(p(x)\)</span>.</p>
+<p>This means that just like the probabilities, we can also use a chain rule for the KL divergence. This is a very important property, as it allows us to split the information gain from multiple variables into individual information gains.</p>
+<p><strong>4. KL Divergence is invariant to reparametrisation</strong></p>
+<blockquote>
+<div><p>KL Divergence is invariant to reparametrisation of the variables.</p>
+</div></blockquote>
+<p>What happens when we reparametrise our functions from <span class="math notranslate nohighlight">\(x \to y\)</span>, The KL Divergence should ideally not change, as we are just changing the way we are representing the same information, and it does not.</p>
+<p>If we change the variable from <span class="math notranslate nohighlight">\(x \to y\)</span>, then we also have <span class="math notranslate nohighlight">\(p(x) \; dx = p(y) \; dy \)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-b395bad6-bf04-4687-a40a-c7fa501542bf">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-b395bad6-bf04-4687-a40a-c7fa501542bf" title="Permalink to this equation">#</a></span>\[\begin{align}
+D_{KL}(p(x)||q(x)) &amp;= \int_{x} p(x) \log \frac{p(x)}{q(x)} \; dx \\
+&amp;= \int_{y} p(y) \frac{dy}{dx} \log \frac{p(y) |\frac{dy}{dx}| }{q(y) |\frac{dy}{dx}|} \; dx \\
+&amp;= \int_{y} p(y) \log \frac{p(y)}{q(y)} \; dy \\
+\end{align}\]</div>
+<p>Because of this reparameterization invariance we can rest assured that when we measure the KL divergence between two distributions we are measuring something about the distributions and not the way we choose to represent the space in which they are defined. We are therefore free to transform our data into a convenient basis of our choosing, such as a Fourier bases for images, without affecting the result.</p>
+<ol class="arabic simple" start="5">
+<li><p><strong>KL Divergence is not Symmetric</strong></p></li>
+</ol>
+<blockquote>
+<div><p>KL Divergence is not symmetric, i.e. <span class="math notranslate nohighlight">\(D_{KL}(p(x)||q(x)) \neq D_{KL}(q(x)||p(x))\)</span></p>
+</div></blockquote>
+<p>By looking at its formulae itself, we can say KL Divergence is not symmetric, but should’nt it be? After all the information gained on changing from <span class="math notranslate nohighlight">\(p(x)\)</span> to <span class="math notranslate nohighlight">\(q(x)\)</span> should be the same as the information gained on changing from <span class="math notranslate nohighlight">\(q(x)\)</span> to <span class="math notranslate nohighlight">\(p(x)\)</span>. But, this seemingly obvious statement is not true. Case in point: The info gained on going from a neutral event to a rare event is lower than that of going from the rare event to the neutral event.</p>
+<figure class="align-default" id="assymofkl">
+<a class="reference internal image-reference" href="../../_images/assymofKL.png"><img alt="../../_images/assymofKL.png" src="../../_images/assymofKL.png" style="width: 700px; height: 260px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text">Assymetry of KLD</span><a class="headerlink" href="#assymofkl" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In this example, we took two different Beta distributions, Beta1 = Beta(<span class="math notranslate nohighlight">\(\alpha = 3, \beta =3\)</span>) and Beta2 = Beta(<span class="math notranslate nohighlight">\(\alpha = 16, \beta = 3\)</span>). This clearly shows our point. (Similar analysis can be done with the slider code given below)</p>
+<p>As another Example:-</p>
+<p>Suppose we have a biased coin: Initially we were told that it shows heads with a probability 0.443, and then told that no, actually it has a probability 0.975 of showing heads. The information gain is:</p>
+<div class="math notranslate nohighlight">
+\[D_{KL}(p||q) = p \log_{2} \frac{p}{q} + (1-p) \log_{2} \frac{1-p}{1-q} = 1 \]</div>
+<p>If we flip the game then the information gained will be:-</p>
+<div class="math notranslate nohighlight">
+\[D_{KL}(q||p) = q \log_{2} \frac{q}{p} + (1-q) \log_{2} \frac{1-q}{1-p} = 2 \]</div>
+<p>Thus we see that starting with a distribution that is nearly even and moving to one that is nearly certain takes about 1 bit of information, or one well designed yes/no question. To instead move us from near certainty in an
+outcome to something that is akin to the flip of a coin requires more persuasion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">0.443</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="mf">0.975</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Info gain1: &quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="n">q</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">q</span><span class="p">)))</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.443</span><span class="p">;</span> <span class="n">q</span> <span class="o">=</span> <span class="mf">0.975</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Info gain2: &quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="n">q</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">q</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Info gain1:  0.9977011988907731
+Info gain2:  1.9898899560575691
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calculating the beta distribution klds</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
+
+<span class="k">def</span> <span class="nf">calc_info_gain</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y2</span><span class="o">*</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y2</span><span class="o">/</span><span class="n">y1</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">plot_beta</span><span class="p">(</span><span class="n">alpha1</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">alpha2</span><span class="p">,</span> <span class="n">beta2</span><span class="p">):</span>
+    <span class="n">Beta1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="n">alpha1</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">beta1</span><span class="p">)</span>
+    <span class="n">Beta2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">concentration1</span><span class="o">=</span><span class="n">alpha2</span><span class="p">,</span> <span class="n">concentration0</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">ys1</span> <span class="o">=</span> <span class="n">Beta1</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;prior Beta&quot;</span><span class="p">)</span><span class="c1">#label=&#39;Beta&#39; + str(alpha1) + &#39;,&#39; + str(beta1))</span>
+    <span class="n">ys2</span> <span class="o">=</span> <span class="n">Beta2</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;post Beta&quot;</span><span class="p">)</span><span class="c1">#label = &#39;Beta&#39; + str(alpha2) + &#39;,&#39; + str(beta2))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1"># Filled area</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="c1"># write title with info gain only till 5 decimal places</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Information Gain: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">calc_info_gain</span><span class="p">(</span><span class="n">ys1</span><span class="p">,</span> <span class="n">ys2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="mi">5</span><span class="p">)))</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">plot_beta</span><span class="p">,</span><span class="n">alpha1</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">beta1</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">alpha2</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">beta2</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e97a82a696034138b41fb8700a3f6895", "version_major": 2, "version_minor": 0}</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function __main__.plot_beta(alpha1, beta1, alpha2, beta2)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="slider-example">
+<a class="reference internal image-reference" href="../../_images/Sliderexample.png"><img alt="../../_images/Sliderexample.png" src="../../_images/Sliderexample.png" style="width: 600px; height: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.3 </span><span class="caption-text">Slider Example</span><a class="headerlink" href="#slider-example" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="entropy-and-kld">
+<h3><span class="section-number">5.3.5.2. </span>Entropy and KLD<a class="headerlink" href="#entropy-and-kld" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>Entropy of a distribution p is a contant minus (-) the KL Divergence of that distribution from the uniform distribution.</p>
+</div></blockquote>
+<p>The entropy of a distribution tries to capture the information, uncertainity of the pdf and the KL Divergence gives us the information gained on updating our belief of a pdf. So, it is natural to ask if there is a relation between the two.</p>
+<p>For Discrete Case:</p>
+<div class="math notranslate nohighlight">
+\[
+KLD = \sum_{i=1}^{n} p(x_i) \log \frac{p(x_i)}{q(x_i)} \; , \; Entropy \;  = -\sum_{i=1}^{n} p(x_i) \log p(x_i)
+\]</div>
+<p>We can use <span class="math notranslate nohighlight">\(q_i = \frac{1}{n}\)</span> as the uniform distribution, and we get:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-349a591b-3b77-405a-95b1-c2a551264d23">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-349a591b-3b77-405a-95b1-c2a551264d23" title="Permalink to this equation">#</a></span>\[\begin{align}
+KLD &amp;= \sum_{i=1}^{n} p(x_i) \log \frac{p(x_i)}{q(x_i)} \\
+&amp;= \sum_{i=1}^{n} p(x_i) \log \frac{p(x_i)}{\frac{1}{n}} \\
+&amp;= \sum_{i=1}^{n} p(x_i) \log p(x_i) + \sum_{i=1}^{n} p(x_i) \log n \\
+&amp;=  \log n - Entropy
+\end{align}\]</div>
+<p>Hense,</p>
+<div class="math notranslate nohighlight">
+\[
+Entropy = constant - KLD
+\]</div>
+<p>This also feels intuitive as the uniform distribution (U) is the most uncertain distribution, so it should have the maximum entropy and it does as it has the least KLD with U (ie 0).</p>
+<p>It also makes sense in another way, as for any other distribution p, the more its KLD with U means more information gained on updating our belief from U to p, which means its prob is more peaked (certain), hense its lesser entropy, as shown by the formulae.</p>
+<p>For Continuous Case:</p>
+<p>Entropy is similar in the continuous case, where it is called continuous entropy, but with one change. Discrete entropy is always positive, but continuous entropy can be negative as pdf can be greater than 1. (Even U has Entropy 0, as log(1) = 0)</p>
+<div class="math notranslate nohighlight">
+\[
+KLD = \int_{}^{} p(x) \log \frac{p(x)}{q(x)} dx \; , \; Entropy \;  = -\int_{}^{} p(x) \log p(x) dx
+\]</div>
+<p>You can see from the slider example that the entropy of a distribution is a constant minus the KL Divergence of that distribution from the uniform distribution. (Set the prior as a beta dist of <span class="math notranslate nohighlight">\(\alpha = 1, \beta = 1\)</span>)</p>
+</section>
+<section id="cross-entropy-and-kld">
+<h3><span class="section-number">5.3.5.3. </span>Cross Entropy and KLD<a class="headerlink" href="#cross-entropy-and-kld" title="Permalink to this heading">#</a></h3>
+<p>The cross entropy was our previous way to get some measure of closeness of two probability distributions and it is related to the KL Divergence.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-66e455d6-fec1-4c1a-bcda-3fb155de06df">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-66e455d6-fec1-4c1a-bcda-3fb155de06df" title="Permalink to this equation">#</a></span>\[\begin{align}
+KLD &amp;= \sum_{i=1}^{n} p(x_i) \log \frac{p(x_i)}{q(x_i)} \\
+&amp;= \sum_{i=1}^{n} p(x_i) \log p(x_i) - \sum_{i=1}^{n} p(x_i) \log q(x_i) \\
+&amp;= -H(p) + H_{ce}(p,q)
+\end{align}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(H_{p}\)</span> is the entropy of the distribution <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(H_{ce}\)</span> is the cross entropy of the distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+H_{ce}(p,q) = -\sum_{i=1}^{n} p(x_i) \log q(x_i)
+\]</div>
+<p>One way to think:-</p>
+<p>In KLDivergence, we are trying to get the information gained on updating our belief from <span class="math notranslate nohighlight">\(q\)</span> to <span class="math notranslate nohighlight">\(p\)</span>. Cross entropy gives us the uncertainity when we are trying to update our belief from <span class="math notranslate nohighlight">\(q\)</span> to <span class="math notranslate nohighlight">\(p\)</span> but using <span class="math notranslate nohighlight">\(q\)</span> to encode the events. Entropy of <span class="math notranslate nohighlight">\(p\)</span> gives us the uncertainity inherent in <span class="math notranslate nohighlight">\(p\)</span>. So on adding the KLDivergence and the entropy we get the cross entropy.</p>
+</section>
+<section id="mi-and-kld">
+<h3><span class="section-number">5.3.5.4. </span>MI and KLD<a class="headerlink" href="#mi-and-kld" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>MI measures the information gain if we update from a model that treats the two variables as independent p(x)p(y) to one that models their true joint density p(x, y).</p>
+</div></blockquote>
+<p>KLDivergence and MI are obviously linked as KLD tells us how much info we gain on going from Y tp X, while MI gives us how much info of Y was being kept in X.</p>
+<div class="math notranslate nohighlight">
+\[
+I(X;Y) = D_{KL} (p(x,y)||p(x)p(y)) = \sum_{i=1}^{n} \sum_{j=1}^{m} p(x_i,y_j) \log \frac{p(x_i,y_j)}{p(x_i)p(y_j)}
+\]</div>
+<p>Now, by formula, MI is measuring the information gained on updating our belief from <span class="math notranslate nohighlight">\(p(x)p(y)\)</span> to <span class="math notranslate nohighlight">\(p(x,y)\)</span>. The divergence is zero if <span class="math notranslate nohighlight">\(p(x,y) = p(x)p(y)\)</span>, which means the two distributions are independent, which should give us a Mutual information 0 (which it does).</p>
+<p>So the more <span class="math notranslate nohighlight">\(p(x,y)\)</span> is different from <span class="math notranslate nohighlight">\(p(x)p(y)\)</span>, the more information they keep of each other, and the more MI they have.</p>
+<p>Another interpretation:-</p>
+<div class="math notranslate nohighlight">
+\[
+I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)
+\]</div>
+<p>So, MI is quantifies how uncertain we are about X - how uncertain we are about X given that we know Y, or it is the difference between the entropy of the random variable and the conditional entropy of the random variable given the other random variable. This means that MI is the information that the two random variables share with each other.</p>
+<p>Thus we can interpret the MI between X and Y as the reduction in uncertainty about X after observing Y , or, by symmetry, the reduction in uncertainty about Y after observing X. Incidentally, this result gives an alternative proof that conditioning, on average, reduces entropy. In particular, we have <span class="math notranslate nohighlight">\( 0 \leq I(X;Y) = H(X) − H(X|Y)\)</span> ,and hence <span class="math notranslate nohighlight">\(H(X|Y) \leq H(X)\)</span>.</p>
+<p>We can also show that</p>
+<div class="math notranslate nohighlight">
+\[
+I(X;Y) = H(X) + H(Y) - H(X,Y)
+\]</div>
+<p>These relations are captured perfectly by this figure from Kevin Murphy</p>
+<figure class="align-default" id="entropies">
+<a class="reference internal image-reference" href="../../_images/Entropies.png"><img alt="../../_images/Entropies.png" src="../../_images/Entropies.png" style="width: 500px; height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.4 </span><span class="caption-text">Entropies</span><a class="headerlink" href="#entropies" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>Information Of Data</strong></p>
+<p>How to charachterise the info of 111000 vs 100101 vs 101010?</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/Maths_Appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Basic_Statistics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.2. </span>Basic Statistics</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy">5.3.1. Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-entropy">5.3.2. Joint Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy">5.3.3. Cross Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutual-information">5.3.4. Mutual Information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">5.3.5. KL Divergence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kld-properties">5.3.5.1. KLD properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy-and-kld">5.3.5.2. Entropy and KLD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-and-kld">5.3.5.3. Cross Entropy and KLD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mi-and-kld">5.3.5.4. MI and KLD</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gaurav Joshi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
