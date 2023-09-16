@@ -382,6 +382,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.2.1. Structure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-poisson-regression">4.2.2. Example 1 - Poisson Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-logistic-regression">4.2.3. Example 2 - Logistic Regression</a></li>
 </ul>
             </nav>
         </div>
@@ -413,8 +414,8 @@ document.write(`
 <li><p>We then apply a distribution function to the output of the link function. ie <span class="math notranslate nohighlight">\(y \sim g(f(\theta^Tx), \sigma)\)</span></p></li>
 </ol>
 <p>As an example the linear regression model:-</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8f9969a7-0845-4932-9325-e16aab431765">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-8f9969a7-0845-4932-9325-e16aab431765" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-33b0c0d2-bb6f-4ed4-ac40-cd33f9a3d40c">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-33b0c0d2-bb6f-4ed4-ac40-cd33f9a3d40c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mu_i = \theta_0 + \theta_1x_i \\
 y_i \sim \mathcal{N}(\mu_i, \sigma^2)
 \end{align}\]</div>
@@ -428,43 +429,103 @@ y_i \sim \mathcal{N}(\mu_i, \sigma^2)
 </section>
 <section id="example-1-poisson-regression">
 <h2><span class="section-number">4.2.2. </span>Example 1 - Poisson Regression<a class="headerlink" href="#example-1-poisson-regression" title="Permalink to this heading">#</a></h2>
-<p>We usually assume a linear model and add a normal error as a model, but often the errors are poissonian in nature. For example, the number of cars passing through a toll booth in a given time interval etc.</p>
+<p>We usually assume a linear model and add a normal error as a model, but often the errors are poissonian in nature. For example, the number of cars passing through a toll booth in a given time interval or the number of photons recieved by a telescope etc.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing Dependencies</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Plotting a few poisson distributions, It becomes clear that for larger values of <span class="math notranslate nohighlight">\(\lambda\)</span>, we can approximate a poisson distribution with a normal distribution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Making the data:-</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">poly</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Adding poisson noise, Here 0.5 is the lambda value of the poisson distribution</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
 
-<span class="c1"># Plotting the data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True Function&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">lam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lambdas</span><span class="p">):</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\lambda=</span><span class="si">{}</span><span class="s1">$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lam</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/eef71db6dd500cfce0616794325cf96d41ccfcd8f0cd3a8a8b95dda5efd7cf01.png" src="../../_images/eef71db6dd500cfce0616794325cf96d41ccfcd8f0cd3a8a8b95dda5efd7cf01.png" />
+<img alt="../../_images/c3333bbaea8c09af7b1e0f7b57c9b03b19196e110e3ab19263f36e17a9532b4d.png" src="../../_images/c3333bbaea8c09af7b1e0f7b57c9b03b19196e110e3ab19263f36e17a9532b4d.png" />
 </div>
 </div>
+<p>Here we simulate some poisson regression data based on the following model:-</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b4c2d88d-c337-4f85-9f28-ec6bfa24022f">
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-b4c2d88d-c337-4f85-9f28-ec6bfa24022f" title="Permalink to this equation">#</a></span>\[\begin{align}
+\lambda_i = exp(\theta_0 + \theta_1 x_i) \\
+y_i \sim \mathcal{P}(\lambda_i)
+\end{align}\]</div>
+<p>So, we have linear function for <span class="math notranslate nohighlight">\(\theta\)</span> with x, an exponential link function, and a poisson distribution function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Stimulating Poisson regression data</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">theta_0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">theta_1</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">theta_0</span> <span class="o">+</span> <span class="n">theta_1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">poisson_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">poisson_dist</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+
+<span class="c1"># Plotting the data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;observations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lambdas</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;true expected count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">poisson_dist</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(-2.3530)
+</pre></div>
+</div>
+<img alt="../../_images/57d677d4f5d792fa243464bc720b73ec5261f4445c79b0c42664976a9555d6a6.png" src="../../_images/57d677d4f5d792fa243464bc720b73ec5261f4445c79b0c42664976a9555d6a6.png" />
+</div>
+</div>
+<p>Now, we can make a suitable GLM model, for this data and do MLE, MAP or full bayesian inference on it.</p>
+<p>Here the tough job is to find the best model. By looking at the data, we can say it has an exponential factor so we can use an exp link function, and the data is natural numbers so a poisson distribution, but we know this by hidsight. In general, we have to try out different models and see which one fits the data best. Say for example a polynomial and gaussian distributioin</p>
+<p>Lets do MLE analysis for both the models and see how well they find the mean of the data.</p>
+</section>
+<section id="example-2-logistic-regression">
+<h2><span class="section-number">4.2.3. </span>Example 2 - Logistic Regression<a class="headerlink" href="#example-2-logistic-regression" title="Permalink to this heading">#</a></h2>
+<p>We can make a logistic regression model in the similar way as the linear regression, by using a linear transform, then a sigmoid link function and a bernoulli distribution function.</p>
+<p>We can also make a multinomial logistic regression model by using a softmax link function and a multinoulli distribution function.</p>
+<p>For the logistic regression case:-</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ad379002-9f4e-4451-a4a5-7dfae683b092">
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-ad379002-9f4e-4451-a4a5-7dfae683b092" title="Permalink to this equation">#</a></span>\[\begin{align}
+z_i = \theta^Tx_i \\
+\mu_i =  \sigma(z_i) = \frac{1}{1 + e^{-z_1}} \\
+y_i \sim \mathcal{B}(\mu_i) = \mu_i^{y_i}(1 - \mu_i)^{1 - y_i}
+\end{align}\]</div>
+<p>For multi class logistic regression:-</p>
+<div class="amsmath math notranslate nohighlight" id="equation-14c6f73a-f9b1-4557-a985-8118e85f8f12">
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-14c6f73a-f9b1-4557-a985-8118e85f8f12" title="Permalink to this equation">#</a></span>\[\begin{align}
+z_{ij} = \theta_j^Tx_i \\
+\mu_{ij} = Softmax(z_i) = \frac{e^{z_{ij}}}{\sum_{k=1}^K e^{z_{ik}}} \\
+y_i \sim \mathcal{M}(\mu_i) = \prod_{j=1}^K \mu_{ij}^{y_{ij}}
+\end{align}\]</div>
+<p>Where the <span class="math notranslate nohighlight">\(y_i\)</span> is a one hot vector, and the distribution function being a multinomial distribution.</p>
 <p>Softmax and cross entropy with uni and multi logistic regression, also including neural networks</p>
 </section>
 </section>
@@ -538,6 +599,7 @@ y_i \sim \mathcal{N}(\mu_i, \sigma^2)
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure">4.2.1. Structure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-poisson-regression">4.2.2. Example 1 - Poisson Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-logistic-regression">4.2.3. Example 2 - Logistic Regression</a></li>
 </ul>
   </nav></div>
 
