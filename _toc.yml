@@ -28,6 +28,7 @@ chapters:
   sections:
   - file: notebooks/Probabilistic_Modelling/Graphical_Models.ipynb
   - file: notebooks/Probabilistic_Modelling/GLMs.ipynb
+  - file: notebooks/Probabilistic_Modelling/LVMs.ipynb
 - file: notebooks/Maths_Appendix/Preface.ipynb
   sections:
   - file : notebooks/Maths_Appendix/Basic_Probability.ipynb

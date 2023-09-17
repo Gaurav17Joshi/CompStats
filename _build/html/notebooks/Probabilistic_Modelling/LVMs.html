@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>4. Probabilistic Modelling &#8212; Computational Statistics</title>
+    <title>4.3. Latent Variable Models &#8212; Computational Statistics</title>
   
   
   
@@ -61,11 +61,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Probabilistic_Modelling/preface';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/Probabilistic_Modelling/LVMs';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="4.1. Graphical Models" href="Graphical_Models.html" />
-    <link rel="prev" title="3.6. Hamiltonian Monte Carlo" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html" />
+    <link rel="next" title="5. Maths Appendix" href="../Maths_Appendix/Preface.html" />
+    <link rel="prev" title="4.2. Generalised Linear Models" href="GLMs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,10 +176,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html">3.6. Hamiltonian Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">4. Probabilistic Modelling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="preface.html">4. Probabilistic Modelling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Graphical_Models.html">4.1. Graphical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GLMs.html">4.2. Generalised Linear Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LVMs.html">4.3. Latent Variable Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.3. Latent Variable Models</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Maths_Appendix/Preface.html">5. Maths Appendix</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -257,7 +259,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Probabilistic_Modelling/preface.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Gaurav17Joshi/CompStats/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Probabilistic_Modelling/LVMs.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,7 +289,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/notebooks/Probabilistic_Modelling/preface.ipynb" target="_blank"
+      <li><a href="../../_sources/notebooks/Probabilistic_Modelling/LVMs.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -356,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -367,11 +371,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Probabilistic Modelling</h1>
+    <h1>Latent Variable Models</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-mixture-model">4.3.1. Gaussian Mixture Model</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -381,11 +393,48 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="probabilistic-modelling">
-<h1><span class="section-number">4. </span>Probabilistic Modelling<a class="headerlink" href="#probabilistic-modelling" title="Permalink to this heading">#</a></h1>
-<p>The main use of Computational Statistics is in Probabilistic Modelling and related problems, which are a mainstay of modern machine learning research. In this part, we will first understand about Graphical Models and slowly understand other probabilistic models in detail.</p>
-<div class="toctree-wrapper compound">
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="latent-variable-models">
+<h1><span class="section-number">4.3. </span>Latent Variable Models<a class="headerlink" href="#latent-variable-models" title="Permalink to this heading">#</a></h1>
+<p>Latent Variable models is a general term for models which contain latent variables. These are hidden and not observed, but we may either be interested in them or may have to marginalise them out to perform inference. They can be used for
+expressing complicated densities that cannot be described by an exponential family distribution, or to cluster data points.</p>
+<p>The simplest of such models is the Gaussian Mixture Model (GMM), which we will investigate.</p>
+<section id="gaussian-mixture-model">
+<h2><span class="section-number">4.3.1. </span>Gaussian Mixture Model<a class="headerlink" href="#gaussian-mixture-model" title="Permalink to this heading">#</a></h2>
+<figure class="align-default" id="gmms">
+<a class="reference internal image-reference" href="../../_images/GMMs.png"><img alt="../../_images/GMMs.png" src="../../_images/GMMs.png" style="width: 400px; height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.12 </span><span class="caption-text">GMM Graphical Representation, Synthetic Data</span><a class="headerlink" href="#gmms" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In this model, we assume that the data is generated from a mixture of Gaussians, where the latent variable is the identity of the Gaussian from which the data was generated. The model is as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(z_n\)</span> is the multinomial latent variable, which determines the mean <span class="math notranslate nohighlight">\(x_n\)</span> is centered around.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\pi\)</span> is a parameter for  <span class="math notranslate nohighlight">\(z_n\)</span>, which is a vector of probabilities for each of the <span class="math notranslate nohighlight">\(K\)</span> Gaussians. <span class="math notranslate nohighlight">\(\pi = (\pi_1, ...\pi_k)\)</span>, where <span class="math notranslate nohighlight">\(\pi_i\)</span> is the probability that <span class="math notranslate nohighlight">\(z_n = i\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu\)</span> is also a vector of length <span class="math notranslate nohighlight">\(K\)</span>, where <span class="math notranslate nohighlight">\(\mu_i\)</span> is the mean of the <span class="math notranslate nohighlight">\(i\)</span>th Gaussian.</p></li>
+</ul>
+<p>The joint can be written as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x_{1:N}, z_{1:N} | \pi, \mu_{1:K}) = \prod_{n=1}^N p(z_n | \pi) p(x_n | z_n, \mu_{1:K})
+\]</div>
+<p>In our interest to do ML estimation on the parameters of the model, we
+need to obtain the marginal probability of the data given the parameters. To
+do so it is necessary to marginalize out unobserved variables, which in our
+case are the cluster assignments:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x_{1:N} | \pi, \mu_{1:K}) = \prod_{n=1}^N \sum_{z} p(z_n | \pi) p(x_n | z_n, \mu_{1:K})
+\]</div>
+<p>The log likelihood is then:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-69af55d9-3ecd-4ca9-b07f-029dff010ec1">
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-69af55d9-3ecd-4ca9-b07f-029dff010ec1" title="Permalink to this equation">#</a></span>\[\begin{align}
+\log p(x_{1:N} | \pi, \mu_{1:K}) &amp;= \sum_{n=1}^N \log \sum_{z} p(z_n | \pi) p(x_n | z_n, \mu_{1:K}) \\
+&amp;= \sum_{n=1}^N \log \biggl[ \sum_{z}  \biggl( \prod_{i} \mu_i^{z_n^i} \biggr) \biggl( \prod_{i} p(x_n | \mu_i)^{z_n^i} \biggr)  \biggr] \\
+\end{align}\]</div>
+<p>Because we had to marginalize out latent variables the sum is inside the logarithm, which makes the maximization problem cumbersome.</p>
+<p>We could simply use a black-box algorithm for optimization. However, we can exploit characteristics of the log likelihood, and we do so by deriving
+the EM (expectation-maximization) algorithm.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -420,20 +469,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Simulation_Based_Inference/Hamiltonian_Monte_Carlo.html"
+       href="GLMs.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.6. </span>Hamiltonian Monte Carlo</p>
+        <p class="prev-next-title"><span class="section-number">4.2. </span>Generalised Linear Models</p>
       </div>
     </a>
     <a class="right-next"
-       href="Graphical_Models.html"
+       href="../Maths_Appendix/Preface.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4.1. </span>Graphical Models</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Maths Appendix</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -446,6 +495,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-mixture-model">4.3.1. Gaussian Mixture Model</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
